@@ -1,7 +1,7 @@
 package users
 
 import (
-	"github.com/javiersoler/gin_gonic_thinkster/common"
+	"github.com/javiersoler/Angular_GO_Laravel/backend/go/common"
 	"gopkg.in/gin-gonic/gin.v1"
 )
 

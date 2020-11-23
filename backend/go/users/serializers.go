@@ -3,7 +3,7 @@ package users
 import (
 	"gopkg.in/gin-gonic/gin.v1"
 
-	"github.com/javiersoler/gin_gonic_thinkster/common"
+	"github.com/javiersoler/Angular_GO_Laravel/backend/go/common"
 )
 
 type ProfileSerializer struct {

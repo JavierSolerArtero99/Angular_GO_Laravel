@@ -7,7 +7,7 @@ import (
 	"bytes"
 	"fmt"
 	"github.com/jinzhu/gorm"
-	"github.com/javiersoler/gin_gonic_thinkster/common"
+	"github.com/javiersoler/Angular_GO_Laravel/backend/go/common"
 	"gopkg.in/gin-gonic/gin.v1"
 	"net/http"
 	"net/http/httptest"
