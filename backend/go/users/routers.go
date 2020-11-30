@@ -11,6 +11,11 @@ import (
 func UsersRegister(router *gin.RouterGroup) {
 	router.POST("/", UsersRegistration)
 	router.POST("/login", UsersLogin)
+	router.GET("/", helloworld)
+}
+
+func helloworld(c *gin.Context) {
+	c.JSON(http.StatusOK, gin.H{"profile": "Hola mundo"})
 }
 
 func UserRegister(router *gin.RouterGroup) {

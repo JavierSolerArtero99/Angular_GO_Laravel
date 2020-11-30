@@ -41,7 +41,7 @@ export class AuthComponent implements OnInit {
     });
   }
 
-  submitForm() {
+  submitForm() {    
     this.isSubmitting = true;
     this.errors = {errors: {}};
 
@@ -55,5 +55,6 @@ export class AuthComponent implements OnInit {
         this.isSubmitting = false;
       }
     );
+
   }
 }

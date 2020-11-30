@@ -35,7 +35,7 @@ func BuildDBConfig() *DBConfig {
 		Port:     3306,
 		User:     "javier",
 		Password: "12345",
-		DBName:   "go_thinkster",
+		DBName:   "thinkster_laravel_ng",
 	}
 	// fmt.Println(&dbConfig)
 	return &dbConfig
