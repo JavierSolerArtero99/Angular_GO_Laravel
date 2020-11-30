@@ -22,6 +22,12 @@ export class ApiService {
       .pipe(catchError(this.formatErrors));
   }
 
+  getGo(path: string, params: HttpParams = new HttpParams()): Observable<any> {
+    console.log(`${environment.go_url}${path}`);
+    return this.http.get(`${environment.go_url}${path}`, { params })
+      .pipe(catchError(this.formatErrors));
+  }
+
   put(path: string, body: Object = {}): Observable<any> {
     return this.http.put(
       `${environment.api_url}${path}`,
