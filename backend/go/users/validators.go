@@ -16,7 +16,7 @@ type UserModelValidator struct {
 		Password string `form:"password" json:"password" binding:"exists,min=8,max=255"`
 		Bio      string `form:"bio" json:"bio" binding:"max=1024"`
 		Image    string `form:"image" json:"image" binding:"omitempty,url"`
-		role	 bool   ``
+		Role	 bool   ``
 	} `json:"user"`
 	userModel UserModel `json:"-"`
 }
@@ -55,6 +55,7 @@ func NewUserModelValidatorFillWith(userModel UserModel) UserModelValidator {
 	userModelValidator.User.Email = userModel.Email
 	userModelValidator.User.Bio = userModel.Bio
 	userModelValidator.User.Password = common.NBRandomPassword
+	userModelValidator.User.Role = userModel.Role
 
 	if userModel.Image != nil {
 		userModelValidator.User.Image = *userModel.Image

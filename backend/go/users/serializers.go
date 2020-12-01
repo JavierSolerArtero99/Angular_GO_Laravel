@@ -18,6 +18,7 @@ type ProfileResponse struct {
 	Bio       string  `json:"bio"`
 	Image     *string `json:"image"`
 	Following bool    `json:"following"`
+	Role      bool    `json:"role"`
 }
 
 // Put your response logic including wrap the userModel here.
@@ -29,6 +30,7 @@ func (self *ProfileSerializer) Response() ProfileResponse {
 		Bio:       self.Bio,
 		Image:     self.Image,
 		Following: myUserModel.isFollowing(self.UserModel),
+		Role:      self.Role,
 	}
 	return profile
 }
@@ -43,7 +45,7 @@ type UserResponse struct {
 	Bio      string  `json:"bio"`
 	Image    *string `json:"image"`
 	Token    string  `json:"token"`
-	role	 bool	 `json."role"`
+	Role	 bool	 `json."role"`
 }
 
 func (self *UserSerializer) Response() UserResponse {
@@ -54,7 +56,7 @@ func (self *UserSerializer) Response() UserResponse {
 		Bio:      myUserModel.Bio,
 		Image:    myUserModel.Image,
 		Token:    common.GenToken(myUserModel.ID),
-		role:     myUserModel.role,
+		Role:     myUserModel.Role,
 	}
 	return user
 }
