@@ -10,21 +10,20 @@ import { catchError } from 'rxjs/operators';
 export class ApiService {
   constructor(
     private http: HttpClient,
-    private jwtService: JwtService
+    private goToken: JwtService,
+    private laravelToken: JwtService
   ) {}
 
   private formatErrors(error: any) {
     return  throwError(error.error);
   }
 
+
+
+  /* LARAVEL METHODS */
+
   get(path: string, params: HttpParams = new HttpParams()): Observable<any> {
     return this.http.get(`${environment.api_url}${path}`, { params })
-      .pipe(catchError(this.formatErrors));
-  }
-
-  getGo(path: string, params: HttpParams = new HttpParams()): Observable<any> {
-    console.log(`${environment.go_url}${path}`);
-    return this.http.get(`${environment.go_url}${path}`, { params })
       .pipe(catchError(this.formatErrors));
   }
 
@@ -45,6 +44,22 @@ export class ApiService {
   delete(path): Observable<any> {
     return this.http.delete(
       `${environment.api_url}${path}`
+    ).pipe(catchError(this.formatErrors));
+  }
+
+
+  
+  /* GO   METHODS */
+
+  getGo(path: string, params: HttpParams = new HttpParams()): Observable<any> {
+    return this.http.get(`${environment.go_url}${path}`, { params })
+      .pipe(catchError(this.formatErrors));
+  }
+
+  postGo(path: string, body: Object = {}): Observable<any> {
+    return this.http.post(
+      `${environment.go_url}${path}`,
+      JSON.stringify(body)
     ).pipe(catchError(this.formatErrors));
   }
 }
