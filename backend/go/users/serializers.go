@@ -45,7 +45,7 @@ type UserResponse struct {
 	Bio      string  `json:"bio"`
 	Image    *string `json:"image"`
 	Token    string  `json:"token"`
-	Role	 bool	 `json."role"`
+	Role	 bool	 `json:"role"`
 }
 
 func (self *UserSerializer) Response() UserResponse {
