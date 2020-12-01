@@ -26,7 +26,7 @@ func newUserModel() UserModel {
 		Bio:          "heheda",
 		Image:        &image_url,
 		PasswordHash: "",
-		Admin: 		  false,
+		role: 		  false,
 	}
 }
 
@@ -41,7 +41,7 @@ func userModelMocker(n int) []UserModel {
 			Email:    fmt.Sprintf("user%v@linkedin.com", i),
 			Bio:      fmt.Sprintf("bio%v", i),
 			Image:    &image,
-			Admin:    false,
+			role:    false,
 		}
 		userModel.setPassword("password123")
 		test_db.Create(&userModel)
