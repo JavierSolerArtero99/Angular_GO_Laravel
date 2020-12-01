@@ -49,7 +49,7 @@ export class ApiService {
 
 
   
-  /* GO   METHODS */
+  /* GO METHODS */
 
   getGo(path: string, params: HttpParams = new HttpParams()): Observable<any> {
     return this.http.get(`${environment.go_url}${path}`, { params })
