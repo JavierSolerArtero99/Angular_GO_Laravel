@@ -3,6 +3,8 @@ package products
 import (
 	"fmt"
 
+	"errors"
+
 	"net/http"
 
 	"github.com/javiersoler/Angular_GO_Laravel/backend/go/common"
@@ -10,26 +12,23 @@ import (
 )
 
 
-
 /* --------ROUTER: Get products register-------- */
 
 func ProductsRegister(router *gin.RouterGroup) {
-	router.GET("/", ProductRetrieve)
+	router.GET("/", ProductList)
 	router.POST("/", ProductCreate)
 }
 
 /* CONTROLERS */
 
-func ProductRetrieve(p *gin.Context) {
-	// fmt.Println("Entra en el controlador")
-	// productModel, err := FindProducts(&ProductModel)
-	// if err != nil {
-	// 	c.JSON(http.StatusNotFound, common.NewError("products", errors.New("Invalid slug")))
-	// 	return
-	// }
-
-	// serializer := ProductSerializer{p, ProductModel}
-	// p.JSON(http.StatusOK, gin.H{"ESSE": serializer.Response()})
+func ProductList(p *gin.Context) {
+	productModels, err := FindAllProducts()
+	if err != nil {
+		p.JSON(http.StatusNotFound, common.NewError("products", errors.New("Invalid param")))
+		return
+	}
+	serializer := ProductsSerializer{p, productModels}
+	p.JSON(http.StatusOK, gin.H{"products": serializer.Response()})
 }
 
 func ProductCreate(c *gin.Context) {

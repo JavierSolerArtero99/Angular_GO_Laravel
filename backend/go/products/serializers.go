@@ -9,6 +9,11 @@ type ProductSerializer struct {
 	ProductModel
 }
 
+type ProductsSerializer struct {
+	c *gin.Context
+	Products []ProductModel
+}
+
 type ProductResponse struct {
 	Name 		string `json:"name"`
 	// Email    string  `json:"email"`
@@ -29,4 +34,14 @@ func (self *ProductSerializer) Response() ProductResponse {
 		// Role:     myUserModel.Role,
 	}
 	return product
+}
+
+
+func (s *ProductsSerializer) Response() []ProductResponse {
+	response := []ProductResponse{}
+	for _, tag := range s.Products {
+		serializer := ProductSerializer{s.c, tag}
+		response = append(response, serializer.Response())
+	}
+	return response
 }

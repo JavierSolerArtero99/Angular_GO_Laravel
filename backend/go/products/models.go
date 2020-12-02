@@ -23,13 +23,13 @@ func AutoMigrate() {
 	db.AutoMigrate(&ProductModel{})
 }
 
-// func FindManyProducts() ([]ProductModel, int, error) {
-// 	db := common.GetDB()
-// 	var models []ProductModel
-// 	var count int
+func FindAllProducts() ([]ProductModel, error) {
+	db := common.GetDB()
+	var models []ProductModel
+	err := db.Find(&models).Error
 
-// 	return models, count, nil
-// }
+	return models, err
+}
 
 func FindOneProduct(condition interface{}) (ProductModel, error) {
 	db := common.GetDB()
