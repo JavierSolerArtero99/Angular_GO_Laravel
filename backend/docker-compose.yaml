@@ -1,0 +1,33 @@
+version: "3"
+
+services:
+  # myapp:
+  #   tty: true
+  #   image: bitnami/laravel
+  #   depends_on:
+  #     - database
+  #   ports:
+  #     - 8003:3000
+  #   volumes:
+  #     - ./laravel:/app
+  #   command: >
+  #     bash -c "php artisan route:list
+  #     && php artisan key:generate
+  #     && php artisan migrate
+  #     && php artisan serve --host=0.0.0.0 --port=3000"
+  database:
+    image: mysql:5.7
+    environment:
+      - "MYSQL_USER=root"
+      - "MYSQL_ROOT_PASSWORD=rootroot"
+    volumes:
+      - mysqlBackup:/var/lib/mysql
+    ports:
+      - "3306:3306"
+  # redis:
+  #       image: redis:4.0
+  #       ports:
+  #         - "6382:6379"
+
+volumes: 
+  mysqlBackup:
