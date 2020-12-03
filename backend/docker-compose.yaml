@@ -16,6 +16,7 @@ services:
       bash -c "php artisan route:list
       && php artisan key:generate
       && php artisan migrate
+      && php artisan db:seed
       && php artisan serve --host=0.0.0.0 --port=3000"
 
   database:
@@ -30,10 +31,10 @@ services:
     ports:
       - "3306:3306"
 
-  # redis:
-  #       image: redis:4.0
-  #       ports:
-  #         - "6382:6379"
+  redis:
+        image: redis:4.0
+        ports:
+          - "6379:6379"
 
 volumes: 
   mysqlBackup:
