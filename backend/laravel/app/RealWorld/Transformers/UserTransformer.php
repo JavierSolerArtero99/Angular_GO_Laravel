@@ -14,6 +14,7 @@ class UserTransformer extends Transformer
             'username'  => $data['username'],
             'bio'       => $data['bio'],
             'image'     => $data['image'],
+            'role'      => $data['role']
         ];
     }
 }
