@@ -6,6 +6,7 @@ import (
 	"github.com/javiersoler/Angular_GO_Laravel/backend/go/common"
 )
 
+/*------PRODUCT MODEL------*/
 type ProductModel struct {
 	ID           uint    `gorm:"primary_key"`
 	Name     	 string  `gorm:"column:name; not null"`
@@ -16,13 +17,17 @@ type ProductModel struct {
 	// Role 		 bool 	 `gorm:"column:role;default 0 not null"`
 }
 
-// Migrate the schema of database if needed
+/** Migrates the database */
 func AutoMigrate() {
 	db := common.GetDB()
 
 	db.AutoMigrate(&ProductModel{})
 }
 
+
+/**------DATABASE OPERATIONS------**/
+
+/* Finds all products */
 func FindAllProducts() ([]ProductModel, error) {
 	db := common.GetDB()
 	var models []ProductModel
@@ -31,6 +36,7 @@ func FindAllProducts() ([]ProductModel, error) {
 	return models, err
 }
 
+/* Finds a product */
 func FindOneProduct(condition interface{}) (ProductModel, error) {
 	db := common.GetDB()
 	var model ProductModel
@@ -38,15 +44,10 @@ func FindOneProduct(condition interface{}) (ProductModel, error) {
 	return model, err
 }
 
+/* Save a product */
 func SaveOne(data interface{}) error {
 	fmt.Println(data)
 	db := common.GetDB()
 	err := db.Save(data).Error
-	return err
-}
-
-func (model *ProductModel) Update(data interface{}) error {
-	db := common.GetDB()
-	err := db.Model(model).Update(data).Error
 	return err
 }

@@ -4,25 +4,16 @@ import (
 	"gopkg.in/gin-gonic/gin.v1"
 )
 
+
+/* -------- SINGLE PRODUCT -------- */
+
+/* Single product serializer structure */
 type ProductSerializer struct {
 	c *gin.Context
 	ProductModel
 }
 
-type ProductsSerializer struct {
-	c *gin.Context
-	Products []ProductModel
-}
-
-type ProductResponse struct {
-	Name 		string `json:"name"`
-	// Email    string  `json:"email"`
-	// Bio      string  `json:"bio"`
-	// Image    *string `json:"image"`
-	// Token    string  `json:"token"`
-	// Role	 bool	 `json:"role"`
-}
-
+/* Returns a product response */
 func (self *ProductSerializer) Response() ProductResponse {
 	// myProductModel := self.c.MustGet("my_product_model").(ProductModel)
 	product := ProductResponse{
@@ -37,6 +28,16 @@ func (self *ProductSerializer) Response() ProductResponse {
 }
 
 
+
+/* -------- MANY PRODUCTS -------- */
+
+/* Array of products serializer structure */
+type ProductsSerializer struct {
+	c *gin.Context
+	Products []ProductModel
+}
+
+/* Response with a products array return */
 func (s *ProductsSerializer) Response() []ProductResponse {
 	response := []ProductResponse{}
 	for _, tag := range s.Products {
@@ -44,4 +45,15 @@ func (s *ProductsSerializer) Response() []ProductResponse {
 		response = append(response, serializer.Response())
 	}
 	return response
+}
+
+
+/*------ JSON response ------*/
+type ProductResponse struct {
+	Name 		string `json:"name"`
+	// Email    string  `json:"email"`
+	// Bio      string  `json:"bio"`
+	// Image    *string `json:"image"`
+	// Token    string  `json:"token"`
+	// Role	 bool	 `json:"role"`
 }
