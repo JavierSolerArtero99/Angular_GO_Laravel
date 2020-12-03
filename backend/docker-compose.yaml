@@ -21,19 +21,19 @@ services:
   database:
     image: mysql:5.7
     environment:
-      - MYSQL_ROOT_PASSWORD=akjsdbv87lasdk
+      - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DATABASE=thinkster_laravel_ng
-      - MYSQL_USER=jscJSA
-      - MYSQL_PASSWORD=ajdbsh89asdfkaps748
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=root
     volumes:
       - mysqlBackup:/var/lib/mysql
     ports:
       - "3306:3306"
 
-  redis:
-        image: redis:4.0
-        ports:
-          - "6382:6379"
+  # redis:
+  #       image: redis:4.0
+  #       ports:
+  #         - "6382:6379"
 
 volumes: 
   mysqlBackup:
