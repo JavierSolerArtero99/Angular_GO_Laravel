@@ -14,11 +14,12 @@
 $factory->define(App\User::class, function (\Faker\Generator $faker) {
 
     return [
-        'username' => str_replace('.', '', $faker->unique()->userName),
-        'email' => $faker->unique()->safeEmail,
-        'password' => 'secret',
-        'bio' => $faker->sentence,
+        'username' => 'admin',
+        'email' => 'admin@gmail.com',
+        'password' => 'admin',
+        'bio' => 'admin',
         'image' => 'https://cdn.worldvectorlogo.com/logos/laravel.svg',
+        'role' => 1,
     ];
 });
 
