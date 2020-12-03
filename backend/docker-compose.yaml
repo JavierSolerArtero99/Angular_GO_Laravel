@@ -9,6 +9,7 @@ services:
       - database
     ports:
       - 8003:3000
+    restart: 'always'
     volumes:
       - ./laravel:/app
     command: >
@@ -20,19 +21,19 @@ services:
   database:
     image: mysql:5.7
     environment:
-      - MYSQL_ROOT_PASSWORD=paco
+      - MYSQL_ROOT_PASSWORD=akjsdbv87lasdk
       - MYSQL_DATABASE=thinkster_laravel_ng
-      - MYSQL_USER=javier
-      - MYSQL_PASSWORD=12345
+      - MYSQL_USER=jscJSA
+      - MYSQL_PASSWORD=ajdbsh89asdfkaps748
     volumes:
       - mysqlBackup:/var/lib/mysql
     ports:
       - "3306:3306"
 
-  # redis:
-  #       image: redis:4.0
-  #       ports:
-  #         - "6382:6379"
+  redis:
+        image: redis:4.0
+        ports:
+          - "6382:6379"
 
 volumes: 
   mysqlBackup:
