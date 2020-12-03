@@ -2,6 +2,18 @@ version: "3"
 
 services:
 
+  database:
+    image: mysql:5.7
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=thinkster_laravel_ng
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=root
+    volumes:
+      - mysqlBackup:/var/lib/mysql
+    ports:
+      - "3306:3306"
+
   myapp:
     tty: true
     image: bitnami/laravel
@@ -17,18 +29,6 @@ services:
       && php artisan key:generate
       && php artisan migrate
       && php artisan serve --host=0.0.0.0 --port=3000"
-
-  database:
-    image: mysql:5.7
-    environment:
-      - MYSQL_ROOT_PASSWORD=akjsdbv87lasdk
-      - MYSQL_DATABASE=thinkster_laravel_ng
-      - MYSQL_USER=jscJSA
-      - MYSQL_PASSWORD=ajdbsh89asdfkaps748
-    volumes:
-      - mysqlBackup:/var/lib/mysql
-    ports:
-      - "3306:3306"
 
   redis:
         image: redis:4.0
