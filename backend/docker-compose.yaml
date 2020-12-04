@@ -13,8 +13,10 @@ services:
       - mysqlBackup:/var/lib/mysql
     ports:
       - "3306:3306"
+    networks:
+      - servidor_network
 
-  myapp:
+  laravel:
     tty: true
     image: bitnami/laravel
     depends_on:
@@ -25,10 +27,36 @@ services:
     volumes:
       - ./laravel:/app
     command: >
-      bash -c "composer install
+      bash -c " composer install 
       && php artisan route:list
       && php artisan migrate
       && php artisan serve --host=0.0.0.0 --port=3000"
+    networks:
+      - servidor_network
+
+  go:
+    image: golang:1.15
+    container_name: go_container
+    working_dir: /go/src/App
+    volumes:
+      - ./go:/go/src/App
+    ports:
+      - "8090:3000"
+    restart: 'always'
+    networks:
+      - servidor_network
+    command: >
+      bash -c " go get golang.org/x/sys/unix
+      && go get -u github.com/kardianos/govendor
+      && govendor sync
+      && govendor add +external
+      && go get -u golang.org/x/crypto/...
+      && go get -v github.com/garyburd/redigo/redis
+      && go get github.com/pilu/fresh
+      && go run main.go "
+    depends_on:
+      - database
+      - redis
 
   # web:
   #   image: golang:1.15
@@ -64,9 +92,14 @@ services:
   #     - servidor_network
 
   redis:
-        image: redis:4.0
-        ports:
-          - "6379:6379"
+    image: redis:4.0
+    ports:
+      - "6379:6379"
+    networks:
+      - servidor_network
+
+networks:
+  servidor_network:
 
 networks:
   servidor_network:

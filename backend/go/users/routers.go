@@ -4,7 +4,7 @@ import (
 	"errors"
 	"net/http"
 
-	"github.com/javiersoler/Angular_GO_Laravel/backend/go/common"
+	"App/common"
 	"gopkg.in/gin-gonic/gin.v1"
 )
 

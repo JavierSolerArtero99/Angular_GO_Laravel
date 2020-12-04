@@ -31,10 +31,10 @@ type DBConfig struct {
 
 func BuildDBConfig() *DBConfig {
 	dbConfig := DBConfig{
-		Host:     "localhost",
+		Host:     "database",
 		Port:     3306,
-		User:     "javier",
-		Password: "12345",
+		User:     "root",
+		Password: "root",
 		DBName:   "thinkster_laravel_ng",
 	}
 	// fmt.Println(&dbConfig)

@@ -5,9 +5,9 @@ import (
 
 	"gopkg.in/gin-gonic/gin.v1"
 
-	"github.com/javiersoler/Angular_GO_Laravel/backend/go/common"
-	"github.com/javiersoler/Angular_GO_Laravel/backend/go/users"
-	"github.com/javiersoler/Angular_GO_Laravel/backend/go/products"
+	"App/common"
+	"App/users"
+	"App/products"
 	"github.com/jinzhu/gorm"
 )
 
