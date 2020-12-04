@@ -5,7 +5,7 @@ import (
 	
 	"github.com/dgrijalva/jwt-go"
 	"github.com/dgrijalva/jwt-go/request"
-	"github.com/javiersoler/Angular_GO_Laravel/backend/go/common"
+	"App/common"
 	"gopkg.in/gin-gonic/gin.v1"
 	"net/http"
 	"strings"

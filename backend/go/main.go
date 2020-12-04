@@ -5,9 +5,9 @@ import (
 
 	"gopkg.in/gin-gonic/gin.v1"
 
-	"javiersoler/common"
-	"javiersoler/users"
-	"javiersoler/products"
+	"App/common"
+	"App/users"
+	"App/products"
 	"github.com/jinzhu/gorm"
 )
 

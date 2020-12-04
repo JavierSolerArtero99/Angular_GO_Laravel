@@ -3,7 +3,7 @@ package products
 import (
 	"fmt"
 
-	"github.com/javiersoler/Angular_GO_Laravel/backend/go/common"
+	"App/common"
 )
 
 type ProductModel struct {

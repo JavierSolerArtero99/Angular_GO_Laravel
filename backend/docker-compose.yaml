@@ -1,11 +1,74 @@
 version: "3"
 
 services:
+
+  database:
+    image: mysql:5.7
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=thinkster_laravel_ng
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=root
+    volumes:
+      - mysqlBackup:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    networks:
+      - servidor_network
+
+  laravel:
+    tty: true
+    image: bitnami/laravel
+    depends_on:
+      - database
+    ports:
+      - 8003:3000
+    restart: 'always'
+    volumes:
+      - ./laravel:/app
+    command: >
+      bash -c "php artisan route:list
+      && php artisan key:generate
+      && php artisan migrate
+      && php artisan migrate:refresh
+      && php artisan db:seed
+      && php artisan serve --host=0.0.0.0 --port=3000"
+    networks:
+      - servidor_network
+
   go:
     image: golang:1.15
     container_name: go_container
+    working_dir: /go/src/App
+    volumes:
+      - ./go:/go/src/App
     ports:
-      - "8090:8080"
-    # working_dir: /go/src/javiersoler
-    # volumes:
-    #   - ./go:/go/src/javiersoler
+      - "8090:3000"
+    restart: 'always'
+    networks:
+      - servidor_network
+    command: >
+      bash -c " go get golang.org/x/sys/unix
+      && go get -u github.com/kardianos/govendor
+      && govendor sync
+      && govendor add +external
+      && go get -u golang.org/x/crypto/...
+      && go get -v github.com/garyburd/redigo/redis
+      && go get github.com/pilu/fresh
+      && go run main.go "
+    depends_on:
+      - database
+      - redis
+
+  redis:
+    image: redis:4.0
+    ports:
+      - "6379:6379"
+    networks:
+      - servidor_network
+
+networks:
+  servidor_network:
+
+volumes: 
+  mysqlBackup:

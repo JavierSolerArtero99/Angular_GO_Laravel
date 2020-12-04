@@ -81,6 +81,12 @@
 			"revisionTime": "2017-03-27T19:17:03Z"
 		},
 		{
+			"checksumSHA1": "rD6O1FRhmhGR0+tGc1hh3fsiM04=",
+			"path": "github.com/go-sql-driver/mysql",
+			"revision": "f6dcc3d870a826fb4212f2f124acd2e4658632c5",
+			"revisionTime": "2020-11-27T13:54:36Z"
+		},
+		{
 			"checksumSHA1": "yqF125xVSkmfLpIVGrLlfE05IUk=",
 			"path": "github.com/golang/protobuf/proto",
 			"revision": "0a4f71a498b7c4812f64969510bcb4eca251e33a",
@@ -219,5 +225,5 @@
 			"revisionTime": "2017-07-12T05:45:46Z"
 		}
 	],
-	"rootPath": "javiersoler"
+	"rootPath": "App"
 }
