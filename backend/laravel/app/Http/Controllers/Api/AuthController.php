@@ -50,6 +50,8 @@ class AuthController extends ApiController
             'username' => $request->input('user.username'),
             'email' => $request->input('user.email'),
             'password' => bcrypt($request->input('user.password')),
+            'karma' => 0,
+            'role' => 0,
         ]);
 
         return $this->respondWithTransformer($user);
