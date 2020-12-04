@@ -27,7 +27,8 @@ services:
     volumes:
       - ./laravel:/app
     command: >
-      bash -c "php artisan route:list
+      bash -c " composer install 
+      && php artisan route:list
       && php artisan key:generate
       && php artisan migrate
       && php artisan migrate:refresh
