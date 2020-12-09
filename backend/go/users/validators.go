@@ -2,7 +2,7 @@ package users
 
 import (
 	"App/common"
-	"gopkg.in/gin-gonic/gin.v1"
+	"github.com/gin-gonic/gin" 
 )
 
 // *ModelValidator containing two parts:
@@ -29,6 +29,7 @@ func (self *UserModelValidator) Bind(c *gin.Context) error {
 	if err != nil {
 		return err
 	}
+	
 	self.userModel.Username = self.User.Username
 	self.userModel.Email = self.User.Email
 	self.userModel.Bio = self.User.Bio

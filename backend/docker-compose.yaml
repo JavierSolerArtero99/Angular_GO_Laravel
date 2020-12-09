@@ -49,14 +49,12 @@ services:
     networks:
       - servidor_network
     command: >
-      bash -c " go get golang.org/x/sys/unix
-      && go get -u github.com/kardianos/govendor
-      && govendor sync
-      && govendor add +external
-      && go get -u golang.org/x/crypto/...
-      && go get -v github.com/garyburd/redigo/redis
+      bash -c " rm -f go.mod || true
+      && rm -f go.sum || true
+      && go mod init App
+      && go mod tidy
       && go get github.com/pilu/fresh
-      && go run main.go "
+      && fresh "
     depends_on:
       - database
       - redis
