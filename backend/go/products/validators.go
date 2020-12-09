@@ -2,7 +2,7 @@ package products
 
 import (
 	"App/common"
-	"gopkg.in/gin-gonic/gin.v1"
+	"github.com/gin-gonic/gin"
 )
 
 // *ModelValidator containing two parts:
