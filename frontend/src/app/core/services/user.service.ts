@@ -65,6 +65,7 @@ export class UserService {
     return this.apiService.postGo('/users' + route, { user: credentials })
       .pipe(map(
         data => {
+          console.log("==========================B==========================");
           this.setAuth(data.user);
           console.log(data);
           return data;

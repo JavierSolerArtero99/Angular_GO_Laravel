@@ -25,6 +25,11 @@ func main() {
 	MakeRoutes(r)
 
 	v1 := r.Group("/api")
+
+	v1.Use(users.AuthMiddleware(false))
+	users.UsersRegister(v1.Group("/user"))
+	
+	v1.Use(users.AuthMiddleware(false))
 	users.UsersRegister(v1.Group("/users"))
 
 	fmt.Printf("0.0.0.0:3000")

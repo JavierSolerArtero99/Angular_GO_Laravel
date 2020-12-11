@@ -18,8 +18,8 @@ import (
 var image_url = "https://golang.org/doc/gopher/frontpage.png"
 var test_db *gorm.DB
 
-func newUserModel() UserModel {
-	return UserModel{
+func newusers() users {
+	return users{
 		ID:           2,
 		Username:     "asd123!@#ASD",
 		Email:        "wzt@g.cn",
@@ -30,13 +30,13 @@ func newUserModel() UserModel {
 	}
 }
 
-func userModelMocker(n int) []UserModel {
+func userModelMocker(n int) []users {
 	var offset int
-	test_db.Model(&UserModel{}).Count(&offset)
-	var ret []UserModel
+	test_db.Model(&users{}).Count(&offset)
+	var ret []users
 	for i := offset + 1; i <= offset+n; i++ {
 		image := fmt.Sprintf("http://image/%v.jpg", i)
-		userModel := UserModel{
+		userModel := users{
 			Username: fmt.Sprintf("user%v", i),
 			Email:    fmt.Sprintf("user%v@linkedin.com", i),
 			Bio:      fmt.Sprintf("bio%v", i),
@@ -50,19 +50,19 @@ func userModelMocker(n int) []UserModel {
 	return ret
 }
 
-func TestUserModel(t *testing.T) {
+func Testusers(t *testing.T) {
 	asserts := assert.New(t)
 
-	//Testing UserModel's password feature
-	userModel := newUserModel()
+	//Testing users's password feature
+	userModel := newusers()
 	err := userModel.checkPassword("")
 	asserts.Error(err, "empty password should return err")
 
-	userModel = newUserModel()
+	userModel = newusers()
 	err = userModel.setPassword("")
 	asserts.Error(err, "empty password can not be set null")
 
-	userModel = newUserModel()
+	userModel = newusers()
 	err = userModel.setPassword("asd123!@#ASD")
 	asserts.NoError(err, "password should be set successful")
 	asserts.Len(userModel.PasswordHash, 60, "password hash length should be 60")
@@ -361,7 +361,7 @@ var unauthRequestTests = []struct {
 			common.TestDBFree(test_db)
 			test_db = common.TestDBInit()
 
-			test_db.AutoMigrate(&UserModel{})
+			test_db.AutoMigrate(&users{})
 			userModelMocker(3)
 			HeaderTokenMock(req, 2)
 		},
