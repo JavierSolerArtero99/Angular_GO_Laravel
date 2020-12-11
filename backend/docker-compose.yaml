@@ -36,7 +36,6 @@ services:
 
   go:
     image: golang:1.15
-    container_name: go_container
     working_dir: /go/src/App
     volumes:
       - ./go:/go/src/App
@@ -58,48 +57,12 @@ services:
       - database
       - redis
 
-  # web:
-  #   image: golang:1.15
-  #   container_name: go_container
-  #   working_dir: /go/src/goApp
-  #   volumes:
-  #     - ./go:/go/src/goApp
-  #   command: >
-  #     bash -c " go get -v github.com/garyburd/redigo/redis
-  #     && go get github.com/pilu/fresh
-  #     && fresh "
-  #   ports:
-  #     - "8090:8080"
-  #   labels:
-  #     traefik.backend: "web"
-  #     traefik.frontend.rule: "PathPrefix:/"
-  #   depends_on:
-  #     - database
-  #     - redis
-  #   networks:
-  #     - servidor_network
-
-  # traefik:
-  #   image: traefik:v2.0
-  #   container_name: traefik_container
-  #   ports:
-  #     - "80:80"
-  #     - "8080:8080"
-  #   volumes:
-  #     - /var/run/docker.sock:/var/run/docker.sock
-  #     - ./traefik/traefik.yml:/etc/traefik/traefik.yml
-  #   networks:
-  #     - servidor_network
-
   redis:
     image: redis:4.0
     ports:
       - "6379:6379"
     networks:
       - servidor_network
-
-networks:
-  servidor_network:
 
 networks:
   servidor_network:
