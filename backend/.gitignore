@@ -5,6 +5,9 @@
 /tmp
 /out-tsc
 
+# GO
+/go/tmp
+
 # dependencies
 /node_modules
 
