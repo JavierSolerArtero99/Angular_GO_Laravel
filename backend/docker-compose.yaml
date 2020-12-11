@@ -34,6 +34,9 @@ services:
     networks:
       - servidor_network
 
+  
+  # GO & Microservices #
+
   go:
     image: golang:1.15
     working_dir: /go/src/App
@@ -54,6 +57,28 @@ services:
     depends_on:
       - database
       - redis
+
+  products:
+    restart: 'always'
+    image: golang:1.15
+    container_name: products_go
+    working_dir: /go/src/products
+    volumes:
+      - ./go/products:/go/src/products
+    ports:
+      - "8091:8080"
+    command: >
+      bash -c " rm -f go.mod || true
+      && rm -f go.sum || true
+      && go mod init products
+      && go mod tidy
+      && go get github.com/pilu/fresh
+      && fresh "
+    depends_on:
+      - database
+      - redis
+    networks:
+      - servidor_network
 
   redis:
     image: redis:4.0
