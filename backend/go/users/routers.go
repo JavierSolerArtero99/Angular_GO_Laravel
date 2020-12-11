@@ -11,7 +11,6 @@ import (
 func UsersRegister(router *gin.RouterGroup) {
 	router.POST("/", UsersRegistration)
 	router.POST("/login", UsersLogin)
-	router.GET("/", helloworld)
 }
 
 func helloworld(c *gin.Context) {
