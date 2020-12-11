@@ -7,13 +7,11 @@ import (
 
 	"App/common"
 	"App/users"
-	"App/products"
 	"github.com/jinzhu/gorm"
 )
 
 func Migrate(db *gorm.DB) {
 	users.AutoMigrate()
-	db.AutoMigrate(&products.ProductModel{})
 }
 
 func main() {
@@ -28,7 +26,6 @@ func main() {
 
 	v1 := r.Group("/api")
 	users.UsersRegister(v1.Group("/users"))
-	products.ProductsRegister(v1.Group("/products"))
 
 	fmt.Printf("0.0.0.0:3000")
 	r.Run(":3000")
