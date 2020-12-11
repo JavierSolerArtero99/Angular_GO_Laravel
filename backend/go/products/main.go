@@ -1,32 +1,33 @@
 package main
 
 import (
-	"fmt"
+	"log"
+	"net/http"
 
-	"github.com/gin-gonic/gin"
-
-	"github.com/jinzhu/gorm"
+	// "products/common"
+	"products/routers"
 )
 
-func Migrate(db *gorm.DB) {
-}
+// func Migrate(db *gorm.DB) {
+// 	log.Println("Hay que hacer la migracion")
+// 	// db.AutoMigrate(&products.ProductModel{})
+// }
 
+// Entry point for the program
 func main() {
-	fmt.Printf("0.0.0.0:8080")
-}
 
-func MakeRoutes(r *gin.Engine) {
-	cors := func(c *gin.Context) {
-		c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
-		c.Writer.Header().Set("Access-Control-Allow-Credentials", "true")
-		c.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With")
-		c.Writer.Header().Set("Access-Control-Allow-Methods", "*")
-		c.Writer.Header().Set("Content-Type", "application/json")
+	//Conection db
+	// db := common.Init()
+	// Migrate(db)
+	// defer db.Close()
+	
+	// Get the mux router object
+	router := routers.InitRoutes()
 
-		if c.Request.Method == "OPTIONS" {
-			c.AbortWithStatus(200)
-		}
-		c.Next()
+	server := &http.Server{
+		Addr:    "0.0.0.0:8080",
+		Handler: router,
 	}
-	r.Use(cors)
+	log.Println("Listening...")
+	server.ListenAndServe()
 }
