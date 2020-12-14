@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"App/common"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -109,6 +110,7 @@ func UsersLogin(c *gin.Context) {
 	}
 	UpdateContextusers(c, userModel.ID)
 	serializer := UserSerializer{c}
+
 	c.JSON(http.StatusOK, gin.H{"user": serializer.Response()})
 }
 

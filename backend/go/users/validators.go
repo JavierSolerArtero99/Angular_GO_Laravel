@@ -2,7 +2,8 @@ package users
 
 import (
 	"App/common"
-	"github.com/gin-gonic/gin" 
+
+	"github.com/gin-gonic/gin"
 )
 
 // *ModelValidator containing two parts:
@@ -16,7 +17,7 @@ type usersValidator struct {
 		Password string `form:"password" json:"password" binding:"required,min=8,max=255"`
 		Bio      string `form:"bio" json:"bio" binding:"max=1024"`
 		Image    string `form:"image" json:"image" binding:"omitempty,url"`
-		Role	 bool   ``
+		Role     bool   `form:"role" json:"role"`
 	} `json:"user"`
 	userModel users `json:"-"`
 }
@@ -29,7 +30,7 @@ func (self *usersValidator) Bind(c *gin.Context) error {
 	if err != nil {
 		return err
 	}
-	
+
 	self.userModel.Username = self.User.Username
 	self.userModel.Email = self.User.Email
 	self.userModel.Bio = self.User.Bio

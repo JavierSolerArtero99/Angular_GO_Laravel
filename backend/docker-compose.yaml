@@ -29,10 +29,6 @@ services:
     command: >
       bash -c " composer install 
       && php artisan route:list
-      && php artisan key:generate
-      && php artisan migrate
-      && php artisan migrate:refresh
-      && php artisan db:seed
       && php artisan serve --host=0.0.0.0 --port=3000"
     networks:
       - servidor_network
@@ -41,7 +37,6 @@ services:
 
   go:
     image: golang:1.15
-    container_name: go_container
     working_dir: /go/src/App
     volumes:
       - ./go:/go/src/App
@@ -93,5 +88,6 @@ services:
 networks:
   servidor_network:
 
-volumes: 
+volumes:
   mysqlBackup:
+  redisData:

@@ -1,9 +1,10 @@
 package users
 
 import (
-	"errors"
-	"github.com/jinzhu/gorm"
 	"App/common"
+	"errors"
+
+	"github.com/jinzhu/gorm"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -19,7 +20,9 @@ type users struct {
 	Bio          string  `gorm:"column:bio;size:1024"`
 	Image        *string `gorm:"column:image"`
 	PasswordHash string  `gorm:"column:password;not null"`
-	Role 		 bool 	 `gorm:"column:role;default 0 not null"`
+	Role         bool    `gorm:"column:role;default 0 not null"`
+	Karma        uint    `gorm:"column:karma;default 0 not null"`
+	Tempkey      string  `gorm:"column:tempkey`
 }
 
 // A hack way to save ManyToMany relationship,
