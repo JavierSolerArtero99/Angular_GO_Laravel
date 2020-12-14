@@ -17,9 +17,10 @@ $factory->define(App\User::class, function (\Faker\Generator $faker) {
         'username' => 'admin',
         'email' => 'admin@gmail.com',
         'password' => 'admin',
-        'bio' => 'admin',
+        'bio' => 'my password is admin',
         'image' => 'https://cdn.worldvectorlogo.com/logos/laravel.svg',
         'role' => 1,
+        'karma' => 0,
     ];
 });
 
