@@ -11,7 +11,6 @@ import (
 func UsersRegister(router *gin.RouterGroup) {
 	router.POST("/", UsersRegistration)
 	router.POST("/login", UsersLogin)
-	router.GET("/", helloworld)
 }
 
 func helloworld(c *gin.Context) {
@@ -31,7 +30,7 @@ func ProfileRegister(router *gin.RouterGroup) {
 
 func ProfileRetrieve(c *gin.Context) {
 	username := c.Param("username")
-	userModel, err := FindOneUser(&UserModel{Username: username})
+	userModel, err := FindOneUser(&users{Username: username})
 	if err != nil {
 		c.JSON(http.StatusNotFound, common.NewError("profile", errors.New("Invalid username")))
 		return
@@ -42,13 +41,13 @@ func ProfileRetrieve(c *gin.Context) {
 
 func ProfileFollow(c *gin.Context) {
 	username := c.Param("username")
-	userModel, err := FindOneUser(&UserModel{Username: username})
+	userModel, err := FindOneUser(&users{Username: username})
 	if err != nil {
 		c.JSON(http.StatusNotFound, common.NewError("profile", errors.New("Invalid username")))
 		return
 	}
-	myUserModel := c.MustGet("my_user_model").(UserModel)
-	err = myUserModel.following(userModel)
+	myusers := c.MustGet("my_user_model").(users)
+	err = myusers.following(userModel)
 	if err != nil {
 		c.JSON(http.StatusUnprocessableEntity, common.NewError("database", err))
 		return
@@ -59,14 +58,14 @@ func ProfileFollow(c *gin.Context) {
 
 func ProfileUnfollow(c *gin.Context) {
 	username := c.Param("username")
-	userModel, err := FindOneUser(&UserModel{Username: username})
+	userModel, err := FindOneUser(&users{Username: username})
 	if err != nil {
 		c.JSON(http.StatusNotFound, common.NewError("profile", errors.New("Invalid username")))
 		return
 	}
-	myUserModel := c.MustGet("my_user_model").(UserModel)
+	myusers := c.MustGet("my_user_model").(users)
 
-	err = myUserModel.unFollowing(userModel)
+	err = myusers.unFollowing(userModel)
 	if err != nil {
 		c.JSON(http.StatusUnprocessableEntity, common.NewError("database", err))
 		return
@@ -76,7 +75,7 @@ func ProfileUnfollow(c *gin.Context) {
 }
 
 func UsersRegistration(c *gin.Context) {
-	userModelValidator := NewUserModelValidator()
+	userModelValidator := NewusersValidator()
 	if err := userModelValidator.Bind(c); err != nil {
 		c.JSON(http.StatusUnprocessableEntity, common.NewValidatorError(err))
 		return
@@ -97,7 +96,7 @@ func UsersLogin(c *gin.Context) {
 		c.JSON(http.StatusUnprocessableEntity, common.NewValidatorError(err))
 		return
 	}
-	userModel, err := FindOneUser(&UserModel{Email: loginValidator.userModel.Email})
+	userModel, err := FindOneUser(&users{Email: loginValidator.userModel.Email})
 
 	if err != nil {
 		c.JSON(http.StatusForbidden, common.NewError("login", errors.New("Not Registered email or invalid password")))
@@ -108,7 +107,7 @@ func UsersLogin(c *gin.Context) {
 		c.JSON(http.StatusForbidden, common.NewError("login", errors.New("Not Registered email or invalid password")))
 		return
 	}
-	UpdateContextUserModel(c, userModel.ID)
+	UpdateContextusers(c, userModel.ID)
 	serializer := UserSerializer{c}
 	c.JSON(http.StatusOK, gin.H{"user": serializer.Response()})
 }
@@ -119,19 +118,19 @@ func UserRetrieve(c *gin.Context) {
 }
 
 func UserUpdate(c *gin.Context) {
-	myUserModel := c.MustGet("my_user_model").(UserModel)
-	userModelValidator := NewUserModelValidatorFillWith(myUserModel)
+	myusers := c.MustGet("my_user_model").(users)
+	userModelValidator := NewusersValidatorFillWith(myusers)
 	if err := userModelValidator.Bind(c); err != nil {
 		c.JSON(http.StatusUnprocessableEntity, common.NewValidatorError(err))
 		return
 	}
 
-	userModelValidator.userModel.ID = myUserModel.ID
-	if err := myUserModel.Update(userModelValidator.userModel); err != nil {
+	userModelValidator.userModel.ID = myusers.ID
+	if err := myusers.Update(userModelValidator.userModel); err != nil {
 		c.JSON(http.StatusUnprocessableEntity, common.NewError("database", err))
 		return
 	}
-	UpdateContextUserModel(c, myUserModel.ID)
+	UpdateContextusers(c, myusers.ID)
 	serializer := UserSerializer{c}
 	c.JSON(http.StatusOK, gin.H{"user": serializer.Response()})
 }

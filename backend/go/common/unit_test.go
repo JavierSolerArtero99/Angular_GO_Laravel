@@ -83,8 +83,8 @@ func TestNewValidatorError(t *testing.T) {
 	asserts := assert.New(t)
 
 	type Login struct {
-		Username string `form:"username" json:"username" binding:"exists,alphanum,min=4,max=255"`
-		Password string `form:"password" json:"password" binding:"exists,min=8,max=255"`
+		Username string `form:"username" json:"username" binding:"required,alphanum,min=4,max=255"`
+		Password string `form:"password" json:"password" binding:"required,min=8,max=255"`
 	}
 
 	var requestTests = []struct {

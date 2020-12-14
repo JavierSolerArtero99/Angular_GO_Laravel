@@ -27,12 +27,16 @@ export class UserService {
   populate() {
     // If JWT detected, attempt to get & store user's info
     if (this.jwtService.getToken()) {
-      this.apiService.get('/user')
+      this.apiService.getGo('/user')
         .subscribe(
-          data => this.setAuth(data.user),
+          data => {
+            return this.setAuth(data.user)
+          },
           err => this.purgeAuth()
         );
     } else {
+      console.log("THERE IS NO TOKEN");
+      
       // Remove any potential remnants of previous auth states
       this.purgeAuth();
     }
@@ -65,6 +69,7 @@ export class UserService {
     return this.apiService.postGo('/users' + route, { user: credentials })
       .pipe(map(
         data => {
+          console.log("==========================B==========================");
           this.setAuth(data.user);
           console.log(data);
           return data;
