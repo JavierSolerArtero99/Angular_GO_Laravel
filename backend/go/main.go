@@ -7,13 +7,11 @@ import (
 
 	"App/common"
 	"App/users"
-	"App/products"
 	"github.com/jinzhu/gorm"
 )
 
 func Migrate(db *gorm.DB) {
 	users.AutoMigrate()
-	db.AutoMigrate(&products.ProductModel{})
 }
 
 func main() {
@@ -27,8 +25,13 @@ func main() {
 	MakeRoutes(r)
 
 	v1 := r.Group("/api")
+
+	v1.Use(users.AuthMiddleware(false))
 	users.UsersRegister(v1.Group("/users"))
-	products.ProductsRegister(v1.Group("/products"))
+
+	v1.Use(users.AuthMiddleware(true))
+	users.UserRegister(v1.Group("/user"))
+	
 
 	fmt.Printf("0.0.0.0:3000")
 	r.Run(":3000")
