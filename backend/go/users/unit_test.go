@@ -136,7 +136,7 @@ var unauthRequestTests = []struct {
 		"POST",
 		`{"user":{"username": "wangzitian0","email": "wzt@gg.cn","password": "jakejxke"}}`,
 		http.StatusUnprocessableEntity,
-		`{"errors":{"database":"UNIQUE constraint failed: user_models.email"}}`,
+		`{"errors":{"database":"UNIQUE constraint failed: user.email"}}`,
 		"duplicated data and should return StatusUnprocessableEntity",
 	},
 	{
@@ -353,7 +353,7 @@ var unauthRequestTests = []struct {
 		"PUT",
 		`{"user":{"username": "wangzitian0","email": "wzt@gg.cn","password": "jakejxke"}}`,
 		http.StatusUnprocessableEntity,
-		`{"errors":{"database":"UNIQUE constraint failed: user_models.email"}}`,
+		`{"errors":{"database":"UNIQUE constraint failed: user.email"}}`,
 		"cheat validator and test database connecting error for user update",
 	},
 	{
