@@ -4,22 +4,24 @@ import (
 	"log"
 	"net/http"
 
-	// "products/common"
+	"products/common"
 	"products/routers"
+	"products/models"
+	"github.com/jinzhu/gorm"
 )
 
-// func Migrate(db *gorm.DB) {
-// 	log.Println("Hay que hacer la migracion")
-// 	// db.AutoMigrate(&products.ProductModel{})
-// }
+func Migrate(db *gorm.DB) {
+	log.Println("Hay que hacer la migracion")
+	db.AutoMigrate(&models.Products{})
+}
 
 // Entry point for the program
 func main() {
 
 	//Conection db
-	// db := common.Init()
-	// Migrate(db)
-	// defer db.Close()
+	db := common.Init()
+	Migrate(db)
+	defer db.Close()
 	
 	// Get the mux router object
 	router := routers.InitRoutes()
