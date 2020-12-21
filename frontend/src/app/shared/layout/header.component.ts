@@ -20,4 +20,13 @@ export class HeaderComponent implements OnInit {
       }
     );
   }
+
+  loginAdmin() {
+    this.userService
+    .adminAttemptAuth(this.currentUser)
+    .subscribe(
+      data => console.log(data),
+      err => console.log(err)
+    );
+  }
 }
