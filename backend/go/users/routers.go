@@ -2,20 +2,34 @@ package users
 
 import (
 	"errors"
+	"fmt"
 	"net/http"
 
 	"App/common"
 
 	"github.com/gin-gonic/gin"
+	"github.com/go-redis/redis"
 )
 
 func UsersRegister(router *gin.RouterGroup) {
 	router.POST("/", UsersRegistration)
 	router.POST("/login", UsersLogin)
+	router.GET("/redis", helloworld)
 }
 
 func helloworld(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{"profile": "Hola mundo"})
+	// client := redis.NewClient(&redis.Options{
+	// 	Addr:     "redis:6379",
+	// 	Password: "",
+	// 	DB:       0,
+	// })
+
+	// err := client.Set("admin", "a", 0).Err()
+	// if err != nil {
+	// 	fmt.Println(err)
+	// }
+
+	// c.JSON(http.StatusOK, gin.H{"profile": val})
 }
 
 func UserRegister(router *gin.RouterGroup) {
@@ -88,7 +102,10 @@ func UsersRegistration(c *gin.Context) {
 	}
 	c.Set("my_user_model", userModelValidator.userModel)
 	serializer := UserSerializer{c}
-	c.JSON(http.StatusCreated, gin.H{"user": serializer.Response()})
+
+	response := serializer.Response()
+
+	c.JSON(http.StatusCreated, gin.H{"user": response})
 }
 
 func UsersLogin(c *gin.Context) {
@@ -110,6 +127,17 @@ func UsersLogin(c *gin.Context) {
 	}
 	UpdateContextusers(c, userModel.ID)
 	serializer := UserSerializer{c}
+
+	client := redis.NewClient(&redis.Options{
+		Addr:     "redis:6379",
+		Password: "",
+		DB:       0,
+	})
+
+	err = client.Set("username", serializer.Response().Username, 0).Err()
+	if err != nil {
+		fmt.Println(err)
+	}
 
 	c.JSON(http.StatusOK, gin.H{"user": serializer.Response()})
 }
