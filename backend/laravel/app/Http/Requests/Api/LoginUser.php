@@ -23,7 +23,6 @@ class LoginUser extends ApiRequest
     {
         return [
             'email' => 'required|email|max:255',
-            'password' => 'required',
         ];
     }
 }

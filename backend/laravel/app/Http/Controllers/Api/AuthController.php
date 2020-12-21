@@ -29,21 +29,28 @@ class AuthController extends ApiController
      */
     public function login(LoginUser $request)
     {
-        Redis::set('user', $request);
-        if ($data = Redis::get('user')) {
-            json_decode($data);
-            echo $data->only('user');
-            die;
-        };
-
-        $credentials = $request->only('user.email', 'user.password');
+        $credentials = $request->only('user.email', 'user.username');
         $credentials = $credentials['user'];
+        $credentials['password'] = 'null';
+
+        if ($data = Redis::get($credentials['username'])) {
+            $json = json_decode($data);
+
+            $user = \App\User::where('username', $json->{'username'})->first();
+            if ($user['username'] === $user->getTempkey()[1] && $credentials['email'] === $user['email']) {
+                $credentials['password'] = $user->getTempkey()[2];
+            }
+        };
 
         if (! Auth::once($credentials)) {
             return $this->respondFailedLogin();
         }
 
-        return $this->respondWithTransformer(auth()->user());
+        $userauth = auth()->user();
+        $user->setRememberToken($userauth);
+        serialize($user);
+        var_dump($user);
+        return $this->respondWithTransformer($userauth);
     }
 
     /**

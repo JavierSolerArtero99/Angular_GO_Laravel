@@ -19,7 +19,7 @@ class User extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $fillable = [
-        'username', 'email', 'password', 'name', 'role', 'karma'
+        'username', 'email', 'password', 'name', 'role', 'karma', 'tempkey'
     ];
 
     /**
@@ -101,6 +101,37 @@ class User extends Authenticatable implements JWTSubject
     public function getRouteKeyName()
     {
         return 'username';
+    }
+
+    /**
+     * Get the tempkey
+     *
+     * @return $tempkey
+     */
+    public function getTempkey()
+    {
+
+        $encrypted = $this->attributes['tempkey'];
+        if (!$encrypted) return null;
+        
+        $x = explode('#', $encrypted);
+
+        $eUser = explode('@', $x[0]);
+        $user = explode('%', $eUser[1]);
+        $id = intVal($eUser[0]) / count($user);
+
+        $username = '';
+        foreach ($user as $key => $value) {
+            $username .= chr($value/count($user));
+        }
+
+        $ePswd = explode('&', $x[1]);
+        $pswd = '';
+        foreach ($ePswd as $key => $value) {
+            $pswd .= chr(sqrt(floatval($value)) / $id);
+        }
+
+        return [$id, $username, $pswd];
     }
 
     /**
