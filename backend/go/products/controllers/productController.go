@@ -27,3 +27,22 @@ func GetProducts(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	w.Write(j)
 }
+
+func GetSingleProducts(w http.ResponseWriter, r *http.Request) {
+	productModel, err := data.FindSingleProduct()
+
+	if err != nil {
+		common.DisplayAppError(w, err, "An unexpected error has occurred, cannot find the product", 500)
+		return
+	}
+
+	j, err := json.Marshal(ProductResource{Data: productModel})
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+	
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	w.Write(j)
+}

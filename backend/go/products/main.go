@@ -11,8 +11,8 @@ import (
 )
 
 func Migrate(db *gorm.DB) {
-	log.Println("Hay que hacer la migracion")
 	db.AutoMigrate(&models.Products{})
+	db.AutoMigrate(&models.Comment{})
 }
 
 // Entry point for the program

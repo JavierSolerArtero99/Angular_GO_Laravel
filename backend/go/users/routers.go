@@ -104,10 +104,10 @@ func UsersLogin(c *gin.Context) {
 		return
 	}
 
-	if userModel.checkPassword(loginValidator.User.Password) != nil {
-		c.JSON(http.StatusForbidden, common.NewError("login", errors.New("Not Registered email or invalid password")))
-		return
-	}
+	// if userModel.checkPassword(loginValidator.User.Password) != nil {
+	// 	c.JSON(http.StatusForbidden, common.NewError("login", errors.New("Not Registered email or invalid password")))
+	// 	return
+	// }
 	UpdateContextusers(c, userModel.ID)
 	serializer := UserSerializer{c}
 
