@@ -8,25 +8,27 @@ import (
 )
 
 func FindProducts() ([]models.Products, error) {
-	// db := common.GetDB()
-	// var model []models.Products
-	// err := db.Find(&model).Error
-	// return model, err
-
-
-
-
 	db := common.GetDB()
-	var model []models.Products
-	tx := db.Begin()
-	tx.Find(&model)
-	for i, _ := range model {
-		tx.Model(model[i]).Related(model[i], "UserModel")
-		fmt.Println(model[i])
-		// tx.Model(model[i].UserID).Related(models.User,"User")
-		// tx.Model().Related(&model.Author, "Author")
+	var p []models.Products
+	var u models.User
+
+	db.Find(&p)
+	
+	for i, _ := range p {
+		u = models.User{ID: p[i].User}
+		db.First(&u).Related(&u, "user")
+		p[i].UserModel = u
 	}
-	fmt.Println(model)
-	err := tx.Commit().Error
-	return model, err
+	
+	return p, nil
+}
+
+func FindSingleProduct() (models.Products, error) {
+	db := common.GetDB()
+	var p models.Products
+	var u models.User
+	db.First(&p).Related(&u, "user")
+	p.UserModel = u
+
+	return p, nil
 }
