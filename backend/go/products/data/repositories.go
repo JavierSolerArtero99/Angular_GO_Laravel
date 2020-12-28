@@ -1,7 +1,7 @@
 package data
 
 import (
-	// "fmt"
+	"fmt"
 
 	"products/common"
 	"products/models"
@@ -10,14 +10,19 @@ import (
 func FindProducts() ([]models.Products, error) {
 	db := common.GetDB()
 	var p []models.Products
-	var u models.User
-
+	
 	db.Find(&p)
 	
 	for i, _ := range p {
-		u = models.User{ID: p[i].User}
-		db.First(&u)
+		var u models.User
+		var c []models.Comment
+
+		db.Find(&p[i]).Related(&u, "user")
 		p[i].UserModel = u
+		db.Find(&p[i]).Related(&c, "comments")
+		p[i].Comments = c
+
+		fmt.Println(u)
 	}
 	
 	return p, nil
@@ -27,9 +32,13 @@ func FindSingleProduct() (models.Products, error) {
 	db := common.GetDB()
 	var p models.Products
 	var u models.User
+	var c []models.Comment
 
-	db.Where("Name = ?", "aquel").First(&p)
-	db.Where("ID = ?", p.User).First(&u)
+	db.Where("Name = ?", "Consumible").First(&p)
+	db.Find(&p).Related(&u, "user")
+	db.Find(&p).Related(&c, "comments")
+
+	p.Comments = c
 	p.UserModel = u
 
 	return p, nil

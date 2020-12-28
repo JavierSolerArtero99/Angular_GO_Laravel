@@ -12,6 +12,7 @@ import (
 
 func Migrate(db *gorm.DB) {
 	db.AutoMigrate(&models.Products{})
+	db.AutoMigrate(&models.Comment{})
 }
 
 // Entry point for the program
