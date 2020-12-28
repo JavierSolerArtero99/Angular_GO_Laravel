@@ -21,8 +21,6 @@ func FindProducts() ([]models.Products, error) {
 		p[i].UserModel = u
 		db.Find(&p[i]).Related(&c, "comments")
 		p[i].Comments = c
-
-		fmt.Println(u)
 	}
 	
 	return p, nil
@@ -34,7 +32,7 @@ func FindSingleProduct() (models.Products, error) {
 	var u models.User
 	var c []models.Comment
 
-	db.Where("Name = ?", "Consumible").First(&p)
+	db.Where("Name = ?", "Bebida").First(&p)
 	db.Find(&p).Related(&u, "user")
 	db.Find(&p).Related(&c, "comments")
 

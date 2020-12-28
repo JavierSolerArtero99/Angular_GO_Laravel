@@ -5,11 +5,11 @@ import (
 
 type (
 	Products struct {
-		ID		  uint			`gorm:"primary_key"`
+		ID		  uint			`gorm:"primary_key" json:"-"`
 		Name      string        
 		Likes	  int
-		User      uint			
-		UserModel User			`gorm:"foreignKey:ID"`
+		User      uint			`json:"-"`
+		UserModel User			`gorm:"foreignKey:ID" json:"User"`
 		Comments  []Comment		`gorm:"foreignKey:ProductID;references:ID"`
 	}
 )
@@ -26,7 +26,7 @@ type (
 	Comment struct {
 		ID          uint    `gorm:"primary_key"`
 		UserID     	uint 	
-		ProductID  	string 	
+		ProductID  	uint 	
 		Message	   	string
 		Date		string
 		Likes		int
