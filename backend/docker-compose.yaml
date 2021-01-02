@@ -78,6 +78,17 @@ services:
     networks:
       - servidor_network
 
+  traefik:
+    image: traefik:alpine 
+    command: --api --docker 
+    ports: 
+      - 87:80
+      - 8060:8080
+    volumes: 
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - servidor_network
+
   redis:
     image: redis:4.0
     ports:
