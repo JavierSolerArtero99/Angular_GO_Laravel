@@ -63,3 +63,27 @@ microservicio
 - **resourses.go:** Este archivo es una esopecie de "serializer" pero solo define el tipo de respuesta que tendrá.
 
 ![Carpeta controllers](./imgs/controller3.png)
+
+## Extensión de servicios
+
+En este apartado intentaremos crear una plantilla para reutilizar código de nuestro Docker Compose, para ello si utilizamos una versión de docker inferior a la 3 podremos utilizar "**extends**" que básicamente se trata crear un servicio base del cual extenderán los servicios que tengan estas mismas características en común. 
+
+Para versiones de docker compose superiores o igual a 3 podemos utilizar los **campos de extensión**, que se trata de crear una especificación común, que se puede reutilizar para todos los servicios.
+
+La versión de nuestro docker compose es la 3 por lo que hemos optado por los campos de extensión.
+
+Para ello estos campos deben de estar ubicados en la raíz del Compose y su nombre debe empezar por la secuencia `x-` y posteriormente debemos escribir el nombre por el cual llamaremos a este campo, precedido por el signo `&` (**&default-command**).
+
+![Creación del campo de extensión](./imgs/fieldsExtension1.png)
+
+Para utilizar este campo debemos utilizar el singo ´*´ sucedido de el nombre dado anteriormente (*default-command).
+
+Para reutilizar la especificación command tenemos que utilizar una variable de entorno, por que según el servicio debe llamar a un microservicio u otro.
+
+![Llamada del campo de extensión para app](./imgs/fieldsExtension2.png)
+
+En esta imagen podemos observar como utilizamos el comando y reescribimos el valor de la variable de entrono con el valor **App**.
+
+![Llamada del campo de extensión para products](./imgs/fieldsExtension3.png)
+
+En esta imagen observamos utilizamos el comando con el valor **products**.
