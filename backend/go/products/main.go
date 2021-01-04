@@ -10,6 +10,7 @@ import (
 	"github.com/jinzhu/gorm"
 
 	"github.com/prometheus/client_golang/prometheus/promhttp"
+
 )
 
 /** Migrates the database schema */

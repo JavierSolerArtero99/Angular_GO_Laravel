@@ -7,6 +7,7 @@ import (
 	"products/data"
 
 	"products/common"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
 // Get all products from the DB
@@ -50,3 +51,8 @@ func GetSingleProducts(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	w.Write(j)
 }
+
+func GetMetrics(w http.ResponseWriter, r *http.Request) {
+	promhttp.Handler()
+}
+
