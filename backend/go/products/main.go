@@ -10,6 +10,7 @@ import (
 	"github.com/jinzhu/gorm"
 )
 
+/** Migrates the database schema */
 func Migrate(db *gorm.DB) {
 	db.AutoMigrate(&models.Products{})
 	db.AutoMigrate(&models.Comment{})
@@ -26,6 +27,7 @@ func main() {
 	// Get the mux router object
 	router := routers.InitRoutes()
 
+	// Init server
 	server := &http.Server{
 		Addr:    "0.0.0.0:8080",
 		Handler: router,
