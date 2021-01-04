@@ -1,7 +1,6 @@
 version: "3"
 
 services:
-
   database:
     image: mysql:5.7
     environment:
@@ -23,7 +22,7 @@ services:
       - database
     ports:
       - 8003:3000
-    restart: 'always'
+    restart: "always"
     volumes:
       - ./laravel:/app
     command: >
@@ -32,7 +31,7 @@ services:
       && php artisan serve --host=0.0.0.0 --port=3000"
     networks:
       - servidor_network
-        
+
   # GO & Microservices #
 
   go:
@@ -42,7 +41,7 @@ services:
       - ./go:/go/src/App
     ports:
       - "3000:3000"
-    restart: 'always'
+    restart: "always"
     networks:
       - servidor_network
     command: >
@@ -57,7 +56,7 @@ services:
       - redis
 
   products:
-    restart: 'always'
+    restart: "always"
     image: golang:1.15
     container_name: products_go
     working_dir: /go/src/products
@@ -79,13 +78,43 @@ services:
       - servidor_network
 
   traefik:
-    image: traefik:alpine 
-    command: --api --docker 
-    ports: 
+    image: traefik:v2.3
+    command: 
+    - "--api.dashboard=true"
+    - "--api.insecure=true"
+    - "--providers.docker"
+    - "--entrypoints.web.address=:80"
+    - "--metrics.prometheus=true"
+    - "--metrics.prometheus.buckets=0.1, 0.3, 1.2, 5.0"
+    ports:
       - 87:80
       - 8060:8080
-    volumes: 
+    volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - servidor_network
+
+  prometheus:
+    image: prom/prometheus:v2.20.1
+    container_name: "prometheus"
+    ports:
+      - "9090:9090"
+    volumes:
+      - "./prometheus/:/etc/prometheus/"
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+    labels:
+      - "traefik.docker.network=traefik"
+      - "traefik.backend=prometheus"
+      - "traefik.frontend.rule=Host:prometheus.localhost"
+      - "traefik.port=9090"
+    depends_on:
+      - go
+      - database
+      - laravel
+      - products
+      - redis
+      - traefik
     networks:
       - servidor_network
 
