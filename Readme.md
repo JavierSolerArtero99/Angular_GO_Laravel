@@ -1,8 +1,31 @@
-# Mejora del proyecto del servidor
+# Mejora del proyecto del servidor 
+**BY: Javier Soler Artero, Javier Soler Cantó, Jairo Julià Bravo.**
+
+## Tecnologias utilizadas:
+
+### Docker:
+Es un sistema que automatiza el despliegue de aplicaciones dentro de contenedores de software, proporcionando una capa adicional de abstracción y automatización de virtualización de aplicaciones en múltiples sistemas operativos.​
+### Docker Compose:
+Docker Compose es una herramienta desarrollada para ayudar a definir y compartir aplicaciones de varios contenedores mediante un fichero llamado docker-compose.yml
+
+### Prometheus
+![Prometheus logo](./imgs/prometheuslogo.png) 
+Prometheus es una aplicación de software gratuita utilizada para la supervisión y alerta de eventos. Registra métricas en tiempo real en una base de datos de series de tiempo construida utilizando un modelo de extracción HTTP, con consultas flexibles y alertas en tiempo real. En la práctica se utilizará para poder tener un seguimiento de las peticiones a los distintos endpoints de la aplicación de nodejs.
+
+### Grafana
+![Grafana logo](./imgs/grafanalogo.png) 
+Es un software que permite la visualización y el formato de datos métricos. Permite crear cuadros de mando y gráficos a partir de múltiples fuentes, incluidas bases de datos de series de tiempo como Graphite, InfluxDB y OpenTSDB.​​ Se ha utilizado esta herramienta para la monitorización gráfica de los datos extraidos por prometheus y poder representarlos de una manera gráfica.
+
+### GO: 
+![Go logo](./imgs/gologo.png) 
+Go es un lenguaje de programación concurrente y compilado desarrollado por Google e inspirado en la sintaxis de C, que intenta ser dinámico como Python y con el rendimiento de C o C++. Go es un lenguaje de programación compilado, concurrente, imperativo, estructurado, orientado a objetos y con recolector de basura que de momento es soportado en diferentes tipos de sistemas UNIX, incluidos Linux, FreeBSD, Mac OS X y Plan 9 (puesto que parte del compilador está basado en un trabajo previo sobre el sistema operativo Inferno). Las arquitecturas soportadas son i386, amd64 y ARM.
+
+### Proposito de esta práctica:
+La finalidad de esta práctica es la utilización de microservicios para la posterior monitorización de estos y tener un proyecto correctamente escalable, con cada microservicio de forma independiente.
 
 ## Microservicios en GO
 
-En esta aplicación, el modelo de negocio del equipo es el desarrollo de una tienda online. Partiendo de esta base el microservicio son productos que los usuarios pueden comprar. De esta manera se ha refactorizado i/o creado nueva funcionalidad
+En esta aplicación, el modelo de negocio del equipo es el desarrollo de una tienda online. Partiendo de esta base el microservicio son productos que los usuarios pueden comprar. De esta manera se ha refactorizado i/o creado nueva funcionalidad:
 
 - Common: con aspectos de configuración globales al microservicio así como utilidades para la creación de sesiones de base de datos
 - Models: en donde se definirán los modelos utilizados por el microservicio
@@ -10,6 +33,15 @@ En esta aplicación, el modelo de negocio del equipo es el desarrollo de una tie
 microservicio
 - Data: En donde se incluyen las funciones que son ejecutadas para obtener la información de respuesta de los endpoints del microservicio
 - Controllers: Que incluirá todo lo necesario para que, partiendo de la información de respuesta de las utilidades de la carpeta Data, construirá las respuestas finales de los endpoints del microservicio.
+
+### Cambios
+#### Antes:
+![Cambios](./imgs/cambios.JPG)
+
+#### Despues:
+![Camibios](./imgs/cambios1.JPG)
+
+En si los cambios son notables, distribuyendo los ficheros de una forma mas estructurada, clara y escalable. Ahora cada microservicio tendrá su archivo main.go para que se despliegue automaticamente con todas sus dependencias necesarias. 
 
 ### main.go:
 ![Carpeta common](./imgs/main.png)
@@ -39,7 +71,7 @@ microservicio
 ![Carpeta routers](./imgs/routers2.png)
 
 
-- **products.go:** Inicia las rutas de los productos, en este caso solo hay dos la de obtener todos los productos (/products) o la de obtener solo un producto (/product). Cada una de estas con su respectivo controlador que manejará la peticióny devolverá el resultado.
+- **products.go:** Inicia las rutas de los productos, en este caso solo hay dos la de obtener todos los productos (/products) o la de obtener solo un producto (/product). Cada una de estas con su respectivo controlador que manejará la petición y devolverá el resultado.
 
 ![Carpeta routers](./imgs/routers1.png)
 
