@@ -8,6 +8,8 @@ import (
 	"products/routers"
 	"products/models"
 	"github.com/jinzhu/gorm"
+
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
 /** Migrates the database schema */
@@ -33,5 +35,7 @@ func main() {
 		Handler: router,
 	}
 	log.Println("Listening...")
+
+	http.Handle("/metrics", promhttp.Handler())
 	server.ListenAndServe()
 }
