@@ -9,6 +9,7 @@ import (
 
 var DB *gorm.DB
 
+// Inits the DB Connexion
 func Init() *gorm.DB {
 	db, err := gorm.Open("mysql", DbURL(BuildDBConfig()))
 	if err != nil {

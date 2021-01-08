@@ -8,8 +8,12 @@ import (
 	"products/routers"
 	"products/models"
 	"github.com/jinzhu/gorm"
+
+	"github.com/prometheus/client_golang/prometheus/promhttp"
+
 )
 
+/** Migrates the database schema */
 func Migrate(db *gorm.DB) {
 	db.AutoMigrate(&models.Products{})
 	db.AutoMigrate(&models.Comment{})
@@ -26,10 +30,13 @@ func main() {
 	// Get the mux router object
 	router := routers.InitRoutes()
 
+	// Init server
 	server := &http.Server{
 		Addr:    "0.0.0.0:8080",
 		Handler: router,
 	}
 	log.Println("Listening...")
+
+	http.Handle("/metrics", promhttp.Handler())
 	server.ListenAndServe()
 }
