@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"App/common"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -103,12 +104,13 @@ func UsersLogin(c *gin.Context) {
 		return
 	}
 
-	if userModel.checkPassword(loginValidator.User.Password) != nil {
-		c.JSON(http.StatusForbidden, common.NewError("login", errors.New("Not Registered email or invalid password")))
-		return
-	}
+	// if userModel.checkPassword(loginValidator.User.Password) != nil {
+	// 	c.JSON(http.StatusForbidden, common.NewError("login", errors.New("Not Registered email or invalid password")))
+	// 	return
+	// }
 	UpdateContextusers(c, userModel.ID)
 	serializer := UserSerializer{c}
+
 	c.JSON(http.StatusOK, gin.H{"user": serializer.Response()})
 }
 

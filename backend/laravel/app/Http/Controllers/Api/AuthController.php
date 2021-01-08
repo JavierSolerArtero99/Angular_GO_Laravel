@@ -7,6 +7,7 @@ use App\User;
 use App\Http\Requests\Api\LoginUser;
 use App\Http\Requests\Api\RegisterUser;
 use App\RealWorld\Transformers\UserTransformer;
+use Illuminate\Support\Facades\Redis;
 
 class AuthController extends ApiController
 {
@@ -28,6 +29,13 @@ class AuthController extends ApiController
      */
     public function login(LoginUser $request)
     {
+        Redis::set('user', $request);
+        if ($data = Redis::get('user')) {
+            json_decode($data);
+            echo $data->only('user');
+            die;
+        };
+
         $credentials = $request->only('user.email', 'user.password');
         $credentials = $credentials['user'];
 
@@ -50,6 +58,8 @@ class AuthController extends ApiController
             'username' => $request->input('user.username'),
             'email' => $request->input('user.email'),
             'password' => bcrypt($request->input('user.password')),
+            'karma' => 0,
+            'role' => 0,
         ]);
 
         return $this->respondWithTransformer($user);

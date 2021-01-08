@@ -1,7 +1,14 @@
 version: "3"
+x-command: 
+  &default-command >
+      bash -c " rm -f go.mod || true
+      && rm -f go.sum || true
+      && go mod init $$MICROSERVICIO
+      && go mod tidy
+      && go get github.com/pilu/fresh
+      && fresh "
 
 services:
-
   database:
     image: mysql:5.7
     environment:
@@ -23,46 +30,37 @@ services:
       - database
     ports:
       - 8003:3000
-    restart: 'always'
+    restart: "always"
     volumes:
       - ./laravel:/app
     command: >
       bash -c " composer install 
       && php artisan route:list
-      && php artisan key:generate
-      && php artisan migrate
-      && php artisan migrate:refresh
-      && php artisan db:seed
       && php artisan serve --host=0.0.0.0 --port=3000"
     networks:
       - servidor_network
-        
+
   # GO & Microservices #
 
   go:
     image: golang:1.15
-    container_name: go_container
     working_dir: /go/src/App
     volumes:
       - ./go:/go/src/App
     ports:
       - "3000:3000"
-    restart: 'always'
+    restart: "always"
     networks:
       - servidor_network
-    command: >
-      bash -c " rm -f go.mod || true
-      && rm -f go.sum || true
-      && go mod init App
-      && go mod tidy
-      && go get github.com/pilu/fresh
-      && fresh "
+    environment:
+      MICROSERVICIO: App
+    command: *default-command
     depends_on:
       - database
       - redis
 
   products:
-    restart: 'always'
+    restart: "always"
     image: golang:1.15
     container_name: products_go
     working_dir: /go/src/products
@@ -70,16 +68,53 @@ services:
       - ./go/products:/go/src/products
     ports:
       - "8091:8080"
-    command: >
-      bash -c " rm -f go.mod || true
-      && rm -f go.sum || true
-      && go mod init products
-      && go mod tidy
-      && go get github.com/pilu/fresh
-      && fresh "
+    environment:
+      MICROSERVICIO: products
+    command: *default-command
     depends_on:
       - database
       - redis
+    networks:
+      - servidor_network
+
+  traefik:
+    image: traefik:v2.3
+    command: 
+    - "--api.dashboard=true"
+    - "--api.insecure=true"
+    - "--providers.docker"
+    - "--entrypoints.web.address=:80"
+    - "--metrics.prometheus=true"
+    - "--metrics.prometheus.buckets=0.1, 0.3, 1.2, 5.0"
+    ports:
+      - 87:80
+      - 8060:8080
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - servidor_network
+
+  prometheus:
+    image: prom/prometheus:v2.20.1
+    container_name: "prometheus"
+    ports:
+      - "9090:9090"
+    volumes:
+      - "./prometheus/:/etc/prometheus/"
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+    labels:
+      - "traefik.docker.network=traefik"
+      - "traefik.backend=prometheus"
+      - "traefik.frontend.rule=Host:prometheus.localhost"
+      - "traefik.port=9090"
+    depends_on:
+      - go
+      - database
+      - laravel
+      - products
+      - redis
+      - traefik
     networks:
       - servidor_network
 
@@ -93,5 +128,6 @@ services:
 networks:
   servidor_network:
 
-volumes: 
+volumes:
   mysqlBackup:
+  redisData:
