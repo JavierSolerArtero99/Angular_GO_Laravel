@@ -25,8 +25,6 @@ const routes: Routes = [
   },
 ];
 
-console.log("FROM: app-routing.module.ts");
-
 
 @NgModule({
   imports: [
