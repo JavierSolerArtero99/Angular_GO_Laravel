@@ -33,7 +33,6 @@ class AuthController extends ApiController
         if ($data = Redis::get('user')) {
             json_decode($data);
             echo $data->only('user');
-            die;
         };
 
         $credentials = $request->only('user.email', 'user.password');

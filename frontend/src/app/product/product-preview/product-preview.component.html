@@ -1,0 +1,50 @@
+<!-- HTML COMPONENT -->
+
+<a [routerLink]="['#']">
+  <div [routerLink]="['#']" class="previewContainer">
+    <img
+      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSiit6Cr5HG87c467zUbWo9i0Q7MF2V1QwYqA&usqp=CAU"
+      width="20%"
+    />
+    <div class="content">
+      <h4>{{ product.Name }}</h4>
+      <span>From: {{ product.User.Username }}</span>
+    </div>
+
+    <button class="likeButton">
+      <img
+        width="200%"
+        src="https://www.flaticon.com/premium-icon/icons/svg/3384/3384169.svg"
+        alt=""
+      />
+    </button>
+  </div>
+</a>
+
+<!-- COMPONENT CSS STYLE -->
+
+<style>
+  .previewContainer {
+    display: flex;
+    width: 70%;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    border-radius: 10px;
+    padding: 1rem;
+  }
+  .content {
+    width: 90%;
+    margin-left: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: black;
+  }
+
+  .likeButton {
+    background-color: transparent;
+    height: 2rem;
+    width: 2rem;
+    border: none;
+    margin-right: 1rem;
+  }
+</style>
