@@ -17,6 +17,10 @@ const routes: Routes = [
   {
     path: 'article',
     loadChildren: './article/article.module#ArticleModule'
+  },
+  {
+    path: 'panel-admin',
+    loadChildren: './panel-admin/panel-admin.module#PanelAdminModule'
   }
 ];
 

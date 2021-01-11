@@ -81,6 +81,8 @@ export class UserService {
   }
 
   adminAttemptAuth(credentials): Observable<User> {
+    console.log(credentials);
+    
     return this.apiService.post('/users/login', { user: credentials })
       .pipe(map(
         data => {

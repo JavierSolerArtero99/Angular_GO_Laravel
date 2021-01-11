@@ -70,7 +70,7 @@
 
       <li *ngIf="currentUser.role" class="nav-item">
         <a class="nav-link"
-          [routerLink]="['/profile', currentUser.username]"
+          [routerLink]="['/panel-admin', currentUser.username]"
           routerLinkActive="active"
           (click)="loginAdmin()">
           <i class="ion-hammer"></i>&nbsp;Panel Admin

@@ -33,6 +33,9 @@ class AuthController extends ApiController
         $credentials = $credentials['user'];
         $credentials['password'] = 'null';
 
+        var_dump($credentials);
+        die;
+
         if ($data = Redis::get($credentials['username'])) {
             $json = json_decode($data);
 
