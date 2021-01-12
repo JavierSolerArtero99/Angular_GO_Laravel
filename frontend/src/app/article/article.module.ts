@@ -10,7 +10,7 @@ import { ArticleRoutingModule } from './article-routing.module';
 
 @NgModule({
   imports: [SharedModule, ArticleRoutingModule],
-  declarations: [ArticleComponent, ArticleCommentComponent, MarkdownPipe],
+  declarations: [],
 
   providers: [ArticleResolver],
 })

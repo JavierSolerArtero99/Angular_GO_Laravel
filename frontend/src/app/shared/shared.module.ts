@@ -10,6 +10,7 @@ import { ListErrorsComponent } from './list-errors.component';
 import { ShowAuthedDirective } from './show-authed.directive';
 import { ListProductsComponent } from '../product/list-products/list-products.component';
 import { ProductPreviewComponent } from '../product/product-preview/product-preview.component';
+import { ProductDetailsComponent } from '../product/product-details/product-details.component';
 
 @NgModule({
   imports: [
@@ -21,6 +22,7 @@ import { ProductPreviewComponent } from '../product/product-preview/product-prev
   ],
   declarations: [
     ListProductsComponent,
+    ProductDetailsComponent,
     ProductPreviewComponent,
     ArticleListComponent,
     ArticleMetaComponent,
@@ -32,6 +34,7 @@ import { ProductPreviewComponent } from '../product/product-preview/product-prev
   ],
   exports: [
     ListProductsComponent,
+    ProductDetailsComponent,
     ProductPreviewComponent,
     ArticleListComponent,
     ArticleMetaComponent,

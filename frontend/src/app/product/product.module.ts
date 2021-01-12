@@ -5,9 +5,10 @@ import { ProductRoutingModule } from "./product-routing.module";
 import { ListProductsComponent } from "./list-products/list-products.component";
 import { SharedModule } from "../shared";
 import { MarkdownPipe } from "../article/markdown.pipe";
+import { ProductDetailsComponent } from "./product-details/product-details.component";
 
 @NgModule({
   imports: [ProductRoutingModule, SharedModule],
-  declarations: [ListProductsComponent, MarkdownPipe],
+  declarations: [MarkdownPipe],
 })
 export class ProductModule {}
