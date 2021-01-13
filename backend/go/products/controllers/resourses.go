@@ -15,6 +15,6 @@ type (
 	}
 
 	ProductError struct {
-		Data string `json: "error"`
+		Data string `json:"error"`
 	}
 )

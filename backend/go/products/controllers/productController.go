@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	// "fmt"
 	"encoding/json"
 	"net/http"
 
@@ -33,11 +34,35 @@ func GetProducts(w http.ResponseWriter, r *http.Request) {
 
 // Get a product from the DB
 func GetSingleProducts(w http.ResponseWriter, r *http.Request) {
-	//Finds a single product
-	productModel, err := data.FindSingleProduct()
+	// Query params
+    name := r.URL.Query()["name"][0] 
 
-	if err != nil {
-		common.DisplayAppError(w, err, "An unexpected error has occurred, cannot find the product", 500)
+	if len(name) <= 0 {
+		msg := "The name of the product is empty"
+		errorMessage, parsingError := json.Marshal(ProductError{Data: msg})
+		if parsingError != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			return
+		}
+
+		w.WriteHeader(http.StatusNotFound)
+		w.Write(errorMessage)
+		return
+	}
+
+
+	productModel, err := data.FindSingleProduct(name)
+
+	if len(productModel.Name) <= 0 {
+		msg := "Cannot find product: '" + name + "'"
+		errorMessage, parsingError := json.Marshal(ProductError{Data: msg})
+		if parsingError != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			return
+		}
+
+		w.WriteHeader(http.StatusNotFound)
+		w.Write(errorMessage)
 		return
 	}
 
