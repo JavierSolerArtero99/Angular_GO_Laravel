@@ -37,6 +37,7 @@ func GetSingleProducts(w http.ResponseWriter, r *http.Request) {
 	// Query params
     name := r.URL.Query()["name"][0] 
 
+	// name length control
 	if len(name) <= 0 {
 		msg := "The name of the product is empty"
 		errorMessage, parsingError := json.Marshal(ProductError{Data: msg})
@@ -50,9 +51,10 @@ func GetSingleProducts(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-
+	// find the product
 	productModel, err := data.FindSingleProduct(name)
 
+	// product not found
 	if len(productModel.Name) <= 0 {
 		msg := "Cannot find product: '" + name + "'"
 		errorMessage, parsingError := json.Marshal(ProductError{Data: msg})

@@ -16,6 +16,7 @@ import (
 type users struct {
 	ID           uint    `gorm:"primary_key"`
 	Username     string  `gorm:"column:username"`
+    Token     	 string  `gorm:"column:token"`
 	Email        string  `gorm:"column:email;unique_index"`
 	Bio          string  `gorm:"column:bio;size:1024"`
 	Image        *string `gorm:"column:image"`
