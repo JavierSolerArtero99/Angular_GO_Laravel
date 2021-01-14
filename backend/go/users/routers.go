@@ -85,7 +85,10 @@ func UsersRegistration(c *gin.Context) {
 		fmt.Println()
 		fmt.Println("===ERROR DE VALIDACION===")
 		fmt.Println(err)
-		c.JSON(http.StatusUnprocessableEntity, common.NewValidatorError(err))
+		// for key, value := range err {
+		// 	fmt.Println("Key:", key, "Value:", value)
+		// }
+		c.JSON(http.StatusUnprocessableEntity, common.NewError("validation", err))
 		return
 	}
 
