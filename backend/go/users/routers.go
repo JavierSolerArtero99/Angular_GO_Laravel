@@ -1,7 +1,8 @@
 package users
 
 import (
-	"errors"
+	"fmt"
+		"errors"
 	"net/http"
 
 	"App/common"
@@ -78,6 +79,12 @@ func ProfileUnfollow(c *gin.Context) {
 func UsersRegistration(c *gin.Context) {
 	userModelValidator := NewusersValidator()
 	if err := userModelValidator.Bind(c); err != nil {
+		fmt.Println()
+		fmt.Println()
+		fmt.Println()
+		fmt.Println()
+		fmt.Println("===ERROR DE VALIDACION===")
+		fmt.Println(err)
 		c.JSON(http.StatusUnprocessableEntity, common.NewValidatorError(err))
 		return
 	}
