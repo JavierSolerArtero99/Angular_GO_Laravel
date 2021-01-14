@@ -6,6 +6,7 @@
 export const environment = {
   production: false,
   // api_url: 'https://conduit.productionready.io/api'
-  api_url: 'http://127.0.0.1:8003/api',
-  go_url: '/api'
+  api_url: "http://127.0.0.1:8003/api",
+  go_url: "/api",
+  go_products_url: "/products",
 };

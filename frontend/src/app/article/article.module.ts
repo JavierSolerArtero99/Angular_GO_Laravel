@@ -9,18 +9,9 @@ import { SharedModule } from '../shared';
 import { ArticleRoutingModule } from './article-routing.module';
 
 @NgModule({
-  imports: [
-    SharedModule,
-    ArticleRoutingModule
-  ],
-  declarations: [
-    ArticleComponent,
-    ArticleCommentComponent,
-    MarkdownPipe
-  ],
+  imports: [SharedModule, ArticleRoutingModule],
+  declarations: [ArticleComponent, ArticleCommentComponent, MarkdownPipe],
 
-  providers: [
-    ArticleResolver
-  ]
+  providers: [ArticleResolver],
 })
 export class ArticleModule {}

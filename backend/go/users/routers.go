@@ -2,34 +2,20 @@ package users
 
 import (
 	"errors"
-	"fmt"
 	"net/http"
 
 	"App/common"
 
 	"github.com/gin-gonic/gin"
-	"github.com/go-redis/redis"
 )
 
 func UsersRegister(router *gin.RouterGroup) {
 	router.POST("/", UsersRegistration)
 	router.POST("/login", UsersLogin)
-	router.GET("/redis", helloworld)
 }
 
 func helloworld(c *gin.Context) {
-	// client := redis.NewClient(&redis.Options{
-	// 	Addr:     "redis:6379",
-	// 	Password: "",
-	// 	DB:       0,
-	// })
-
-	// err := client.Set("admin", "a", 0).Err()
-	// if err != nil {
-	// 	fmt.Println(err)
-	// }
-
-	// c.JSON(http.StatusOK, gin.H{"profile": val})
+	c.JSON(http.StatusOK, gin.H{"profile": "Hola mundo"})
 }
 
 func UserRegister(router *gin.RouterGroup) {
@@ -102,10 +88,7 @@ func UsersRegistration(c *gin.Context) {
 	}
 	c.Set("my_user_model", userModelValidator.userModel)
 	serializer := UserSerializer{c}
-
-	response := serializer.Response()
-
-	c.JSON(http.StatusCreated, gin.H{"user": response})
+	c.JSON(http.StatusCreated, gin.H{"user": serializer.Response()})
 }
 
 func UsersLogin(c *gin.Context) {
@@ -121,23 +104,12 @@ func UsersLogin(c *gin.Context) {
 		return
 	}
 
-	if userModel.checkPassword(loginValidator.User.Password) != nil {
-		c.JSON(http.StatusForbidden, common.NewError("login", errors.New("Not Registered email or invalid password")))
-		return
-	}
+	// if userModel.checkPassword(loginValidator.User.Password) != nil {
+	// 	c.JSON(http.StatusForbidden, common.NewError("login", errors.New("Not Registered email or invalid password")))
+	// 	return
+	// }
 	UpdateContextusers(c, userModel.ID)
 	serializer := UserSerializer{c}
-
-	client := redis.NewClient(&redis.Options{
-		Addr:     "redis:6379",
-		Password: "",
-		DB:       0,
-	})
-
-	err = client.Set("username", serializer.Response().Username, 0).Err()
-	if err != nil {
-		fmt.Println(err)
-	}
 
 	c.JSON(http.StatusOK, gin.H{"user": serializer.Response()})
 }

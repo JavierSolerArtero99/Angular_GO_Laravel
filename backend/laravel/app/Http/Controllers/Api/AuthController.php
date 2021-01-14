@@ -7,7 +7,9 @@ use App\User;
 use App\Http\Requests\Api\LoginUser;
 use App\Http\Requests\Api\RegisterUser;
 use App\RealWorld\Transformers\UserTransformer;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;
+use Illuminate\Support\Facades\Validator;
 
 class AuthController extends ApiController
 {
@@ -27,17 +29,30 @@ class AuthController extends ApiController
      * @param LoginUser $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function login(LoginUser $request)
+    public function login(Request $request)
     {
-        $credentials = $request->only('user.email', 'user.username');
+
+        $credentials = !$request['body'] ? $request->only('user.email', 'user.username') : $request['body'];
+
         $credentials = $credentials['user'];
         $credentials['password'] = 'null';
 
-        var_dump($credentials);
-        die;
+        $validator = Validator::make(
+            $credentials,
+            [
+                'email' => 'required|email|max:255',
+            ]
+        );
+        if ($validator->fails())
+        {
+            return $this->respondFailedLogin();
+        }
 
         if ($data = Redis::get($credentials['username'])) {
             $json = json_decode($data);
+
+            var_dump($json);
+            die;
 
             $user = \App\User::where('username', $json->{'username'})->first();
             if ($user['username'] === $user->getTempkey()[1] && $credentials['email'] === $user['email']) {
@@ -52,7 +67,6 @@ class AuthController extends ApiController
         $userauth = auth()->user();
         $user->setRememberToken($userauth);
         serialize($user);
-        var_dump($user);
         return $this->respondWithTransformer($userauth);
     }
 

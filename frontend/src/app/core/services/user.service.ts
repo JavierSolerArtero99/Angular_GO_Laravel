@@ -19,16 +19,13 @@ export class UserService {
   constructor(
     private apiService: ApiService,
     private http: HttpClient,
-    private jwtService: JwtService,
-    private jwtServiceAdmin: JwtService
+    private jwtService: JwtService
   ) { }
 
   // Verify JWT in localstorage with server & load user's info.
   // This runs once on application startup.
   populate() {
     // If JWT detected, attempt to get & store user's info
-    console.log('GO TOKEN', this.jwtService.getToken());
-    console.log('LARAVEL TOKEN', this.jwtServiceAdmin.getToken());
     if (this.jwtService.getToken()) {
       this.apiService.getGo('/user')
         .subscribe(
@@ -48,8 +45,8 @@ export class UserService {
   setAuth(user: User) {
     // Save JWT sent from server in localstorage
     this.jwtService.saveToken(user.token);
-    console.log("===TOKEN:===");
-    console.log(user.token);
+    // console.log("===TOKEN:===");
+    // console.log(user.token);
     
     // Set current user data into observable
     this.currentUserSubject.next(user);
@@ -70,20 +67,6 @@ export class UserService {
     const route = (type === 'login') ? '/login' : '';
 
     return this.apiService.postGo('/users' + route, { user: credentials })
-      .pipe(map(
-        data => {
-          console.log("==========================B==========================");
-          this.setAuth(data.user);
-          console.log(data);
-          return data;
-        }
-      ));
-  }
-
-  adminAttemptAuth(credentials): Observable<User> {
-    console.log(credentials);
-    
-    return this.apiService.post('/users/login', { user: credentials })
       .pipe(map(
         data => {
           console.log("==========================B==========================");

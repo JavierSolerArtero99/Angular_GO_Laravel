@@ -2,20 +2,19 @@ package users
 
 import (
 	"fmt"
-
-	"App/common"
-	"net/http"
-	"strings"
-
+	
 	"github.com/dgrijalva/jwt-go"
 	"github.com/dgrijalva/jwt-go/request"
+	"App/common"
 	"github.com/gin-gonic/gin"
+	"net/http"
+	"strings"
 )
 
 // Strips 'TOKEN ' prefix from token string
 func stripBearerPrefixFromTokenString(tok string) (string, error) {
 	// Should be a bearer token
-	if len(tok) > 6 && strings.ToUpper(tok[0:7]) == "BEARER " {
+	if len(tok) >6  && strings.ToUpper(tok[0:7]) == "BEARER " {
 		return tok[7:], nil
 	}
 	return tok, nil
