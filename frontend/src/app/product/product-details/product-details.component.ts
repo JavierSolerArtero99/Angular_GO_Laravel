@@ -19,6 +19,7 @@ export class ProductDetailsComponent implements OnInit {
   commentFormErrors = {};
   isSubmitting = false;
   isDeleting = false;
+  loading: boolean = true;
 
   constructor(
     private productService: ProductService,
@@ -30,9 +31,14 @@ export class ProductDetailsComponent implements OnInit {
   {}
 
   ngOnInit() {
-    this.productService.getProductList(null).subscribe((data) => {
-      this.products = data.products;
-      console.log(data);
+    // slicepara cojer el nombre del producto 
+    let productName = this.router.url.substr(9)
+    
+    // obteniendo los datos del producto
+    this.productService.getSingleProduct(productName).subscribe((data) => {
+      this.product = data.product;
+      this.loading = false
+      console.log(this.product);
     });
   }
 }

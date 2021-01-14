@@ -12,7 +12,7 @@ import (
 
 // Inicialice the products routes
 func setProductRouters(router *mux.Router) *mux.Router {
-	router.HandleFunc("/products/", controllers.GetProducts).Methods("GET")
+	router.HandleFunc("/products", controllers.GetProducts).Methods("GET")
 	router.HandleFunc("/products/product", controllers.GetSingleProducts).Methods("GET")
 	recordMetrics()
 	router.HandleFunc("/metrics", controllers.GetMetrics).Methods("GET")

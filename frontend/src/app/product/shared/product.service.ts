@@ -17,22 +17,21 @@ export class ProductService {
     products: Product[];
     productsCount: number;
   }> {
-    // const params = {};
-
-    // Object.keys(config.filters).forEach((key) => {
-    //   params[key] = config.filters[key];
-    // });
-
-    // return this.apiService.get(
-    //   "/products" + (config.type === "feed" ? "/feed" : ""),
-    //   new HttpParams({ fromObject: params })
-    // );
-
     const params = {};
 
     return this.apiService.getGoProducts(
       "",
       new HttpParams({ fromObject: params })
     );
+  }
+
+  getSingleProduct(
+    productName: string
+  ): Observable<{
+    product: Product;
+  }> {
+    const params = {};
+
+    return this.apiService.getGoProducts(`/product?name=${productName}`);
   }
 }

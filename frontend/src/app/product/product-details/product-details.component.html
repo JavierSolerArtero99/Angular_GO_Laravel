@@ -1,1 +1,45 @@
-<p>Works</p>
+<!-- PRODUCT DETAIL - COMPONENT -->
+
+<!-- product content  -->
+<section [hidden]="loading">
+  <!-- loading product -->
+  <div class="loadingContent" [hidden]="!loading">
+    <h2>Cargando...</h2>
+  </div>
+
+  <div class="productContent">
+    <img
+      class="productImage"
+      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSiit6Cr5HG87c467zUbWo9i0Q7MF2V1QwYqA&usqp=CAU"
+      alt="{{ product.Name }} product image"
+    />
+    <div class="productDescription">
+        <h1>{{ product.Name }}</h1>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCT DETAIL - STYLE -->
+
+<style>
+  .loadingContent {
+  }
+
+  .productContent {
+    display: flex;
+    align-self: center;
+    flex-direction: row;
+    justify-content: center;
+  }
+
+  .productImage {
+    width: 30rem;
+    margin-left: -25%;
+  }
+
+  .productDescription{
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+  }
+</style>

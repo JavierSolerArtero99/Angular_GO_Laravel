@@ -18,7 +18,7 @@ export class ApiService {
     return throwError(error.error);
   }
 
-  /* LARAVEL METHODS */
+  /* ----------------LARAVEL METHODS---------------- */
 
   get(path: string, params: HttpParams = new HttpParams()): Observable<any> {
     return this.http
@@ -44,14 +44,17 @@ export class ApiService {
       .pipe(catchError(this.formatErrors));
   }
 
-  /* GO METHODS FOR: USERS*/
+  /* ----------------GO: USERS---------------- */
+
+  // PETITIONS - GET
 
   getGo(path: string, params: HttpParams = new HttpParams()): Observable<any> {
-
     return this.http
       .get(`${environment.go_url}${path}`, { params })
       .pipe(catchError(this.formatErrors));
   }
+
+  // PETITIONS - POST
 
   postGo(path: string, body: Object = {}): Observable<any> {
     return this.http
@@ -59,17 +62,20 @@ export class ApiService {
       .pipe(catchError(this.formatErrors));
   }
 
-  /* GO METHODS FOR: USERS*/
+  /* ----------------GO: PRODUCTS---------------- */
+
+  // PETITIONS - GET
 
   getGoProducts(
     path: string,
     params: HttpParams = new HttpParams()
   ): Observable<any> {
-
     return this.http
       .get(`${environment.go_products_url}${path}`, { params })
       .pipe(catchError(this.formatErrors));
   }
+
+  // PETITIONS - POST
 
   postGoProducts(path: string, body: Object = {}): Observable<any> {
     return this.http
