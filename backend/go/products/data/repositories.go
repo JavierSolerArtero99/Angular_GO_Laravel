@@ -3,6 +3,8 @@ package data
 import (
 	"fmt"
 
+	// "time"
+
 	"products/common"
 	"products/models"
 )
@@ -54,4 +56,20 @@ func FindSingleProduct(name string) (models.Products, error) {
 	}
 
 	return p, nil
+}
+
+// Save a product
+func SaveComment(commentToSave models.Comment) (models.Comment, error) {
+	db := common.GetDB()
+	// commentToSave.Date =  time.Now().Unix() + ""
+	err := db.Create(&commentToSave).Error
+
+	return commentToSave, err
+}
+
+// Save a product
+func DeleteComment(commentToDelete models.Comment) (models.Comment, error) {
+	db := common.GetDB()
+	err := db.Delete(&models.Comment{}, commentToDelete.ID).Error
+	return commentToDelete, err
 }

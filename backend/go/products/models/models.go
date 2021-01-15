@@ -21,14 +21,13 @@ type (
 	}
 )
 
-
 type (
 	Comment struct {
-		ID          uint    `gorm:"primary_key"`
-		UserID     	uint 	
-		ProductID  	uint 	
-		Message	   	string
-		Date		string
-		Likes		int
+		ID          uint    `gorm:"primary_key" json:"Id`
+		UserID     	uint 	`gorm:"foreignKey:ID" json:"UserID"`
+		ProductID  	uint 	`json:"ProductID"`
+		Message	   	string	`json:"Message"`
+		Date		string	`json:"Date"`
+		Likes		int		`json:"Likes"`
 	}
 )

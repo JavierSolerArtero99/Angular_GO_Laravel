@@ -1,11 +1,15 @@
 package controllers
 
 import (
-	// "fmt"
+	"fmt"
 	"encoding/json"
 	"net/http"
+	// "io/ioutil"
+	// "github.com/gin-gonic/gin"
+
 
 	"products/data"
+	"products/models"
 
 	"products/common"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
@@ -83,3 +87,72 @@ func GetMetrics(w http.ResponseWriter, r *http.Request) {
 	promhttp.Handler()
 }
 
+func PostComment(w http.ResponseWriter, r *http.Request) {
+	headerContentTtype := r.Header.Get("Content-Type")
+	if headerContentTtype != "application/json" {
+		// errorResponse(w, "Content Type is not application/json", http.StatusUnsupportedMediaType)
+		return
+	}
+
+	var c models.Comment
+
+	decoder := json.NewDecoder(r.Body)
+	decoder.DisallowUnknownFields()
+	err := decoder.Decode(&c)
+
+	if err != nil {
+		fmt.Println("There is errors")
+		fmt.Println(err)
+		return
+	}
+		
+	savedComment, saveErr := data.SaveComment(c)
+
+	if saveErr != nil {
+		fmt.Println("There is errors saving the comment")
+		fmt.Println(saveErr)
+		fmt.Println(savedComment)
+		return
+	}
+
+	fmt.Println("---saved Comment---")
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+}
+
+func DeleteComment(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("There is errors saving the comment")
+
+	headerContentTtype := r.Header.Get("Content-Type")
+	if headerContentTtype != "application/json" {
+		// errorResponse(w, "Content Type is not application/json", http.StatusUnsupportedMediaType)
+		return
+	}
+
+	var c models.Comment
+
+	decoder := json.NewDecoder(r.Body)
+	decoder.DisallowUnknownFields()
+	err := decoder.Decode(&c)
+
+	if err != nil {
+		fmt.Println("There is errors")
+		fmt.Println(err)
+		return
+	}
+		
+	deletedComment, deleteErr := data.DeleteComment(c)
+
+	if deleteErr != nil {
+		fmt.Println("There is errors saving the comment")
+		fmt.Println(deleteErr)
+		fmt.Println(deletedComment)
+		return
+	}
+
+	fmt.Println("---deleted Comment---")
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+}
