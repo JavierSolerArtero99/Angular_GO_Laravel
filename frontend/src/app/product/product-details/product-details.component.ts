@@ -4,6 +4,9 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { User } from "../../core";
 import { Product } from "../shared/product.model";
 import { ProductService } from "../shared/product.service";
+import {
+  Comment,
+} from "../../core";
 
 @Component({
   selector: "app-product-details",
@@ -38,6 +41,7 @@ export class ProductDetailsComponent implements OnInit {
     this.productService.getSingleProduct(productName).subscribe((data) => {
       this.product = data.product;
       this.loading = false
+      this.comments = data.product.comments
       console.log(this.product);
     });
   }

@@ -11,6 +11,7 @@ import { ShowAuthedDirective } from './show-authed.directive';
 import { ListProductsComponent } from '../product/list-products/list-products.component';
 import { ProductPreviewComponent } from '../product/product-preview/product-preview.component';
 import { ProductDetailsComponent } from '../product/product-details/product-details.component';
+import { ProductCommentComponent } from '../product/product-comment/product-comment.component';
 
 @NgModule({
   imports: [
@@ -21,6 +22,7 @@ import { ProductDetailsComponent } from '../product/product-details/product-deta
     RouterModule,
   ],
   declarations: [
+    ProductCommentComponent,
     ListProductsComponent,
     ProductDetailsComponent,
     ProductPreviewComponent,
@@ -33,6 +35,7 @@ import { ProductDetailsComponent } from '../product/product-details/product-deta
     ShowAuthedDirective,
   ],
   exports: [
+    ProductCommentComponent,
     ListProductsComponent,
     ProductDetailsComponent,
     ProductPreviewComponent,

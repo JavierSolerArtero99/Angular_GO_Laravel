@@ -4,6 +4,8 @@
   [hidden]="!loading"
 />
 
+<p [hidden]="!loading">Loading</p>
+
 <app-product-preview
   *ngFor="let product of results"
   [product]="product"

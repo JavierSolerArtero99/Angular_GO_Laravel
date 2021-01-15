@@ -5,7 +5,7 @@ import (
 
 type (
 	Products struct {
-		ID		  uint			`gorm:"primary_key" json:"-"`
+		ID		  uint			`gorm:"primary_key" json:"Id"`
 		Name      string        
 		Likes	  int
 		User      uint			`json:"-"`

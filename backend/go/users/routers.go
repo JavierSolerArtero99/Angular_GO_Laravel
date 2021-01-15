@@ -1,8 +1,7 @@
 package users
 
 import (
-	"fmt"
-		"errors"
+	"errors"
 	"net/http"
 
 	"App/common"
