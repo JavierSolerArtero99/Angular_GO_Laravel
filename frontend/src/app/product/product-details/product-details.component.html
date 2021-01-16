@@ -21,7 +21,7 @@
   <div class="comments" [hidden]="loading">
     <div class="addComments">
       <textarea placeholder="Comment" type="text" class="form-control form-control-lg ng-pristine ng-valid ng-touched"></textarea>
-      <button class="sendButton btn btn-lg pull-xs-right btn-primary">Add Comment</button>
+      <button class="sendButton btn btn-lg pull-xs-right btn-primary" (click)="publisComment()">Add Comment</button>
     </div>
     <h3>Comments</h3>
     <app-product-comment

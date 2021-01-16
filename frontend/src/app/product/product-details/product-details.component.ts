@@ -4,9 +4,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { User } from "../../core";
 import { Product } from "../shared/product.model";
 import { ProductService } from "../shared/product.service";
-import {
-  Comment,
-} from "../../core";
+import { Comment } from "../../core";
 
 @Component({
   selector: "app-product-details",
@@ -29,20 +27,31 @@ export class ProductDetailsComponent implements OnInit {
     private route: ActivatedRoute,
     // private articlesService: ArticlesService,
     // private commentsService: CommentsService,
-    private router: Router
-  ) // private userService: UserService
-  {}
+    private router: Router // private userService: UserService
+  ) {}
 
   ngOnInit() {
-    // slicepara cojer el nombre del producto 
-    let productName = this.router.url.substr(9)
-    
+    // slicepara cojer el nombre del producto
+    let productName = this.router.url.substr(9);
+
     // obteniendo los datos del producto
     this.productService.getSingleProduct(productName).subscribe((data) => {
       this.product = data.product;
-      this.loading = false
-      this.comments = data.product.comments
+      this.loading = false;
+      this.comments = data.product.comments;
       console.log(this.product);
+    });
+  }
+
+  publisComment() {
+    let comment = {
+      UserID: 1,
+      ProductID: 1,
+      Message: "Ta normal",
+    };
+
+    this.productService.postComment(comment).subscribe((data) => {
+      console.log(data)
     });
   }
 }

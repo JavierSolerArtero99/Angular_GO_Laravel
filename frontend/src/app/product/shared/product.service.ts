@@ -4,6 +4,7 @@ import { Observable } from "rxjs";
 import { Product } from "./product.model";
 import { HttpParams } from "@angular/common/http";
 import { ProductListConfig } from "./product-list-config.model";
+import { map } from "rxjs/operators";
 
 @Injectable({
   providedIn: "root",
@@ -33,5 +34,15 @@ export class ProductService {
     const params = {};
 
     return this.apiService.getGoProducts(`/product?name=${productName}`);
+  }
+
+  postComment(comment: any): Observable<Comment> {
+    return this.apiService
+      .postGoProducts(`/comment`, {
+        UserID: comment.UserID,
+        ProductID: comment.ProductID,
+        Message: comment.Message,
+      })
+      .pipe(map((data) => data));
   }
 }
