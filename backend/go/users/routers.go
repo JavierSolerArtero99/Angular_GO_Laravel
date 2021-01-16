@@ -1,21 +1,40 @@
 package users
 
 import (
+	"encoding/json"
 	"errors"
+	"fmt"
 	"net/http"
 
 	"App/common"
 
 	"github.com/gin-gonic/gin"
+	"github.com/go-redis/redis"
 )
 
 func UsersRegister(router *gin.RouterGroup) {
+	router.GET("/redis/:username", Redis)
 	router.POST("/", UsersRegistration)
 	router.POST("/login", UsersLogin)
 }
 
-func helloworld(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{"profile": "Hola mundo"})
+func Redis(c *gin.Context) {
+	// username := c.Param("username")
+
+	// client := redis.NewClient(&redis.Options{
+	// 	Addr:     "redis:6379",
+	// 	Password: "",
+	// 	DB:       0,
+	// })
+
+	// result, err := client.Get(username).Result()
+	// if err != nil {
+	// 	fmt.Println(err)
+	// }
+
+	a := c.ClientIP()
+
+	c.JSON(http.StatusOK, gin.H{"ip": a})
 }
 
 func UserRegister(router *gin.RouterGroup) {
@@ -104,14 +123,33 @@ func UsersLogin(c *gin.Context) {
 		return
 	}
 
-	// if userModel.checkPassword(loginValidator.User.Password) != nil {
-	// 	c.JSON(http.StatusForbidden, common.NewError("login", errors.New("Not Registered email or invalid password")))
-	// 	return
-	// }
+	if userModel.checkPassword(loginValidator.User.Password) != nil {
+		c.JSON(http.StatusForbidden, common.NewError("login", errors.New("Not Registered email or invalid password")))
+		return
+	}
+
+	// Let's encrypt
+
 	UpdateContextusers(c, userModel.ID)
 	serializer := UserSerializer{c}
 
-	c.JSON(http.StatusOK, gin.H{"user": serializer.Response()})
+	client := redis.NewClient(&redis.Options{
+		Addr:     "redis:6379",
+		Password: "",
+		DB:       0,
+	})
+
+	json, err := json.Marshal(serializer.Response())
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	err = client.Set(serializer.Response().Username, json, 0).Err()
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	c.JSON(http.StatusOK, gin.H{"user": userModel})
 }
 
 func UserRetrieve(c *gin.Context) {
