@@ -20,8 +20,36 @@
 
   <div class="comments" [hidden]="loading">
     <div class="addComments">
-      <textarea placeholder="Comment" type="text" class="form-control form-control-lg ng-pristine ng-valid ng-touched"></textarea>
-      <button class="sendButton btn btn-lg pull-xs-right btn-primary" (click)="publisComment()">Add Comment</button>
+      <div class="errorComments" [hidden]="!commentErrorMessage">
+        <p>{{ commentErrorMessage }}</p>
+      </div>
+      <div class="successComment" [hidden]="!commentSuccessMessage">
+        <p>{{ commentSuccessMessage }}</p>
+      </div>
+
+
+
+
+      <form [formGroup]="form">
+        <textarea
+          placeholder="Comment"
+          type="text"
+          class="form-control form-control-lg ng-pristine ng-valid ng-touched"
+          formControlName="commentMessage"
+        ></textarea>
+      </form>
+
+
+
+
+
+      
+      <button
+        class="sendButton btn btn-lg pull-xs-right btn-primary"
+        (click)="publisComment()"
+      >
+        Add Comment
+      </button>
     </div>
     <h3>Comments</h3>
     <app-product-comment
@@ -53,9 +81,29 @@
     justify-content: center;
   }
 
-  .addComments{
+  .addComments {
     margin-top: 3rem;
     margin-bottom: 3rem;
+  }
+
+  .errorComments {
+    padding: 1rem;
+    color: white;
+    font-weight: bold;
+    font-size: 1rem;
+    border-radius: 20px;
+    background-color: rgb(223, 37, 37);
+    margin-bottom: 2rem;
+  }
+
+  .successComment{
+     padding: 1rem;
+    color: white;
+    font-weight: bold;
+    font-size: 1rem;
+    border-radius: 20px;
+    background-color: rgb(37, 223, 53);
+    margin-bottom: 2rem;
   }
 
   .comments {
