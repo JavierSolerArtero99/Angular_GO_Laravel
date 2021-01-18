@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Article;
+use App\Product;
 use App\Comment;
 use App\Http\Requests\Api\CreateComment;
 use App\Http\Requests\Api\DeleteComment;
@@ -24,28 +24,28 @@ class CommentController extends ApiController
     }
 
     /**
-     * Get all the comments of the article given by its slug.
+     * Get all the comments of the product given by its slug.
      *
-     * @param Article $article
+     * @param Product $product
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index(Article $article)
+    public function index(Product $product)
     {
-        $comments = $article->comments()->get();
+        $comments = $product->comments()->get();
 
         return $this->respondWithTransformer($comments);
     }
 
     /**
-     * Add a comment to the article given by its slug and return the comment if successful.
+     * Add a comment to the product given by its slug and return the comment if successful.
      *
      * @param CreateComment $request
-     * @param Article $article
+     * @param Product $product
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(CreateComment $request, Article $article)
+    public function store(CreateComment $request, Product $product)
     {
-        $comment = $article->comments()->create([
+        $comment = $product->comments()->create([
             'body' => $request->input('comment.body'),
             'user_id' => auth()->id(),
         ]);
@@ -57,11 +57,11 @@ class CommentController extends ApiController
      * Delete the comment given by its id.
      *
      * @param DeleteComment $request
-     * @param $article
+     * @param $product
      * @param Comment $comment
      * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy(DeleteComment $request, $article, Comment $comment)
+    public function destroy(DeleteComment $request, $product, Comment $comment)
     {
         $comment->delete();
 

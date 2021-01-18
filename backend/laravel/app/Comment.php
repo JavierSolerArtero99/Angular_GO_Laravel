@@ -35,12 +35,12 @@ class Comment extends Model
     }
 
     /**
-     * Get the article that owns the comment.
+     * Get the Product that owns the comment.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function article()
+    public function product()
     {
-        return $this->belongsTo(Article::class);
+        return $this->belongsTo(Product::class);
     }
 }

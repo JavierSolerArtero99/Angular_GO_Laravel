@@ -7,7 +7,7 @@ use App\RealWorld\Filters\Filterable;
 use App\RealWorld\Favorite\Favoritable;
 use Illuminate\Database\Eloquent\Model;
 
-class Article extends Model
+class Product extends Model
 {
     use Favoritable, Filterable, HasSlug;
 
@@ -17,11 +17,11 @@ class Article extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'price', 'image'
+        'name', 'price', 'image', 'likes'
     ];
 
     /**
-     * Get the user that owns the article.
+     * Get the user that owns the Product.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -47,16 +47,16 @@ class Article extends Model
      */
     public function getSlugSourceColumn()
     {
-        return 'title';
+        return 'name';
     }
 
     /**
-     * Get list of values which are not allowed for this resource
+     * Get all the comments for the product.
      *
-     * @return array
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function getBannedSlugValues()
+    public function comments()
     {
-        return ['feed'];
+        return $this->hasMany(Comment::class)->latest();
     }
 }

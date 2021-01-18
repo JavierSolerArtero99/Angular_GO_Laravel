@@ -54,7 +54,7 @@ export class ProductDetailsComponent implements OnInit {
     });
   }
 
-  publisComment() {
+  publishComment() {
     let token = this.jwtService.getToken();
 
     if (!token) {
