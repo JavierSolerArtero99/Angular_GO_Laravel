@@ -99,6 +99,15 @@ func (model *users) Update(data interface{}) error {
 	return err
 }
 
+// You could update properties of an users to database returning with error info.
+//  err := db.Model(userModel).Update(users{Username: "wangzitian0"}).Error
+func UpdateTempkey(id uint, tempkey string) error {
+	db := common.GetDB()
+	var model users
+	err := db.Model(model).Where("id = ?", id).Update("Tempkey", tempkey).Error
+	return err
+}
+
 // You could add a following relationship as userModel1 following userModel2
 // 	err = userModel1.following(userModel2)
 func (u users) following(v users) error {

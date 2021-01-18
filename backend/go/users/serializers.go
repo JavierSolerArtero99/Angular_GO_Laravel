@@ -40,6 +40,7 @@ type UserSerializer struct {
 }
 
 type UserResponse struct {
+	ID       uint    `json:id`
 	Username string  `json:"username"`
 	Email    string  `json:"email"`
 	Bio      string  `json:"bio"`
@@ -51,6 +52,7 @@ type UserResponse struct {
 func (self *UserSerializer) Response() UserResponse {
 	myusers := self.c.MustGet("my_user_model").(users)
 	user := UserResponse{
+		ID:       myusers.ID,
 		Username: myusers.Username,
 		Email:    myusers.Email,
 		Bio:      myusers.Bio,
