@@ -16,6 +16,7 @@ Route::group(['namespace' => 'Api'], function () {
     Route::post('users/login', 'AuthController@login');
     Route::get('hello', 'AuthController@hello');
     Route::post('users', 'AuthController@register');
+    Route::get('users/connectedUsers', 'AuthController@currentUsers');
 
     Route::get('user', 'UserController@index');
     Route::match(['put', 'patch'], 'user', 'UserController@update');
@@ -35,6 +36,21 @@ Route::group(['namespace' => 'Api'], function () {
     ]);
 
     Route::resource('articles/{article}/comments', 'CommentController', [
+        'only' => [
+            'index', 'store', 'destroy'
+        ]
+    ]);
+
+    Route::post('products/{product}/favorite', 'FavoriteController@add');
+    Route::delete('products/{product}/favorite', 'FavoriteController@remove');
+
+    Route::resource('products', 'ProductController', [
+        'except' => [
+            'create', 'edit'
+        ]
+    ]);
+
+    Route::resource('products/{product}/comments', 'CommentController', [
         'only' => [
             'index', 'store', 'destroy'
         ]

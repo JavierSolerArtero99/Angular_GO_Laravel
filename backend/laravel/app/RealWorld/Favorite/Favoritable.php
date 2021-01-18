@@ -7,7 +7,7 @@ use App\User;
 trait Favoritable
 {
     /**
-     * Check if the authenticated user has favorited the article.
+     * Check if the authenticated user has favorited the product.
      * We make use of lazy loading if the relationship is not already loaded.
      *
      * @return bool
@@ -34,7 +34,7 @@ trait Favoritable
     }
 
     /**
-     * Get the favorites count of the article.
+     * Get the favorites count of the product.
      *
      * @return integer
      */
@@ -48,17 +48,17 @@ trait Favoritable
     }
 
     /**
-     * Get the users that favorited the article.
+     * Get the users that favorited the product.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function favorited()
     {
-        return $this->belongsToMany(User::class, 'favorites', 'article_id', 'user_id')->withTimestamps();
+        return $this->belongsToMany(User::class, 'favorites', 'product_id', 'user_id')->withTimestamps();
     }
 
     /**
-     * Check if the article is favorited by the given user.
+     * Check if the product is favorited by the given user.
      *
      * @param User $user
      * @return bool

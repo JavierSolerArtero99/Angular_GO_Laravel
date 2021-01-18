@@ -68,6 +68,15 @@ class AuthController extends ApiController
     }
 
     /**
+     * Return redis current users
+     */
+    public function currentUsers()
+    {
+        $result = array("users"=>Redis::get("current_users"));
+        return json_encode($result);
+    }
+
+    /**
      * Register a new user and return the user if successful.
      *
      * @param RegisterUser $request

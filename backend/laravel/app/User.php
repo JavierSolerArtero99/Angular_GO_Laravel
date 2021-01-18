@@ -52,11 +52,11 @@ class User extends Authenticatable implements JWTSubject
     }
 
     /**
-     * Get all the articles by the user.
+     * Get all the products by the user.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function articles()
+    public function products()
     {
         return $this->hasMany(Article::class)->latest();
     }
@@ -72,7 +72,7 @@ class User extends Authenticatable implements JWTSubject
     }
 
     /**
-     * Get all the articles of the following users.
+     * Get all the products of the following users.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */

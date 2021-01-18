@@ -2,53 +2,53 @@
 
 namespace App\RealWorld\Favorite;
 
-use App\Article;
+use App\Product;
 
 trait HasFavorite
 {
     /**
-     * Favorite the given article.
+     * Favorite the given product.
      *
-     * @param Article $article
+     * @param Product $product
      * @return mixed
      */
-    public function favorite(Article $article)
+    public function favorite(Product $product)
     {
-        if (! $this->hasFavorited($article))
+        if (! $this->hasFavorited($product))
         {
-            return $this->favorites()->attach($article);
+            return $this->favorites()->attach($product);
         }
     }
 
     /**
-     * Unfavorite the given article.
+     * Unfavorite the given product.
      *
-     * @param Article $article
+     * @param Product $product
      * @return mixed
      */
-    public function unFavorite(Article $article)
+    public function unFavorite(Product $product)
     {
-        return $this->favorites()->detach($article);
+        return $this->favorites()->detach($product);
     }
 
     /**
-     * Get the articles favorited by the user.
+     * Get the products favorited by the user.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function favorites()
     {
-        return $this->belongsToMany(Article::class, 'favorites', 'user_id', 'article_id')->withTimestamps();
+        return $this->belongsToMany(Product::class, 'favorites', 'user_id', 'product_id')->withTimestamps();
     }
 
     /**
-     * Check if the user has favorited the given article.
+     * Check if the user has favorited the given product.
      *
-     * @param Article $article
+     * @param Product $product
      * @return bool
      */
-    public function hasFavorited(Article $article)
+    public function hasFavorited(Product $product)
     {
-        return !! $this->favorites()->where('article_id', $article->id)->count();
+        return !! $this->favorites()->where('product_id', $product->id)->count();
     }
 }
