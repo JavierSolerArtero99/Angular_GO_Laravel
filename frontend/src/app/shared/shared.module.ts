@@ -12,6 +12,7 @@ import { ListProductsComponent } from '../product/list-products/list-products.co
 import { ProductPreviewComponent } from '../product/product-preview/product-preview.component';
 import { ProductDetailsComponent } from '../product/product-details/product-details.component';
 import { ProductCommentComponent } from '../product/product-comment/product-comment.component';
+import { PanelComponent } from '../panel-admin/panel/panel.component';
 
 @NgModule({
   imports: [
