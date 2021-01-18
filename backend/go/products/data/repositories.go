@@ -53,6 +53,13 @@ func FindSingleProduct(name string) (models.Products, error) {
 	
 		p.Comments = c
 		p.UserModel = u
+
+		// pupulate the comment author
+		for i, commentIteration := range p.Comments {
+			var commentAuthor models.User
+			db.Find(&commentIteration).Related(&commentAuthor, "user")
+			p.Comments[i].User = commentAuthor
+		}
 	}
 
 	return p, nil
