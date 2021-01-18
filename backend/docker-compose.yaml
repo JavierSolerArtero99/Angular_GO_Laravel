@@ -1,12 +1,4 @@
 version: "3"
-x-command: 
-  &default-command >
-      bash -c " rm -f go.mod || true
-      && rm -f go.sum || true
-      && go mod init $$MICROSERVICIO
-      && go mod tidy
-      && go get github.com/pilu/fresh
-      && fresh "
 
 services:
   database:
@@ -52,9 +44,13 @@ services:
     restart: "always"
     networks:
       - servidor_network
-    environment:
-      MICROSERVICIO: App
-    command: *default-command
+    command: >
+      bash -c " rm -f go.mod || true
+      && rm -f go.sum || true
+      && go mod init App
+      && go mod tidy
+      && go get github.com/pilu/fresh
+      && fresh "
     depends_on:
       - database
       - redis
@@ -68,9 +64,13 @@ services:
       - ./go/products:/go/src/products
     ports:
       - "8091:8080"
-    environment:
-      MICROSERVICIO: products
-    command: *default-command
+    command: >
+      bash -c " rm -f go.mod || true
+      && rm -f go.sum || true
+      && go mod init products
+      && go mod tidy
+      && go get github.com/pilu/fresh
+      && fresh "
     depends_on:
       - database
       - redis

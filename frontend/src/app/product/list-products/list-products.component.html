@@ -1,0 +1,12 @@
+<img
+  src="https://www.flaticon.com/svg/vstatic/svg/889/889843.svg?token=exp=1610364796~hmac=7c2a13007697336d65f1c68bf14c9ba0"
+  height="40%"
+  [hidden]="!loading"
+/>
+
+<p [hidden]="!loading">Loading</p>
+
+<app-product-preview
+  *ngFor="let product of results"
+  [product]="product"
+></app-product-preview>
