@@ -37,6 +37,7 @@ export class ProductService {
   }
 
   postComment(comment: any): Observable<Comment> {
+    console.log(comment)
     return this.apiService
       .postGoProducts(`/comment`, {
         UserID: comment.UserID,
