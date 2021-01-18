@@ -34,6 +34,7 @@ export class ArticleComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    
     // Retreive the prefetched article
     this.route.data.subscribe(
       (data: { article: Article }) => {

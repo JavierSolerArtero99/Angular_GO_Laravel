@@ -8,6 +8,10 @@ import { ArticleListComponent, ArticleMetaComponent, ArticlePreviewComponent } f
 import { FavoriteButtonComponent, FollowButtonComponent } from './buttons';
 import { ListErrorsComponent } from './list-errors.component';
 import { ShowAuthedDirective } from './show-authed.directive';
+import { ListProductsComponent } from '../product/list-products/list-products.component';
+import { ProductPreviewComponent } from '../product/product-preview/product-preview.component';
+import { ProductDetailsComponent } from '../product/product-details/product-details.component';
+import { ProductCommentComponent } from '../product/product-comment/product-comment.component';
 
 @NgModule({
   imports: [
@@ -15,18 +19,26 @@ import { ShowAuthedDirective } from './show-authed.directive';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    RouterModule
+    RouterModule,
   ],
   declarations: [
+    ProductCommentComponent,
+    ListProductsComponent,
+    ProductDetailsComponent,
+    ProductPreviewComponent,
     ArticleListComponent,
     ArticleMetaComponent,
     ArticlePreviewComponent,
     FavoriteButtonComponent,
     FollowButtonComponent,
     ListErrorsComponent,
-    ShowAuthedDirective
+    ShowAuthedDirective,
   ],
   exports: [
+    ProductCommentComponent,
+    ListProductsComponent,
+    ProductDetailsComponent,
+    ProductPreviewComponent,
     ArticleListComponent,
     ArticleMetaComponent,
     ArticlePreviewComponent,
@@ -38,7 +50,7 @@ import { ShowAuthedDirective } from './show-authed.directive';
     HttpClientModule,
     ListErrorsComponent,
     RouterModule,
-    ShowAuthedDirective
-  ]
+    ShowAuthedDirective,
+  ],
 })
 export class SharedModule {}

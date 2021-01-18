@@ -78,7 +78,7 @@ func ProfileUnfollow(c *gin.Context) {
 func UsersRegistration(c *gin.Context) {
 	userModelValidator := NewusersValidator()
 	if err := userModelValidator.Bind(c); err != nil {
-		c.JSON(http.StatusUnprocessableEntity, common.NewValidatorError(err))
+		c.JSON(http.StatusUnprocessableEntity, common.NewError("validation", err))
 		return
 	}
 

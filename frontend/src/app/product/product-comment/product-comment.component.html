@@ -1,0 +1,22 @@
+<!-- COMMENT COMPONENT -->
+
+<section class="commentContent">
+  <h6>Author: {{ comment.Author.Username }}</h6>
+  <p>{{ comment.Message }}</p>
+</section>
+
+<!-- COMMENT STYLE -->
+
+<style>
+  .commentContent {
+    padding: 2rem;
+    padding-left: 10rem;
+    padding-right: 10rem;
+    display: flex;
+    flex-direction: column;
+    border-radius: 20px;
+    align-items: center;
+    box-shadow: 0 5px 10px rgba(154, 160, 185, 0.05),
+      0 15px 40px rgba(166, 173, 201, 0.2);
+  }
+</style>
