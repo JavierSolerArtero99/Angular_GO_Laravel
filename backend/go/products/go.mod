@@ -1,7 +1,6 @@
 module products
 
 go 1.15
-<<<<<<< HEAD
 
 require (
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
@@ -17,5 +16,3 @@ require (
 	gopkg.in/go-playground/assert.v1 v1.2.1 // indirect
 	gopkg.in/go-playground/validator.v8 v8.18.2
 )
-=======
->>>>>>> 2c0da2045435f742137f90ed32a3e0ad4dc24df2

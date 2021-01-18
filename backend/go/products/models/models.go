@@ -21,7 +21,7 @@ type (
 type (
 	Comment struct {
 		ID        uint   `gorm:"primary_key" json:"Id`
-		UserID    uint   `gorm:"foreignKey:ID" json:"-"`
+		UserID    uint   `gorm:"foreignKey:ID" json:"UserID"`
 		User      User   `json:"Author"`
 		ProductID uint   `json:"ProductID"`
 		Message   string `json:"Message"`
