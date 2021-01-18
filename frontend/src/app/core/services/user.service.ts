@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, BehaviorSubject, ReplaySubject } from 'rxjs';
 
 import { ApiService } from './api.service';
@@ -61,6 +61,8 @@ export class UserService {
     this.currentUserSubject.next({} as User);
     // Set auth status to false
     this.isAuthenticatedSubject.next(false);
+    // Set tempket to null
+    this.deleteTempkey();
   }
 
   attemptAuth(type, credentials): Observable<User> {
@@ -71,6 +73,19 @@ export class UserService {
         data => {
           console.log("==========================B==========================");
           this.setAuth(data.user);
+          console.log(data);
+          return data;
+        }
+      ));
+  }
+
+  adminAttemptAuth(credentials): Observable<User> {
+    
+    return this.apiService.post('/users/login', { user: credentials },)
+      .pipe(map(
+        data => {
+          console.log("==========================ADMIN==========================");
+          // this.setAuth(data.user);
           console.log(data);
           return data;
         }
@@ -90,5 +105,14 @@ export class UserService {
         this.currentUserSubject.next(data.user);
         return data.user;
       }));
+  }
+
+  // Delete tempkey
+  deleteTempkey() {
+    return this.apiService
+      .put('/user/logout', this.getCurrentUser())
+      .pipe(map(data => {
+        return data;
+      }))
   }
 }
