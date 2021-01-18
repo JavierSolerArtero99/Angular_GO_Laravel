@@ -1,21 +1,41 @@
 package users
 
 import (
+	"encoding/json"
 	"errors"
+	"fmt"
 	"net/http"
+	"strconv"
+	"strings"
 
 	"App/common"
 
 	"github.com/gin-gonic/gin"
+	"github.com/go-redis/redis"
 )
 
 func UsersRegister(router *gin.RouterGroup) {
+	router.GET("/redis/:username", Redis)
 	router.POST("/", UsersRegistration)
 	router.POST("/login", UsersLogin)
+	router.PUT("/logout", UsersLogout)
 }
 
-func helloworld(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{"profile": "Hola mundo"})
+func Redis(c *gin.Context) {
+	// username := c.Param("username")
+
+	client := redis.NewClient(&redis.Options{
+		Addr:     "redis:6379",
+		Password: "",
+		DB:       0,
+	})
+
+	result, err := client.Get("current_users").Result()
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	c.JSON(http.StatusOK, gin.H{"current_users": result})
 }
 
 func UserRegister(router *gin.RouterGroup) {
@@ -104,14 +124,135 @@ func UsersLogin(c *gin.Context) {
 		return
 	}
 
-	// if userModel.checkPassword(loginValidator.User.Password) != nil {
-	// 	c.JSON(http.StatusForbidden, common.NewError("login", errors.New("Not Registered email or invalid password")))
-	// 	return
-	// }
+	if userModel.checkPassword(loginValidator.User.Password) != nil {
+		c.JSON(http.StatusForbidden, common.NewError("login", errors.New("Not Registered email or invalid password")))
+		return
+	}
+
 	UpdateContextusers(c, userModel.ID)
 	serializer := UserSerializer{c}
 
+	// Let's encrypt
+
+	id := serializer.Response().ID
+	username := serializer.Response().Username
+	password := loginValidator.User.Password
+
+	// Encrypting id
+	encrypted := strconv.Itoa(int(id)*len(username)) + "@"
+
+	// Encrypting username
+	for _, char := range username {
+		encrypted += strconv.Itoa(int(char)*len(username)) + "%"
+	}
+
+	encrypted = encrypted[:len(encrypted)-1] + "#"
+
+	// Encrypting password
+	for _, char := range password {
+		encrypted += strconv.Itoa(int(char)*int(char)*int(id)) + "&"
+	}
+
+	encrypted = encrypted[:len(encrypted)-1] + "!"
+
+	// Encrypting ip
+	for _, char := range strings.Split(c.ClientIP(), ".") {
+		num, err := strconv.Atoi(char)
+		if err != nil {
+			return
+		}
+		encrypted += strconv.Itoa(num*num) + "$"
+	}
+
+	encrypted = encrypted[:len(encrypted)-1]
+
+	// Save new tempkey on db
+
+	err = UpdateTempkey(id, encrypted)
+	if err != nil {
+		return
+	}
+
+	client := redis.NewClient(&redis.Options{
+		Addr:     "redis:6379",
+		Password: "",
+		DB:       0,
+	})
+
+	json, err := json.Marshal(serializer.Response())
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	// Save user loged on redis
+	err = client.Set(serializer.Response().Username, json, 0).Err()
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	// Add new user connected
+	value, err := client.Get("current_users").Result()
+
+	num := 0
+	if len(value) > 0 {
+		num, err = strconv.Atoi(value)
+		if err != nil {
+			return
+		}
+
+	}
+
+	err = client.Set("current_users", num+1, 0).Err()
+	if err != nil {
+		fmt.Println(err)
+	}
+
 	c.JSON(http.StatusOK, gin.H{"user": serializer.Response()})
+}
+
+func UsersLogout(c *gin.Context) {
+	loginValidator := NewLoginValidator()
+	if err := loginValidator.Bind(c); err != nil {
+		c.JSON(http.StatusUnprocessableEntity, common.NewValidatorError(err))
+		return
+	}
+
+	userModel, err := FindOneUser(&users{Email: loginValidator.userModel.Email})
+	UpdateContextusers(c, userModel.ID)
+	serializer := UserSerializer{c}
+
+	err = UpdateTempkey(serializer.Response().ID, "")
+	if err != nil {
+		return
+	}
+
+	client := redis.NewClient(&redis.Options{
+		Addr:     "redis:6379",
+		Password: "",
+		DB:       0,
+	})
+
+	value, err := client.Get("current_users").Result()
+
+	num := 1
+	if len(value) > 0 {
+		num, err = strconv.Atoi(value)
+		if err != nil {
+			return
+		}
+
+	}
+
+	err = client.Set("current_users", num-1, 0).Err()
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	err = client.Del(serializer.Response().Username).Err()
+	if err != nil {
+		fmt.Println(err)
+	}
+	c.JSON(http.StatusOK, gin.H{"user": "success"})
 }
 
 func UserRetrieve(c *gin.Context) {

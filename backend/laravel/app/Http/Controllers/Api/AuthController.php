@@ -7,7 +7,9 @@ use App\User;
 use App\Http\Requests\Api\LoginUser;
 use App\Http\Requests\Api\RegisterUser;
 use App\RealWorld\Transformers\UserTransformer;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;
+use Illuminate\Support\Facades\Validator;
 
 class AuthController extends ApiController
 {
@@ -27,23 +29,42 @@ class AuthController extends ApiController
      * @param LoginUser $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function login(LoginUser $request)
+    public function login(Request $request)
     {
-        Redis::set('user', $request);
-        if ($data = Redis::get('user')) {
-            json_decode($data);
-            echo $data->only('user');
-            die;
-        };
 
-        $credentials = $request->only('user.email', 'user.password');
+        $credentials = !$request['body'] ? $request->only('user.email', 'user.username') : $request['body'];
+
         $credentials = $credentials['user'];
+        $credentials['password'] = 'null';
+
+        $validator = Validator::make(
+            $credentials,
+            [
+                'email' => 'required|email|max:255',
+            ]
+        );
+        if ($validator->fails())
+        {
+            return $this->respondFailedLogin();
+        }
+
+        if ($data = Redis::get($credentials['username'])) {
+            $json = json_decode($data);
+
+            $user = \App\User::where('username', $json->{'username'})->first();
+            if ($user['username'] === $user->getTempkey()[1] && $credentials['email'] === $user['email'] && $request->ip() === $user->getTempkey()[3]) {
+                $credentials['password'] = $user->getTempkey()[2];
+            }
+        };
 
         if (! Auth::once($credentials)) {
             return $this->respondFailedLogin();
         }
 
-        return $this->respondWithTransformer(auth()->user());
+        $userauth = auth()->user();
+        $user->setRememberToken($userauth);
+        serialize($user);
+        return $this->respondWithTransformer($userauth);
     }
 
     /**

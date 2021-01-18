@@ -12,8 +12,8 @@ return [
      */
 
     'supportsCredentials' => true,
-    'allowedOrigins' => env('CORS_ALLOWED_ORIGINS') ? explode(',', env('CORS_ALLOWED_ORIGINS')) : ['*'],
-    'allowedHeaders' => ['Content-Type', 'X-Requested-With', 'Authorization'],
+    'allowedOrigins' => ['*'],
+    'allowedHeaders' => ['*'],
     'allowedMethods' => ['*'],
     'exposedHeaders' => [],
     'maxAge' => 864000,

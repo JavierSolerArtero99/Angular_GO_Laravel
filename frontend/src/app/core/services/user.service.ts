@@ -47,7 +47,6 @@ export class UserService {
     this.jwtService.saveToken(user.token);
     // console.log("===TOKEN:===");
     // console.log(user.token);
-
     // Set current user data into observable
     this.currentUserSubject.next(user);
     // Set isAuthenticated to true
@@ -61,6 +60,8 @@ export class UserService {
     this.currentUserSubject.next({} as User);
     // Set auth status to false
     this.isAuthenticatedSubject.next(false);
+    // Set tempket to null
+    this.deleteTempkey();
   }
 
   attemptAuth(type, credentials): Observable<User> {
@@ -76,6 +77,19 @@ export class UserService {
     );
   }
 
+  adminAttemptAuth(credentials): Observable<User> {
+    
+    return this.apiService.post('/users/login', { user: credentials },)
+      .pipe(map(
+        data => {
+          console.log("==========================ADMIN==========================");
+          // this.setAuth(data.user);
+          console.log(data);
+          return data;
+        }
+      ));
+  }
+
   getCurrentUser(): User {
     return this.currentUserSubject.value;
   }
@@ -89,5 +103,14 @@ export class UserService {
         return data.user;
       })
     );
+  }
+
+  // Delete tempkey
+  deleteTempkey() {
+    return this.apiService
+      .put('/user/logout', this.getCurrentUser())
+      .pipe(map(data => {
+        return data;
+      }))
   }
 }

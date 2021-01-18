@@ -11,6 +11,8 @@ class LoginUser extends ApiRequest
      */
     protected function validationData()
     {
+        // var_dump($this['body']);
+        // die;
         return $this->get('user') ?: [];
     }
 
@@ -22,8 +24,7 @@ class LoginUser extends ApiRequest
     public function rules()
     {
         return [
-            'email' => 'required|email|max:255',
-            'password' => 'required',
+            // 'email' => 'required|email|max:255',
         ];
     }
 }

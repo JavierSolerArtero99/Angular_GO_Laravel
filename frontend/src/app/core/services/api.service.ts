@@ -15,12 +15,16 @@ export class ApiService {
   ) {}
 
   private formatErrors(error: any) {
-    console.log("ERROR")
-    console.log(error);
     return throwError(error.error);
   }
 
-  /* ----------------LARAVEL METHODS---------------- */
+  private corsHeaders = new HttpHeaders({
+    'Content-Type': 'application/json',
+    'Accept': 'application/json',
+    'Access-Control-Allow-Origin': '*'
+  });
+
+  /* LARAVEL METHODS */
 
   get(path: string, params: HttpParams = new HttpParams()): Observable<any> {
     return this.http
@@ -30,27 +34,26 @@ export class ApiService {
 
   put(path: string, body: Object = {}): Observable<any> {
     return this.http
-      .put(`${environment.api_url}${path}`, JSON.stringify(body))
+      .put(`${environment.api_url}${path}`, { body: JSON.stringify(body) })
       .pipe(catchError(this.formatErrors));
   }
 
   post(path: string, body: Object = {}): Observable<any> {
     return this.http
-      .post(`${environment.api_url}${path}`, JSON.stringify(body))
+      .post(`${environment.api_url}${path}`, body)
       .pipe(catchError(this.formatErrors));
   }
 
   delete(path): Observable<any> {
     return this.http
-      .delete(`${environment.api_url}${path}`)
+      .delete(`${environment.api_url}${path}`, { headers: this.corsHeaders })
       .pipe(catchError(this.formatErrors));
   }
 
-  /* ----------------GO: USERS---------------- */
-
-  // PETITIONS - GET
+  /* GO METHODS FOR: USERS*/
 
   getGo(path: string, params: HttpParams = new HttpParams()): Observable<any> {
+
     return this.http
       .get(`${environment.go_url}${path}`, { params })
       .pipe(catchError(this.formatErrors));

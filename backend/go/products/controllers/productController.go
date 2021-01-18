@@ -1,17 +1,18 @@
 package controllers
 
 import (
-	"fmt"
 	"encoding/json"
+	"fmt"
 	"net/http"
+
 	// "io/ioutil"
 	// "github.com/gin-gonic/gin"
-
 
 	"products/data"
 	"products/models"
 
 	"products/common"
+
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
@@ -30,7 +31,7 @@ func GetProducts(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
-	
+
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	w.Write(j)
@@ -39,7 +40,7 @@ func GetProducts(w http.ResponseWriter, r *http.Request) {
 // Get a product from the DB
 func GetSingleProducts(w http.ResponseWriter, r *http.Request) {
 	// Query params
-    name := r.URL.Query()["name"][0] 
+	name := r.URL.Query()["name"][0]
 
 	// name length control
 	if len(name) <= 0 {
@@ -77,7 +78,7 @@ func GetSingleProducts(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
-	
+
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	w.Write(j)
@@ -105,7 +106,7 @@ func PostComment(w http.ResponseWriter, r *http.Request) {
 		fmt.Println(err)
 		return
 	}
-		
+
 	savedComment, saveErr := data.SaveComment(c)
 
 	if saveErr != nil {
@@ -141,7 +142,7 @@ func DeleteComment(w http.ResponseWriter, r *http.Request) {
 		fmt.Println(err)
 		return
 	}
-		
+
 	deletedComment, deleteErr := data.DeleteComment(c)
 
 	if deleteErr != nil {

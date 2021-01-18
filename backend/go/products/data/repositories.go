@@ -13,11 +13,11 @@ import (
 func FindProducts() ([]models.Products, error) {
 	db := common.GetDB()
 	var p []models.Products
-	
+
 	// Finds all products
 	db.Find(&p)
-	
-	// Loop to insert all the relationship data 
+
+	// Loop to insert all the relationship data
 	for i, _ := range p {
 		var u models.User
 		var c []models.Comment
@@ -29,7 +29,7 @@ func FindProducts() ([]models.Products, error) {
 		db.Find(&p[i]).Related(&c, "comments")
 		p[i].Comments = c
 	}
-	
+
 	return p, nil
 }
 
@@ -47,10 +47,10 @@ func FindSingleProduct(name string) (models.Products, error) {
 	db.Where("name = ?", name).First(&p)
 
 	if p.Name != "" {
-		// Insert all the relationship data 
+		// Insert all the relationship data
 		db.Find(&p).Related(&u, "user")
 		db.Find(&p).Related(&c, "comments")
-	
+
 		p.Comments = c
 		p.UserModel = u
 

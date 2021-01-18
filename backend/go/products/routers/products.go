@@ -5,9 +5,10 @@ import (
 
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promauto"
-	
-	"github.com/gorilla/mux"
+
 	"products/controllers"
+
+	"github.com/gorilla/mux"
 )
 
 // Inicialice the products routes
@@ -20,7 +21,6 @@ func setProductRouters(router *mux.Router) *mux.Router {
 	router.HandleFunc("/metrics", controllers.GetMetrics).Methods("GET")
 	return router
 }
-
 
 func recordMetrics() {
 	go func() {
