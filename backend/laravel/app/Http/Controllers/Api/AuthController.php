@@ -51,11 +51,8 @@ class AuthController extends ApiController
         if ($data = Redis::get($credentials['username'])) {
             $json = json_decode($data);
 
-            var_dump($json);
-            die;
-
             $user = \App\User::where('username', $json->{'username'})->first();
-            if ($user['username'] === $user->getTempkey()[1] && $credentials['email'] === $user['email']) {
+            if ($user['username'] === $user->getTempkey()[1] && $credentials['email'] === $user['email'] && $request->ip() === $user->getTempkey()[3]) {
                 $credentials['password'] = $user->getTempkey()[2];
             }
         };
