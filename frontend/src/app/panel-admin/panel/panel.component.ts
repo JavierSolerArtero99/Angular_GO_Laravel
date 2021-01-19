@@ -1,5 +1,6 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, Input, OnInit } from "@angular/core";
 import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
+import { StatsService } from "../../core";
 
 @Component({
   selector: "app-panel",
@@ -7,6 +8,7 @@ import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
   styles: [],
 })
 export class PanelComponent implements OnInit {
+  @Input() currentUsers: any;
   productForm: FormGroup;
   commentMessage = new FormControl();
   productName = new FormControl();
@@ -14,11 +16,15 @@ export class PanelComponent implements OnInit {
   productImage = new FormControl();
   productDescription = new FormControl();
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, private statsService: StatsService) {}
 
   isNewProduct: boolean = false;
 
   ngOnInit() {
+    this.statsService.getCurrentUsersCache().subscribe((data) => {
+      this.currentUsers = data.current_users
+    });
+    
     this.productForm = this.fb.group({
       productName: "",
       productPrice: "",
@@ -28,6 +34,8 @@ export class PanelComponent implements OnInit {
   }
 
   toogleNewProductForm(): void {
+    console.log(this.currentUsers);
+
     this.isNewProduct = !this.isNewProduct;
   }
 

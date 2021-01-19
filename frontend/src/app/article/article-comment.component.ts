@@ -23,7 +23,7 @@ export class ArticleCommentComponent implements OnInit, OnDestroy {
     // Load the current user's data
     this.subscription = this.userService.currentUser.subscribe(
       (userData: User) => {
-        this.canModify = (userData.username === this.comment.author.username);
+        this.canModify = (userData.username === this.comment.Author.username);
       }
     );
   }
