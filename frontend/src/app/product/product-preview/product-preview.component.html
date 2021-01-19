@@ -1,14 +1,14 @@
 <!-- HTML COMPONENT -->
 
-<a [routerLink]="['/product', product.Name]">
+
   <div [routerLink]="['#']" class="previewContainer">
     <img
       src="{{ product.Image }}"
       width="20%"
     />
     <div class="content">
-      <h4>{{ product.Name }}</h4>
-      <span>{{ product.Price }}€</span>
+      <h4 [routerLink]="['/product', product.Name]" class="link">{{ product.Name }}</h4>
+      <span style="color: royalblue;">{{ product.Price }}€</span>
       <span>From: {{ product.User.Username }}</span>
     </div>
 
@@ -20,7 +20,6 @@
       />
     </button>
   </div>
-</a>
 
 <!-- COMPONENT CSS STYLE -->
 
@@ -42,8 +41,15 @@
     justify-content: center;
     color: black;
   }
-  a:hover {
-    color: royalblue !important;
+
+  .link {
+    width: fit-content;
+  }
+
+  .link:hover {
+    color: royalblue;
+    cursor: pointer;
+    text-decoration: underline;
   }
 
   .likeButton {
