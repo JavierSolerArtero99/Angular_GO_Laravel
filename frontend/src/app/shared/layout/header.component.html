@@ -6,7 +6,7 @@
     <ul *appShowAuthed="false"
       class="nav navbar-nav pull-xs-right">
 
-      <li class="nav-item">
+      <li class="nav-item" *ngIf="!isModeAdmin">
         <a class="nav-link"
           routerLink="/">
           Home
@@ -31,11 +31,13 @@
 
     </ul>
 
+    {{isModeAdmin}}
+
     <!-- Show this for logged in users -->
     <ul *appShowAuthed="true"
       class="nav navbar-nav pull-xs-right">
 
-      <li class="nav-item">
+      <li class="nav-item" *ngIf="!isModeAdmin">
         <a class="nav-link"
           routerLink="/"
           routerLinkActive="active"
@@ -44,7 +46,7 @@
         </a>
       </li>
 
-      <li class="nav-item">
+      <li class="nav-item" *ngIf="!isModeAdmin">
         <a class="nav-link"
           routerLink="/editor"
           routerLinkActive="active">
@@ -52,7 +54,7 @@
         </a>
       </li>
 
-      <li class="nav-item">
+      <li class="nav-item" *ngIf="!isModeAdmin">
         <a class="nav-link"
           routerLink="/settings"
           routerLinkActive="active">
@@ -60,7 +62,7 @@
         </a>
       </li>
 
-      <li class="nav-item">
+      <li class="nav-item" *ngIf="!isModeAdmin">
         <a class="nav-link"
           [routerLink]="['/profile', currentUser.username]"
           routerLinkActive="active">
@@ -68,7 +70,7 @@
         </a>
       </li>
 
-      <li *ngIf="currentUser.role" class="nav-item">
+      <li *ngIf="currentUser.role && !isModeAdmin" class="nav-item">
         <a class="nav-link"
           [routerLink]="['/paneladmin']"
           >

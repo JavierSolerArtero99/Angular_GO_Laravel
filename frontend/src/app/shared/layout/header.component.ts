@@ -8,10 +8,11 @@ import { User, UserService } from '../../core';
 })
 export class HeaderComponent implements OnInit {
   constructor(
-    private userService: UserService
+    private userService: UserService,
   ) {}
 
   currentUser: User;
+  isModeAdmin: boolean = false;
 
   ngOnInit() {
     this.userService.currentUser.subscribe(
@@ -27,7 +28,10 @@ export class HeaderComponent implements OnInit {
     this.userService
     .adminAttemptAuth(this.currentUser)
     .subscribe(
-      data => console.log(data),
+      data => {
+        console.log(data);
+        this.isModeAdmin = true;
+      },
       err => console.log(err)
     );
   }
