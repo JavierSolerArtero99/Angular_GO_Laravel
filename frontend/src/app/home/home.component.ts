@@ -11,7 +11,6 @@ import { ArticleListConfig, TagsService, UserService } from '../core';
 export class HomeComponent implements OnInit {
   constructor(
     private router: Router,
-    private tagsService: TagsService,
     private userService: UserService
   ) {}
 
@@ -20,8 +19,6 @@ export class HomeComponent implements OnInit {
     type: 'all',
     filters: {}
   };
-  tags: Array<string> = [];
-  tagsLoaded = false;
 
   ngOnInit() {
     this.userService.isAuthenticated.subscribe(
@@ -36,12 +33,6 @@ export class HomeComponent implements OnInit {
         }
       }
     );
-
-    this.tagsService.getAll()
-    .subscribe(tags => {
-      this.tags = tags;
-      this.tagsLoaded = true;
-    });
   }
 
   setListTo(type: string = '', filters: Object = {}) {
