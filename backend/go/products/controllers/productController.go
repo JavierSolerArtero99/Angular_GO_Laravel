@@ -1,12 +1,12 @@
 package controllers
 
 import (
+	"strconv"
 	"encoding/json"
 	"fmt"
 	"net/http"
 
-	// "io/ioutil"
-	// "github.com/gin-gonic/gin"
+	"github.com/gorilla/mux"
 
 	"products/data"
 	"products/models"
@@ -123,37 +123,46 @@ func PostComment(w http.ResponseWriter, r *http.Request) {
 }
 
 func DeleteComment(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("There is errors saving the comment")
-
-	headerContentTtype := r.Header.Get("Content-Type")
-	if headerContentTtype != "application/json" {
-		// errorResponse(w, "Content Type is not application/json", http.StatusUnsupportedMediaType)
-		return
-	}
-
-	var c models.Comment
-
-	decoder := json.NewDecoder(r.Body)
-	decoder.DisallowUnknownFields()
-	err := decoder.Decode(&c)
-
+	vars := mux.Vars(r)
+    slug := vars["id"] // the book title slug
+	parsedSlug, err := strconv.ParseInt(slug, 10, 64)
+	
 	if err != nil {
-		fmt.Println("There is errors")
-		fmt.Println(err)
+		msg := "Must introduce an id comment'"
+		errorMessage, parsingError := json.Marshal(ProductError{Data: msg})
+		if parsingError != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			return
+		}
+
+		w.WriteHeader(http.StatusNotFound)
+		w.Write(errorMessage)
 		return
 	}
 
-	deletedComment, deleteErr := data.DeleteComment(c)
+	deleteErr := data.DeleteComment(parsedSlug)
 
 	if deleteErr != nil {
-		fmt.Println("There is errors saving the comment")
-		fmt.Println(deleteErr)
-		fmt.Println(deletedComment)
+		msg := "Cannot delete the comment"
+		errorMessage, parsingError := json.Marshal(ProductError{Data: msg})
+		if parsingError != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			return
+		}
+
+		w.WriteHeader(http.StatusNotFound)
+		w.Write(errorMessage)
 		return
 	}
 
 	fmt.Println("---deleted Comment---")
-
+	msg := "Comment deleted"
+	successfullDelete, parsingError := json.Marshal(SuccessMessage{Data: msg})
+	if parsingError != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+	w.Write(successfullDelete)
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 }

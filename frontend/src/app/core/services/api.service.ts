@@ -87,9 +87,9 @@ export class ApiService {
       .pipe(catchError(this.formatErrors));
   }
 
-  deleteGoComments(path: string, body: Object = {}): Observable<any> {
+  deleteGoComments(path: string): Observable<any> {
     return this.http
-      .delete(`${environment.go_products_url}${path}`, body)
+      .delete(`${environment.go_products_url}${path}`)
       .pipe(catchError(this.formatErrors));
   }
 }

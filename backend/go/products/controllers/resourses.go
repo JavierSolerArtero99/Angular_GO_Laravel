@@ -17,4 +17,8 @@ type (
 	ProductError struct {
 		Data string `json:"error"`
 	}
+
+	SuccessMessage struct {
+		Data string `json:"success"`
+	}
 )

@@ -16,7 +16,7 @@ func setProductRouters(router *mux.Router) *mux.Router {
 	router.HandleFunc("/products", controllers.GetProducts).Methods("GET")
 	router.HandleFunc("/products/product", controllers.GetSingleProducts).Methods("GET")
 	router.HandleFunc("/products/comment", controllers.PostComment).Methods("POST")
-	router.HandleFunc("/products/comment", controllers.DeleteComment).Methods("DELETE")
+	router.HandleFunc("/products/comment/{id}", controllers.DeleteComment).Methods("DELETE")
 	recordMetrics()
 	router.HandleFunc("/metrics", controllers.GetMetrics).Methods("GET")
 	return router

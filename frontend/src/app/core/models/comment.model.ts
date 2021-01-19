@@ -2,7 +2,7 @@ import { Profile } from './profile.model';
 
 export interface Comment {
   id: number;
-  body: string;
+  Message: string;
   createdAt: string;
   Author: Profile;
 }

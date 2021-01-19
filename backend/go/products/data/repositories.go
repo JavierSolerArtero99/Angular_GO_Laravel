@@ -75,8 +75,8 @@ func SaveComment(commentToSave models.Comment) (models.Comment, error) {
 }
 
 // Save a product
-func DeleteComment(commentToDelete models.Comment) (models.Comment, error) {
+func DeleteComment(commentId int64) (error) {
 	db := common.GetDB()
-	err := db.Delete(&models.Comment{}, commentToDelete.ID).Error
-	return commentToDelete, err
+	err := db.Delete(&models.Comment{}, commentId).Error
+	return err
 }

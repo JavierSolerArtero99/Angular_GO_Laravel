@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { Comment } from "../../core";
+import { ProductService } from "../shared/product.service";
 
 @Component({
   selector: "app-product-comment",
@@ -10,7 +11,7 @@ export class ProductCommentComponent implements OnInit {
   @Input() comment: Comment;
   @Input() authorId: any;
   @Input() deleteComment: any;
-  constructor() {}
+  constructor(private productService: ProductService) {}
 
   ngOnInit(): void {}
 
@@ -19,6 +20,8 @@ export class ProductCommentComponent implements OnInit {
   }
 
   removeComment(): void {
-    this.deleteComment(this.comment)
+    console.log(this.comment.Author.ID, this.comment.Message);
+
+    this.deleteComment(this.comment);
   }
 }
