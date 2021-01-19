@@ -3,7 +3,7 @@
 <!-- product content  -->
 <section *ngIf="!loading">
   <!-- loading product -->
-  <div class="loadingContent" >
+  <div class="loadingContent" [hidden]="!loading" >
     <h2>Cargando...</h2>
   </div>
 
