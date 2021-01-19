@@ -46,7 +46,7 @@ export class ApiService {
 
   delete(path): Observable<any> {
     return this.http
-      .delete(`${environment.api_url}${path}`, { headers: this.corsHeaders })
+      .delete(`${environment.api_url}${path}`)
       .pipe(catchError(this.formatErrors));
   }
 

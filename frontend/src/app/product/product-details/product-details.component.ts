@@ -43,6 +43,8 @@ export class ProductDetailsComponent implements OnInit {
     // obteniendo los datos del producto
     this.productService.getSingleProduct(productName).subscribe((data) => {
       this.product = data.product;
+      console.log(this.product);
+      
       this.loading = false;
       this.comments = data.product.Comments;
       console.log("===data===");

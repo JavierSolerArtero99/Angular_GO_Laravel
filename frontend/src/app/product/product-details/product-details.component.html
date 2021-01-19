@@ -1,7 +1,7 @@
 <!-- PRODUCT DETAIL - COMPONENT -->
 
 <!-- product content  -->
-<section *ngIf="!loading">
+<section *ngIf="!loading" class="details" >
   <!-- loading product -->
   <div class="loadingContent" [hidden]="!loading" >
     <h2>Cargando...</h2>
@@ -9,10 +9,12 @@
 
   <div class="productContent" >
     <img class="productImage"
-      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSiit6Cr5HG87c467zUbWo9i0Q7MF2V1QwYqA&usqp=CAU"
+      src="{{ product.Image }}"
       alt="{{ product.Name }} product image" />
     <div class="productDescription">
       <h1>{{ product.Name }}</h1>
+      <h2 style="color: royalblue;">{{ product.Price }}€</h2>
+      <p>{{ product.Description }}</p>
     </div>
   </div>
 
@@ -41,16 +43,29 @@
 <!-- PRODUCT DETAIL - STYLE -->
 
 <style>
-  .productContent {
+  .details {
+    width: 100%;
+    height: 100%;
+
     display: flex;
-    align-self: center;
-    flex-direction: row;
+    flex-direction: column;
+    align-items: center;
     justify-content: center;
   }
 
+  .productContent {
+    margin-top: 5rem;
+
+    display: flex;
+    align-self: center;
+    flex-direction: row;
+    justify-content: space-evenly;
+
+    width: 70%;
+  }
+
   .productImage {
-    width: 30rem;
-    margin-left: -25%;
+    width: 30%;
   }
 
   .productDescription {
@@ -62,6 +77,8 @@
   .addComments {
     margin-top: 3rem;
     margin-bottom: 3rem;
+    
+    width: 70%;
   }
 
   .errorComments {
@@ -88,6 +105,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+
+    width: 70%;
   }
 
   .sendButton {

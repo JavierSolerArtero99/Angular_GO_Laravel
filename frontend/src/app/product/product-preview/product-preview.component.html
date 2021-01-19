@@ -3,15 +3,16 @@
 <a [routerLink]="['/product', product.Name]">
   <div [routerLink]="['#']" class="previewContainer">
     <img
-      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSiit6Cr5HG87c467zUbWo9i0Q7MF2V1QwYqA&usqp=CAU"
+      src="{{ product.Image }}"
       width="20%"
     />
     <div class="content">
       <h4>{{ product.Name }}</h4>
+      <span>{{ product.Price }}€</span>
       <span>From: {{ product.User.Username }}</span>
     </div>
 
-    <button class="likeButton">
+    <button class="likeButton" style="color: royalblue;">{{ product.Likes }}
       <img
         width="200%"
         src="https://www.flaticon.com/premium-icon/icons/svg/3384/3384169.svg"
@@ -30,6 +31,8 @@
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
     border-radius: 10px;
     padding: 1rem;
+
+    margin: 0.5rem;
   }
   .content {
     width: 90%;
