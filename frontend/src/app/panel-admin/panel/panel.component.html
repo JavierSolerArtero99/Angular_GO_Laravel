@@ -1,0 +1,70 @@
+<section class="statsContainer">
+  <section class="stats">
+    <div class="stats__stat">
+      <img src="./../../../assets/avatar.png" alt="" height="40px" />
+      <h5><strong>CURRENT USERS</strong></h5>
+      <h5><strong>8</strong></h5>
+    </div>
+
+    <button (click)="toogleNewProductForm()" class="stats__stat">
+      <img src="./../../../assets/plus.png" alt="" height="40px" />
+      <h5><strong> NEW PRODUCT</strong></h5>
+    </button>
+  </section>
+
+  <section class="stats__newProduct" [hidden]="!isNewProduct">
+    <p>nuevo producto</p>
+  </section>
+
+  <section class="stats__productStats">
+    <h3>Better valored product in lasts 24 hours</h3>
+  </section>
+</section>
+<!-- COMPONENT STYLE -->
+
+<style>
+  .statsContainer {
+    padding-left: 3rem;
+    padding-right: 3rem;
+  }
+  .stats {
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+  }
+
+  .stats h5 {
+    margin: 0.2rem;
+    color: white;
+  }
+  .stats img {
+    margin-bottom: 0.2rem;
+  }
+
+  .stats button {
+    border-style: none;
+  }
+
+  .stats__stat {
+    height: 10rem;
+    box-shadow: 0 5px 10px rgba(154, 160, 185, 0.05),
+      0 15px 40px rgba(166, 173, 201, 0.2);
+    margin: 0.5rem;
+    width: 100%;
+    background-color: #54cc54;
+    padding: 1.2rem;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .stats__newProduct {
+      margin-top: 2rem;
+  }
+
+  .stats__productStats {
+    margin-top: 2rem;
+  }
+</style>
