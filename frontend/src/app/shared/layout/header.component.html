@@ -1,6 +1,6 @@
 <nav class="navbar navbar-light">
   <div class="container">
-    <a class="navbar-brand" style="color: royalblue !important;" routerLink="/">{{ isModeAdmin ? 'Panel admin' : 'shop-it' }}</a>
+    <a class="navbar-brand" style="color: royalblue !important;" routerLink="{{!isModeAdmin && '/'}}">{{ isModeAdmin ? 'Panel admin' : 'shop-it' }}</a>
 
     <!-- Show this for logged out users -->
     <ul *appShowAuthed="false"
