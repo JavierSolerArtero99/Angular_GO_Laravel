@@ -86,9 +86,14 @@ export class ProductDetailsComponent implements OnInit {
   }
 
   deleteComment(comment: any) {
-    this.productService.deleteComment(comment).subscribe((data) => {
-      console.log("se ha hecho")
-      console.log(data);
-    });
+    console.log("Comentario a borrar");
+    console.log(comment);
+
+    this.productService.deleteComment(comment)
+    
+    // this.productService.deleteComment(comment).subscribe((data) => {
+    //   console.log("se ha hecho")
+    //   console.log(data);
+    // });
   }
 }
