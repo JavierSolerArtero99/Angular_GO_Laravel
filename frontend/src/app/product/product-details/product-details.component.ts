@@ -11,7 +11,6 @@ import { Comment } from "../../core";
   templateUrl: "./product-details.component.html",
 })
 export class ProductDetailsComponent implements OnInit {
-  products: Product[];
   commentErrorMessage: String;
   commentSuccessMessage: String;
   product: Product;

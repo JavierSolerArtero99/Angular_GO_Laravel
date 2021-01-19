@@ -1,24 +1,22 @@
 <!-- PRODUCT DETAIL - COMPONENT -->
 
 <!-- product content  -->
-<section [hidden]="loading">
+<section *ngIf="!loading">
   <!-- loading product -->
-  <div class="loadingContent" [hidden]="!loading">
+  <div class="loadingContent" >
     <h2>Cargando...</h2>
   </div>
 
-  <div class="productContent" [hidden]="loading">
-    <img
-      class="productImage"
+  <div class="productContent" >
+    <img class="productImage"
       src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSiit6Cr5HG87c467zUbWo9i0Q7MF2V1QwYqA&usqp=CAU"
-      alt="{{ product.Name }} product image"
-    />
+      alt="{{ product.Name }} product image" />
     <div class="productDescription">
       <h1>{{ product.Name }}</h1>
     </div>
   </div>
 
-  <div class="comments" [hidden]="loading">
+  <div class="comments">
     <div class="addComments">
       <div class="errorComments" [hidden]="!commentErrorMessage">
         <p>{{ commentErrorMessage }}</p>
@@ -27,28 +25,16 @@
         <p>{{ commentSuccessMessage }}</p>
       </div>
       <form [formGroup]="form">
-        <textarea
-          placeholder="Comment"
-          type="text"
-          class="form-control form-control-lg ng-pristine ng-valid ng-touched"
-          formControlName="commentMessage"
-        ></textarea>
+        <textarea placeholder="Comment" type="text" class="form-control form-control-lg ng-pristine ng-valid ng-touched"
+          formControlName="commentMessage"></textarea>
       </form>
-      <button
-        class="sendButton btn btn-lg pull-xs-right btn-primary"
-        (click)="publishComment()"
-      >
+      <button class="sendButton btn btn-lg pull-xs-right btn-primary" (click)="publishComment()">
         Add Comment
       </button>
     </div>
     <h3>Comments</h3>
-    <app-product-comment
-      [hidden]="loading"
-      *ngFor="let comment of product.Comments"
-      [comment]="comment"
-      [authorId]="getAuthorId()"
-      [deleteComment]="deleteComment"
-    ></app-product-comment>
+    <app-product-comment *ngFor="let comment of product.Comments" [comment]="comment" [authorId]="getAuthorId()"
+      [deleteComment]="deleteComment"></app-product-comment>
   </div>
 </section>
 
@@ -88,8 +74,8 @@
     margin-bottom: 2rem;
   }
 
-  .successComment{
-     padding: 1rem;
+  .successComment {
+    padding: 1rem;
     color: white;
     font-weight: bold;
     font-size: 1rem;
