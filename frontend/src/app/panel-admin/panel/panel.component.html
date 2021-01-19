@@ -8,8 +8,8 @@
       </h5>
     </div>
 
-    <button (click)="toogleNewProductForm()" class="stats__stat">
-      <img src="./../../../assets/plus.png" alt="" height="40px" />
+    <button (click)="toogleNewProductForm()" class="stats__stat stats__stat--outline">
+      <img src="./../../../assets/add.png" alt="" height="40px" />
       <h5><strong> NEW PRODUCT</strong></h5>
     </button>
   </section>
@@ -56,6 +56,7 @@
         </fieldset>
 
         <button
+          style="background-color: royalblue;"
           class="btn btn-lg pull-xs-right btn-primary"
           type="button"
           (click)="submitProduct()"
@@ -101,13 +102,22 @@
       0 15px 40px rgba(166, 173, 201, 0.2);
     margin: 0.5rem;
     width: 100%;
-    background-color: #54cc54;
+    background-color: royalblue;
     padding: 1.2rem;
     border-radius: 20px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+  }
+
+  .stats__stat--outline {
+    background-color: white;
+    border: 1px solid royalblue !important;
+  }
+
+  .stats__stat--outline * {
+    color: royalblue;
   }
 
   .stats__newProduct {
