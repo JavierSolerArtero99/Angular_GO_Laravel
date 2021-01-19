@@ -4,7 +4,7 @@ import (
 	"strconv"
 	"encoding/json"
 	"fmt"
-	"net/http"
+	"net/http"  
 
 	"github.com/gorilla/mux"
 
@@ -12,7 +12,7 @@ import (
 	"products/models"
 
 	"products/common"
-
+	"github.com/go-redis/redis"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
@@ -165,4 +165,67 @@ func DeleteComment(w http.ResponseWriter, r *http.Request) {
 	w.Write(successfullDelete)
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
+}
+
+func BuyProduct(w http.ResponseWriter, r *http.Request) {
+	headerContentTtype := r.Header.Get("Content-Type")
+	if headerContentTtype != "application/json" {
+		// errorResponse(w, "Content Type is not application/json", http.StatusUnsupportedMediaType)
+		return
+	}
+
+	client := redis.NewClient(&redis.Options{
+		Addr:     "redis:6379",
+		Password: "",
+		DB:       0,
+	})
+
+	var buy models.Buy
+
+	decoder := json.NewDecoder(r.Body)
+	decoder.DisallowUnknownFields()
+	err := decoder.Decode(&buy)
+
+	if err != nil {
+		fmt.Println("There is errors")
+		fmt.Println(err)
+		return
+	}
+
+	fmt.Println("BUY")
+	fmt.Println(buy)
+
+	result, err := client.Get("buys").Result()
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	if len(result) <= 0 {
+		var arrayOfBuys [1]models.Buy
+		arrayOfBuys[0] = buy
+
+		json, err := json.Marshal(arrayOfBuys)
+		if err != nil {
+			fmt.Println(err)
+		}
+
+		fmt.Println("JSON")
+		fmt.Println(json)
+
+		client.Set("buys", json, 0)
+	} 
+
+	bytes := []byte(result)
+ 	var buys []models.Buy
+	json.Unmarshal(bytes, &buys)
+	
+	msg := "Buyed"
+	successfullDelete, parsingError := json.Marshal(SuccessMessage{Data: msg})
+	if parsingError != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	w.Write(successfullDelete)
 }

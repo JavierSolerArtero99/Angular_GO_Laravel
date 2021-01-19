@@ -19,6 +19,19 @@ type (
 )
 
 type (
+	Buy struct {
+		Product		string	
+		Price 		int			
+	}
+)
+
+type (
+	BuyArray struct {
+		Buys		[]Buy
+	}
+)
+
+type (
 	Comment struct {
 		ID        uint   `gorm:"primary_key" json:"Id`
 		UserID    uint   `gorm:"foreignKey:ID" json:"UserID"`
