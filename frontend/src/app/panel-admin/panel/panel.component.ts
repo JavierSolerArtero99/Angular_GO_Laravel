@@ -1,6 +1,5 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
-import { StatsService } from "../../core";
 
 @Component({
   selector: "app-panel",
