@@ -22,17 +22,35 @@ export class HeaderComponent implements OnInit {
     );
   }
 
+  loginClient() {
+    console.log('loginClient');
+    
+    // this.userService
+    // .attemptAuth(this.currentUser)
+    // .subscribe(
+    //   data => {
+    //     console.log(data);
+    //     this.isModeAdmin = true;
+    //   },
+    //   err => console.log(err)
+    // );
+
+    this.isModeAdmin=false;
+  }
+
   loginAdmin() {
     console.log('loginAdmin');
     
-    this.userService
-    .adminAttemptAuth(this.currentUser)
-    .subscribe(
-      data => {
-        console.log(data);
-        this.isModeAdmin = true;
-      },
-      err => console.log(err)
-    );
+    // this.userService
+    // .adminAttemptAuth(this.currentUser)
+    // .subscribe(
+    //   data => {
+    //     console.log(data);
+    //     this.isModeAdmin = true;
+    //   },
+    //   err => console.log(err)
+    // );
+
+    this.isModeAdmin=true;
   }
 }

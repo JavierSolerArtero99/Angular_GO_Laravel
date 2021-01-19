@@ -1,6 +1,6 @@
 <nav class="navbar navbar-light">
   <div class="container">
-    <a class="navbar-brand" style="color: royalblue !important;" routerLink="/">shop-it</a>
+    <a class="navbar-brand" style="color: royalblue !important;" routerLink="/">{{ isModeAdmin ? 'Panel admin' : 'shop-it' }}</a>
 
     <!-- Show this for logged out users -->
     <ul *appShowAuthed="false"
@@ -31,8 +31,6 @@
 
     </ul>
 
-    {{isModeAdmin}}
-
     <!-- Show this for logged in users -->
     <ul *appShowAuthed="true"
       class="nav navbar-nav pull-xs-right">
@@ -46,13 +44,13 @@
         </a>
       </li>
 
-      <li class="nav-item" *ngIf="!isModeAdmin">
+      <!-- <li class="nav-item" *ngIf="!isModeAdmin">
         <a class="nav-link"
           routerLink="/editor"
           routerLinkActive="active">
           <i class="ion-compose"></i>&nbsp;New Article
         </a>
-      </li>
+      </li> -->
 
       <li class="nav-item" *ngIf="!isModeAdmin">
         <a class="nav-link"
@@ -70,11 +68,20 @@
         </a>
       </li>
 
+      <li *ngIf="currentUser.role && isModeAdmin" class="nav-item">
+        <a class="nav-link"
+          routerLink="/"
+          (click)="loginClient()"
+          >
+          <i class="ion-pricetags"></i>&nbsp;Go shop-it
+        </a>
+      </li>
+
       <li *ngIf="currentUser.role && !isModeAdmin" class="nav-item">
         <a class="nav-link"
           [routerLink]="['/paneladmin']"
+          (click)="loginAdmin()"
           >
-          <!-- (click)="loginAdmin()" -->
           <i class="ion-hammer"></i>&nbsp;Panel Admin
         </a>
       </li>

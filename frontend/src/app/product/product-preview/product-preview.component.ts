@@ -11,5 +11,5 @@ export class ProductPreviewComponent implements OnInit {
 
   ngOnInit(): void {
     console.log(this.product)
-}
+  }
 }
