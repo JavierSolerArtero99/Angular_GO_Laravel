@@ -105,6 +105,16 @@ export class UserService {
     );
   }
 
+  logout(user): any {
+    console.log('=======>');
+    
+    return this.apiService.postGo("/users/logout", { user }).pipe(
+      map(error => {
+        console.log(error)
+      }
+    ))
+  }
+
   // Delete tempkey
   deleteTempkey() {
     return this.apiService

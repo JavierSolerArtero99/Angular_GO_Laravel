@@ -61,6 +61,8 @@ export class ApiService {
   // PETITIONS - POST
 
   postGo(path: string, body: Object = {}): Observable<any> {
+    console.log(`${environment.go_url}${path}`);
+    
     return this.http
       .post(`${environment.go_url}${path}`, JSON.stringify(body))
       .pipe(catchError(this.formatErrors));
