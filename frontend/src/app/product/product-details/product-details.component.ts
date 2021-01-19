@@ -45,8 +45,9 @@ export class ProductDetailsComponent implements OnInit {
     this.productService.getSingleProduct(productName).subscribe((data) => {
       this.product = data.product;
       this.loading = false;
-      this.comments = data.product.comments;
-      console.log(this.product);
+      this.comments = data.product.Comments;
+      console.log("===data===");
+      console.log(this.comments);
     });
 
     this.form = this.fb.group({
@@ -77,6 +78,17 @@ export class ProductDetailsComponent implements OnInit {
     this.productService.postComment(comment).subscribe((data) => {
       this.commentErrorMessage = "";
       this.commentSuccessMessage = "Comentario publicado";
+    });
+  }
+
+  getAuthorId(): number {
+    return this.userService.getCurrentUser().id;
+  }
+
+  deleteComment(comment: any) {
+    this.productService.deleteComment(comment).subscribe((data) => {
+      console.log("se ha hecho")
+      console.log(data);
     });
   }
 }

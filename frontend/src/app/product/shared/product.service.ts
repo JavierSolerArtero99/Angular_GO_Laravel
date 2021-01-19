@@ -37,7 +37,7 @@ export class ProductService {
   }
 
   postComment(comment: any): Observable<Comment> {
-    console.log(comment)
+    console.log(comment);
     return this.apiService
       .postGoProducts(`/comment`, {
         UserID: comment.UserID,
@@ -45,5 +45,16 @@ export class ProductService {
         Message: comment.Message,
       })
       .pipe(map((data) => data));
+  }
+
+  deleteComment(comment: any): Observable<Comment> {
+    return this.apiService
+      .deleteGoComments(`/comment`, {
+        UserID: comment.UserID,
+        ProductID: comment.ProductID,
+        Message: comment.Message,
+      })
+      .pipe(map((data) => data));
+
   }
 }

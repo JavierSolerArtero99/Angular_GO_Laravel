@@ -46,6 +46,8 @@
       [hidden]="loading"
       *ngFor="let comment of product.Comments"
       [comment]="comment"
+      [authorId]="getAuthorId()"
+      [deleteComment]="deleteComment"
     ></app-product-comment>
   </div>
 </section>

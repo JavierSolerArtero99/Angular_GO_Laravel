@@ -4,6 +4,6 @@ export interface Product {
   Id: number;
   name: string;
   likes: number;
-  comments: Comment[];
+  Comments: Comment[];
   //   user: number
 }

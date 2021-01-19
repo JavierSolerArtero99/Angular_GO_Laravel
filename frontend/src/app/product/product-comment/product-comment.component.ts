@@ -8,8 +8,17 @@ import { Comment } from "../../core";
 })
 export class ProductCommentComponent implements OnInit {
   @Input() comment: Comment;
+  @Input() authorId: any;
+  @Input() deleteComment: any;
   constructor() {}
 
-  ngOnInit(): void {
+  ngOnInit(): void {}
+
+  isAuthor(): boolean {
+    return this.comment.Author.ID === this.authorId;
+  }
+
+  removeComment(): void {
+    this.deleteComment(this.comment)
   }
 }

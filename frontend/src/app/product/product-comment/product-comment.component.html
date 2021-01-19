@@ -3,6 +3,9 @@
 <section class="commentContent">
   <h6>Author: {{ comment.Author.Username }}</h6>
   <p>{{ comment.Message }}</p>
+  <button [hidden]="!isAuthor()" (click)="removeComment()">
+    <img src="../../../assets/remove.png" />
+  </button>
 </section>
 
 <!-- COMMENT STYLE -->
@@ -19,4 +22,10 @@
     box-shadow: 0 5px 10px rgba(154, 160, 185, 0.05),
       0 15px 40px rgba(166, 173, 201, 0.2);
   }
+
+  .commentContent button {
+    background-color: transparent;
+    border-style: none;
+  }
+
 </style>

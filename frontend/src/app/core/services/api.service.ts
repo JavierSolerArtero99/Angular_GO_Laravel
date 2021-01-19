@@ -19,9 +19,9 @@ export class ApiService {
   }
 
   private corsHeaders = new HttpHeaders({
-    'Content-Type': 'application/json',
-    'Accept': 'application/json',
-    'Access-Control-Allow-Origin': '*'
+    "Content-Type": "application/json",
+    Accept: "application/json",
+    "Access-Control-Allow-Origin": "*",
   });
 
   /* LARAVEL METHODS */
@@ -53,7 +53,6 @@ export class ApiService {
   /* GO METHODS FOR: USERS*/
 
   getGo(path: string, params: HttpParams = new HttpParams()): Observable<any> {
-
     return this.http
       .get(`${environment.go_url}${path}`, { params })
       .pipe(catchError(this.formatErrors));
@@ -85,6 +84,12 @@ export class ApiService {
   postGoProducts(path: string, body: Object = {}): Observable<any> {
     return this.http
       .post(`${environment.go_products_url}${path}`, JSON.stringify(body))
+      .pipe(catchError(this.formatErrors));
+  }
+
+  deleteGoComments(path: string, body: Object = {}): Observable<any> {
+    return this.http
+      .delete(`${environment.go_products_url}${path}`, body)
       .pipe(catchError(this.formatErrors));
   }
 }
