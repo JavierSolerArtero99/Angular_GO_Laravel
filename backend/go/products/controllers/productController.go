@@ -299,32 +299,12 @@ func ProductsBuys(w http.ResponseWriter, r *http.Request) {
 }
 
 func LikeProduct(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("Like al producto")
 	vars := mux.Vars(r)
     name := vars["name"] // the book title slug
 
-	fmt.Println("parsedSlug")
-	fmt.Println(name)
-
-	// Encontrando el producto
-	productModel, _ := data.FindSingleProduct(name)
-	// producto no encontrado
-	if len(productModel.Name) <= 0 {
-		msg := "Cannot find product: '" + name + "'"
-		errorMessage, parsingError := json.Marshal(ProductError{Data: msg})
-		if parsingError != nil {
-			w.WriteHeader(http.StatusInternalServerError)
-			return
-		}
-
-		w.WriteHeader(http.StatusNotFound)
-		w.Write(errorMessage)
-		return
-	}
-	
-	// Augmentando en uno el like
+	// Augmentando en uno el like del producto
 	likesAmount := productModel.Likes + 1
-	err := data.LikeProduct(productModel, likesAmount)
+	err := data.LikeProduct(name, likesAmount)
 	// Error cuando no se ha podido hacer un like
 	if err != nil {
 		msg := "Cannot like the product: '" + name + "'"
