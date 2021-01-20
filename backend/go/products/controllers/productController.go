@@ -303,8 +303,7 @@ func LikeProduct(w http.ResponseWriter, r *http.Request) {
     name := vars["name"] // the book title slug
 
 	// Augmentando en uno el like del producto
-	likesAmount := productModel.Likes + 1
-	err := data.LikeProduct(name, likesAmount)
+	err := data.LikeProduct(name)
 	// Error cuando no se ha podido hacer un like
 	if err != nil {
 		msg := "Cannot like the product: '" + name + "'"

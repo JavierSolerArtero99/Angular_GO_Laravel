@@ -74,9 +74,13 @@ func SaveComment(commentToSave models.Comment) (models.Comment, error) {
 	return commentToSave, err
 }
 
-func LikeProduct(commentToLike string, likeCuantity int) error {
+func LikeProduct(commentToLike string) error {
 	db := common.GetDB()
-	err := db.Model(&models.Products{}).Where("name = ?", commentToLike).Update("likes", likeCuantity).Error
+	var p models.Products
+
+	db.Where("name = ?", commentToLike).First(&p)
+	err := db.Model(&p).Update("likes", p.Likes + 1).Error
+
 	return err
 }
 
