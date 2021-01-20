@@ -1,10 +1,10 @@
 <!-- COMMENT COMPONENT -->
 
 <section class="commentContent">
-  <h6>Author: {{ comment.Author.Username }}</h6>
   <p>{{ comment.Message }}</p>
-  <button [hidden]="!isAuthor()" (click)="removeComment()">
-    <img src="../../../assets/remove.png" />
+  <span style="font-size: 0.8rem; position: absolute; bottom: 0; margin: 1rem;" >{{ comment.Author.Username }}</span>
+  <button style="position: absolute; right: 0; bottom: 0; margin: 1rem;" [hidden]="!isAuthor()" (click)="removeComment()">
+    <img style="width: 1.5rem;" src="../../../assets/trash.png" />
   </button>
 </section>
 
@@ -12,6 +12,8 @@
 
 <style>
   .commentContent {
+    position: relative;
+
     padding: 2rem;
     padding-left: 10rem;
     padding-right: 10rem;
