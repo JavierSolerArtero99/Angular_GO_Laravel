@@ -74,9 +74,19 @@ func SaveComment(commentToSave models.Comment) (models.Comment, error) {
 	return commentToSave, err
 }
 
-// Save a product
-func DeleteComment(commentToDelete models.Comment) (models.Comment, error) {
+func LikeProduct(commentToLike string) error {
 	db := common.GetDB()
-	err := db.Delete(&models.Comment{}, commentToDelete.ID).Error
-	return commentToDelete, err
+	var p models.Products
+
+	db.Where("name = ?", commentToLike).First(&p)
+	err := db.Model(&p).Update("likes", p.Likes + 1).Error
+
+	return err
+}
+
+// Save a product
+func DeleteComment(commentId int64) (error) {
+	db := common.GetDB()
+	err := db.Delete(&models.Comment{}, commentId).Error
+	return err
 }

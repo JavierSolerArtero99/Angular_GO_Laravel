@@ -22,26 +22,6 @@ func UsersRegister(router *gin.RouterGroup) {
 }
 
 func Redis(c *gin.Context) {
-	// username := c.Param("username")
-	fmt.Println()
-	fmt.Println()
-	fmt.Println()
-	fmt.Println()
-	fmt.Println()
-	fmt.Println()
-	fmt.Println()
-	fmt.Println()
-	fmt.Println("PETICION A LOS STATS DE LOS USUARIOS")
-	fmt.Println()
-	fmt.Println()
-	fmt.Println()
-	fmt.Println()
-	fmt.Println()
-	fmt.Println()
-	fmt.Println()
-	fmt.Println()
-	fmt.Println()
-	fmt.Println()
 	client := redis.NewClient(&redis.Options{
 		Addr:     "redis:6379",
 		Password: "",

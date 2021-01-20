@@ -47,14 +47,10 @@ export class ProductService {
       .pipe(map((data) => data));
   }
 
+  // deleteComment(comment: any): Observable<Comment> {
   deleteComment(comment: any): Observable<Comment> {
     return this.apiService
-      .deleteGoComments(`/comment`, {
-        UserID: comment.UserID,
-        ProductID: comment.ProductID,
-        Message: comment.Message,
-      })
+      .deleteGoComments(`/comment/${comment.ID}`)
       .pipe(map((data) => data));
-
   }
 }

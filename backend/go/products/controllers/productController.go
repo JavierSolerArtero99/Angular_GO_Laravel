@@ -1,18 +1,18 @@
 package controllers
 
 import (
+	"strconv"
 	"encoding/json"
 	"fmt"
-	"net/http"
+	"net/http"  
 
-	// "io/ioutil"
-	// "github.com/gin-gonic/gin"
+	"github.com/gorilla/mux"
 
 	"products/data"
 	"products/models"
 
 	"products/common"
-
+	"github.com/go-redis/redis"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
@@ -123,19 +123,72 @@ func PostComment(w http.ResponseWriter, r *http.Request) {
 }
 
 func DeleteComment(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("There is errors saving the comment")
+	vars := mux.Vars(r)
+    slug := vars["id"] // the book title slug
+	parsedSlug, err := strconv.ParseInt(slug, 10, 64)
+	
+	if err != nil {
+		msg := "Must introduce an id comment'"
+		errorMessage, parsingError := json.Marshal(ProductError{Data: msg})
+		if parsingError != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			return
+		}
 
+		w.WriteHeader(http.StatusNotFound)
+		w.Write(errorMessage)
+		return
+	}
+
+	deleteErr := data.DeleteComment(parsedSlug)
+
+	if deleteErr != nil {
+		msg := "Cannot delete the comment"
+		errorMessage, parsingError := json.Marshal(ProductError{Data: msg})
+		if parsingError != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			return
+		}
+
+		w.WriteHeader(http.StatusNotFound)
+		w.Write(errorMessage)
+		return
+	}
+
+	fmt.Println("---deleted Comment---")
+	msg := "Comment deleted"
+	successfullDelete, parsingError := json.Marshal(SuccessMessage{Data: msg})
+	if parsingError != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+	w.Write(successfullDelete)
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+}
+
+func BuyProduct(w http.ResponseWriter, r *http.Request) {
+
+	// Control del body de la peticion
 	headerContentTtype := r.Header.Get("Content-Type")
 	if headerContentTtype != "application/json" {
 		// errorResponse(w, "Content Type is not application/json", http.StatusUnsupportedMediaType)
 		return
 	}
 
-	var c models.Comment
+	// Conexion con redis
+	client := redis.NewClient(&redis.Options{
+		Addr:     "redis:6379",
+		Password: "",
+		DB:       0,
+	})
+
+	// Decoding body
+	var buy models.Buy
 
 	decoder := json.NewDecoder(r.Body)
 	decoder.DisallowUnknownFields()
-	err := decoder.Decode(&c)
+	err := decoder.Decode(&buy)
 
 	if err != nil {
 		fmt.Println("There is errors")
@@ -143,17 +196,136 @@ func DeleteComment(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	deletedComment, deleteErr := data.DeleteComment(c)
+	// Obteniendo los resultados de redis
+	result, err := client.Get("buys").Result()
+	if err != nil {
+		fmt.Println(err)
+	}
 
-	if deleteErr != nil {
-		fmt.Println("There is errors saving the comment")
-		fmt.Println(deleteErr)
-		fmt.Println(deletedComment)
+	// Si la estructura solicitada no existe en redis se creará
+	if len(result) <= 0 {
+		var arrayOfBuys [1]models.Buy
+		buy.TimesBuyed = 1	// se pone en 1 la cantidad de veces comprado
+		arrayOfBuys[0] = buy
+
+		json, err := json.Marshal(arrayOfBuys)
+		if err != nil {
+			fmt.Println(err)
+		}
+
+		client.Set("buys", json, 0)
+	
+	} else {
+		// En caso contrario se añadira la compra
+		bytes := []byte(result)	// Leyendo las compras de redis
+		var buys []models.Buy
+		var isInside bool = false
+		json.Unmarshal(bytes, &buys)
+		
+		/* Comprobando si la nueva compra esta dentro de las compras ya hechas, 
+		si está dentro se actualizará el contador de la compra */
+		for i, iterationBuy := range buys {
+			if buy.Product == iterationBuy.Product {
+				isInside = true
+				buys[i].TimesBuyed++
+			}
+		}
+
+		if isInside {
+			// Actualizando los datos de la compra
+			newBuysJSON, err := json.Marshal(buys)
+			if err != nil {
+				fmt.Println(err)
+			}
+			client.Set("buys", newBuysJSON, 0)
+
+		} else {
+			// Creando la nueva compra 
+			newLenght := len(buys) + 1
+			var newBuys = make([]models.Buy,(newLenght))
+			buy.TimesBuyed = 1
+
+			for i := range buys {
+				newBuys[i] = buys[i]
+			}
+
+			newBuys[len(buys)] = buy
+			fmt.Println(newBuys)
+
+			newBuysJSON, err := json.Marshal(newBuys)
+			if err != nil {
+				fmt.Println(err)
+			}
+			client.Set("buys", newBuysJSON, 0)
+		}
+
+	}
+	
+	msg := "Buyed"
+	successfullBuyed, parsingError := json.Marshal(SuccessMessage{Data: msg})
+	if parsingError != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	w.Write(successfullBuyed)
+}
+
+func ProductsBuys(w http.ResponseWriter, r *http.Request) {
+	// Conexion con redis
+	client := redis.NewClient(&redis.Options{
+		Addr:     "redis:6379",
+		Password: "",
+		DB:       0,
+	})
+	
+	// Obteniendo los resultados de redis
+	result, err := client.Get("buys").Result()
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	// Parsing compras de string a json
+	bytes := []byte(result)	
+	var buys []models.Buy
+	json.Unmarshal(bytes, &buys)
+	buysJSON, err := json.Marshal(BuyStats{Data: buys})
+
+	// Enviando respuesta
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	w.Write(buysJSON)
+}
+
+func LikeProduct(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+    name := vars["name"] // the book title slug
+
+	// Augmentando en uno el like del producto
+	err := data.LikeProduct(name)
+	// Error cuando no se ha podido hacer un like
+	if err != nil {
+		msg := "Cannot like the product: '" + name + "'"
+		errorMessage, parsingError := json.Marshal(ProductError{Data: msg})
+		if parsingError != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			return
+		}
+
+		w.WriteHeader(http.StatusNotFound)
+		w.Write(errorMessage)
 		return
 	}
 
-	fmt.Println("---deleted Comment---")
-
+	// Enviando respuesta
+	msg := "Product liked"
+	successfullLiked, parsingError := json.Marshal(SuccessMessage{Data: msg})
+	if parsingError != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
+	w.Write(successfullLiked)
 }
