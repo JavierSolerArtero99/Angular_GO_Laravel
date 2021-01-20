@@ -22,12 +22,7 @@ type (
 	Buy struct {
 		Product		string	
 		Price 		int			
-	}
-)
-
-type (
-	BuyArray struct {
-		Buys		[]Buy
+		TimesBuyed	int
 	}
 )
 

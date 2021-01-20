@@ -14,6 +14,10 @@ type (
 		Data models.Products `json:"product"`
 	}
 
+	BuyStats struct {
+		Data []models.Buy `json:"buys"`
+	}
+
 	ProductError struct {
 		Data string `json:"error"`
 	}
