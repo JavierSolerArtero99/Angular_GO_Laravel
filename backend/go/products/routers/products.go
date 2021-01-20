@@ -15,7 +15,7 @@ import (
 func setProductRouters(router *mux.Router) *mux.Router {
 	router.HandleFunc("/products", controllers.GetProducts).Methods("GET")
 	router.HandleFunc("/products/product", controllers.GetSingleProducts).Methods("GET")
-	router.HandleFunc("/products/like/{id}", controllers.LikeProduct).Methods("POST")
+	router.HandleFunc("/products/like/{name}", controllers.LikeProduct).Methods("POST")
 	router.HandleFunc("/products/comment", controllers.PostComment).Methods("POST")
 	router.HandleFunc("/products/buy", controllers.ProductsBuys).Methods("GET")
 	router.HandleFunc("/products/buy", controllers.BuyProduct).Methods("POST")
