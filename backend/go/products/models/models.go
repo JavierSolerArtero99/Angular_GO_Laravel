@@ -2,12 +2,16 @@ package models
 
 type (
 	Products struct {
-		ID        uint `gorm:"primary_key" json:"Id"`
-		Name      string
-		Likes     int
-		User      uint      `json:"-"`
-		UserModel User      `gorm:"foreignKey:ID" json:"User"`
-		Comments  []Comment `gorm:"foreignKey:ProductID;references:ID"`
+		ID          uint `gorm:"primary_key" json:"Id"`
+		Slug        string
+		Name        string
+		Price       float32
+		Image       string
+		Description string
+		Likes       int
+		User        uint      `json:"-"`
+		UserModel   User      `gorm:"foreignKey:ID" json:"User"`
+		Comments    []Comment `gorm:"foreignKey:ProductID;references:ID"`
 	}
 )
 

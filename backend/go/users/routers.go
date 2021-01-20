@@ -18,7 +18,7 @@ func UsersRegister(router *gin.RouterGroup) {
 	router.GET("/redis/", Redis)
 	router.POST("/", UsersRegistration)
 	router.POST("/login", UsersLogin)
-	router.PUT("/logout", UsersLogout)
+	router.POST("/logout", UsersLogout)
 }
 
 func Redis(c *gin.Context) {
@@ -221,6 +221,23 @@ func UsersLogin(c *gin.Context) {
 	}
 
 	err = client.Set("current_users", num+1, 0).Err()
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	// Add new user connected
+	value, err = client.Get("total_users").Result()
+
+	num = 0
+	if len(value) > 0 {
+		num, err = strconv.Atoi(value)
+		if err != nil {
+			return
+		}
+
+	}
+
+	err = client.Set("total_users", num+1, 0).Err()
 	if err != nil {
 		fmt.Println(err)
 	}
