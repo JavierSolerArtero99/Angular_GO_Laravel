@@ -7,7 +7,7 @@
         <strong>{{ currentUsers }}</strong>
       </h5>
     </div>
-    
+
     <div class="stats__stat">
       <img src="./../../../assets/money.png" alt="Money" height="40px" />
       <h5><strong>MONEY EARNED</strong></h5>
@@ -23,12 +23,14 @@
         <strong>{{ totalUsers }}</strong>
       </h5>
     </div>
-    
-    <button (click)="toogleNewProductForm()" class="stats__stat stats__stat--outline">
+
+    <button
+      (click)="toogleNewProductForm()"
+      class="stats__stat stats__stat--outline"
+    >
       <img src="./../../../assets/add.png" alt="" height="40px" />
       <h5><strong> NEW PRODUCT</strong></h5>
     </button>
-
   </section>
 
   <section class="stats__newProduct" [hidden]="!isNewProduct">
@@ -73,7 +75,7 @@
         </fieldset>
 
         <button
-          style="background-color: royalblue;"
+          style="background-color: royalblue"
           class="btn btn-lg pull-xs-right btn-primary"
           type="button"
           (click)="submitProduct()"
@@ -84,8 +86,37 @@
     </form>
   </section>
 
-  <section class="stats__productStats">
+  <section *ngIf="!loading" class="totalPrice">
+    <h3>Total amount in last 24 hours</h3>
+    <img src="../../../assets/moneyIcon.png">
+    <p>{{totalAmount}} $</p>
+  </section>
+
+  <section *ngIf="!loading" class="stats__productStats">
     <h3>Better valored product in lasts 24 hours</h3>
+    <div>
+      <img src="../../../assets/gold.png" height="100px" alt="Better product" />
+      <div>
+        <h4>{{ bestsBuys[0].Product }}</h4>
+        <h5>{{ bestsBuys[0].Price }} $</h5>
+      </div>
+    </div>
+
+     <div>
+      <img src="../../../assets/silver.png" height="100px" alt="Better product" />
+      <div>
+        <h4>{{ bestsBuys[1].Product }}</h4>
+        <h5>{{ bestsBuys[1].Price }} $</h5>
+      </div>
+    </div>
+
+     <div>
+      <img src="../../../assets/copper.png" height="100px" alt="Better product" />
+      <div>
+        <h4>{{ bestsBuys[2].Product }}</h4>
+        <h5>{{ bestsBuys[2].Price }} $</h5>
+      </div>
+    </div>
   </section>
 </section>
 <!-- COMPONENT STYLE -->
@@ -95,6 +126,7 @@
     padding-left: 3rem;
     padding-right: 3rem;
   }
+
   .stats {
     margin-top: 1rem;
     display: flex;
@@ -141,7 +173,30 @@
     margin-top: 2rem;
   }
 
+  .totalPrice{
+    margin-top: 3rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .totalPrice p {
+    font-weight: bold;
+    font-size: 100px;
+  }
+
   .stats__productStats {
     margin-top: 2rem;
+  }
+
+  .stats__productStats div{
+    display: flex;
+    margin-bottom: 2rem;
+    margin-top: 2rem;
+  }
+
+  .stats__productStats div div{
+    display: flex;
+    flex-direction: column;
   }
 </style>

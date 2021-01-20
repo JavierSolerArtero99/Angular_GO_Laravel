@@ -13,10 +13,14 @@ export class StatsService {
   ) {}
 
   getCurrentUsersCache(): any {
-    return this.apiService.getGo("/users/redis")
+    return this.apiService.getGo("/users/redis");
+  }
+
+  getValoredProducts():any {
+    return this.apiService.getGoProducts("/buy");
   }
 
   getProductCache(): any {
-    return this.apiService.getGo("/products/redis")
+    return this.apiService.getGo("/products/redis");
   }
 }
