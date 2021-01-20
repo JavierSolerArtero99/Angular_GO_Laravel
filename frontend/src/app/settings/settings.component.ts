@@ -41,6 +41,10 @@ export class SettingsComponent implements OnInit {
   logout() {
     this.userService.purgeAuth();
     this.router.navigateByUrl('/');
+    this.userService.logout(this.user).subscribe(
+      (data) => console.log(data),
+      (err) => console.log(err)
+    );
   }
 
   submitForm() {

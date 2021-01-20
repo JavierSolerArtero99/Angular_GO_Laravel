@@ -15,4 +15,8 @@ export class StatsService {
   getCurrentUsersCache(): any {
     return this.apiService.getGo("/users/redis")
   }
+
+  getProductCache(): any {
+    return this.apiService.getGo("/products/redis")
+  }
 }

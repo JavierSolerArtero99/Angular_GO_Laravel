@@ -7,11 +7,28 @@
         <strong>{{ currentUsers }}</strong>
       </h5>
     </div>
+    
+    <div class="stats__stat">
+      <img src="./../../../assets/money.png" alt="Money" height="40px" />
+      <h5><strong>MONEY EARNED</strong></h5>
+      <h5>
+        <strong>{{ moneyEarned }}€</strong>
+      </h5>
+    </div>
 
+    <div class="stats__stat">
+      <img src="./../../../assets/users.png" alt="Users" height="40px" />
+      <h5><strong>TOTAL USERS TODAY</strong></h5>
+      <h5>
+        <strong>{{ totalUsers }}</strong>
+      </h5>
+    </div>
+    
     <button (click)="toogleNewProductForm()" class="stats__stat stats__stat--outline">
       <img src="./../../../assets/add.png" alt="" height="40px" />
       <h5><strong> NEW PRODUCT</strong></h5>
     </button>
+
   </section>
 
   <section class="stats__newProduct" [hidden]="!isNewProduct">

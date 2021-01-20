@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
-import { StatsService } from "../../core";
+import { StatsService } from "../../core/services/stats.service";
 
 @Component({
   selector: "app-panel",
@@ -8,7 +8,9 @@ import { StatsService } from "../../core";
   styles: [],
 })
 export class PanelComponent implements OnInit {
-  @Input() currentUsers: any;
+  currentUsers: number = 0;
+  moneyEarned: number = 0;
+  totalUsers: number = 0;
   productForm: FormGroup;
   commentMessage = new FormControl();
   productName = new FormControl();
@@ -24,7 +26,7 @@ export class PanelComponent implements OnInit {
     this.statsService.getCurrentUsersCache().subscribe((data) => {
       this.currentUsers = data.current_users
     });
-    
+
     this.productForm = this.fb.group({
       productName: "",
       productPrice: "",
