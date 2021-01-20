@@ -298,3 +298,31 @@ func ProductsBuys(w http.ResponseWriter, r *http.Request) {
 	w.Write(buysJSON)
 }
 
+func LikeProduct(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("Like al producto")
+	vars := mux.Vars(r)
+    slug := vars["id"] // the book title slug
+	parsedSlug, err := strconv.ParseInt(slug, 10, 64)
+	if err != nil {
+		msg := "Must introduce an id Product'"
+		errorMessage, parsingError := json.Marshal(ProductError{Data: msg})
+		if parsingError != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			return
+		}
+
+		w.WriteHeader(http.StatusNotFound)
+		w.Write(errorMessage)
+		return
+	}
+
+	fmt.Println("parsedSlug")
+	fmt.Println(parsedSlug)
+
+	// Peticion de like
+	
+
+	// Enviando respuesta
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+}
