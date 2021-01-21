@@ -42,7 +42,7 @@ export class HomeComponent implements OnInit {
     );
 
     this.statsService.getCurrentUsersCache().subscribe((data) => {
-      this.currentUsers = data.current_users
+      this.currentUsers = data.users;
     });
 
     // this.statsService.getProductCache().subscribe((data) => {

@@ -1,5 +1,7 @@
 package models
 
+import "time"
+
 type (
 	Products struct {
 		ID          uint `gorm:"primary_key" json:"Id"`
@@ -9,7 +11,9 @@ type (
 		Image       string
 		Description string
 		Likes       int
-		User        uint      `json:"-"`
+		CreatedAt   time.Time `sql:",null"`
+		UpdatedAt   time.Time `sql:",null"`
+		UserID      uint      `json:"-"`
 		UserModel   User      `gorm:"foreignKey:ID" json:"User"`
 		Comments    []Comment `gorm:"foreignKey:ProductID;references:ID"`
 	}
@@ -24,9 +28,9 @@ type (
 
 type (
 	Buy struct {
-		Product		string	
-		Price 		int			
-		TimesBuyed	int
+		Product    string
+		Price      int
+		TimesBuyed int
 	}
 )
 

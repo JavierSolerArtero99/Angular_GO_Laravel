@@ -7,7 +7,7 @@ import { take } from 'rxjs/operators';
 import { User } from '../models';
 
 @Injectable()
-export class AuthGuard implements CanActivate {
+export class RoleGuard implements CanActivate {
   constructor(
     private router: Router,
     private userService: UserService
@@ -18,7 +18,7 @@ export class AuthGuard implements CanActivate {
     state: RouterStateSnapshot
   ): Observable<boolean> {
 
-    return this.userService.isAuthenticated.pipe(take(1));
+    return this.userService.isAuthenticatedAdmin.pipe(take(1));
 
   }
 }

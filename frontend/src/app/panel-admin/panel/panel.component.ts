@@ -24,7 +24,11 @@ export class PanelComponent implements OnInit {
 
   ngOnInit() {
     this.statsService.getCurrentUsersCache().subscribe((data) => {
-      this.currentUsers = data.current_users
+      this.currentUsers = data.users;
+    });
+
+    this.statsService.getTotalUsersCache().subscribe((data) => {
+      this.totalUsers = data.users;
     });
 
     this.productForm = this.fb.group({

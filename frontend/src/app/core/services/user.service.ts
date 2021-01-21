@@ -15,7 +15,9 @@ export class UserService {
     .pipe(distinctUntilChanged());
 
   private isAuthenticatedSubject = new ReplaySubject<boolean>(1);
+  private isAuthenticatedSubjectAdmin = new ReplaySubject<boolean>(1);
   public isAuthenticated = this.isAuthenticatedSubject.asObservable();
+  public isAuthenticatedAdmin = this.isAuthenticatedSubjectAdmin.asObservable();
 
   constructor(
     private apiService: ApiService,
@@ -51,6 +53,7 @@ export class UserService {
     this.currentUserSubject.next(user);
     // Set isAuthenticated to true
     this.isAuthenticatedSubject.next(true);
+    user.role && this.isAuthenticatedSubjectAdmin.next(true);
   }
 
   purgeAuth() {
@@ -78,12 +81,13 @@ export class UserService {
   }
 
   adminAttemptAuth(credentials): Observable<User> {
+    console.log(credentials);
     
     return this.apiService.post('/users/login', { user: credentials },)
       .pipe(map(
         data => {
           console.log("==========================ADMIN==========================");
-          // this.setAuth(data.user);
+          this.setAuth(data.user);
           console.log(data);
           return data;
         }
