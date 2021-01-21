@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Tag;
 use App\Product;
 use App\RealWorld\Paginate\Paginate;
 use App\RealWorld\Filters\ProductFilter;
 use App\Http\Requests\Api\CreateProduct;
 use App\Http\Requests\Api\UpdateProduct;
 use App\Http\Requests\Api\DeleteProduct;
+use App\Models\User;
 use App\RealWorld\Transformers\ProductTransformer;
+use Composer\DependencyResolver\Request;
 
 class ProductController extends ApiController
 {
@@ -22,8 +23,8 @@ class ProductController extends ApiController
     {
         $this->transformer = $transformer;
 
-        $this->middleware('auth.api')->except(['index', 'show']);
-        $this->middleware('auth.api:optional')->only(['index', 'show']);
+        $this->middleware('auth.api')->except(['index', 'show', 'list', 'insert']);
+        $this->middleware('auth.api:optional')->only(['index', 'show', 'list', 'insert']);
     }
 
     /**
@@ -68,6 +69,42 @@ class ProductController extends ApiController
     public function show(Product $product)
     {
         return $this->respondWithTransformer($product);
+    }
+
+    /**
+     * Get all the tags.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function list()
+    {
+        return Product::all();
+        // return $this->respondWithTransformer($tags);
+    }
+
+    /**
+     * Get all the tags.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function insert(CreateProduct $request)
+    {
+        $user = auth()->user();
+
+        if (!$user) {
+            $user = \App\User::where('id', $request->input('product.user'))->first();
+        }
+
+        if (!$user) return "error on logged user";
+
+        $product = $user->products()->create([
+            'name'  => $request->input('product.name'),
+            'image' => $request->input('product.image'),
+            'price' => $request->input('product.price'),
+            'likes' => 0
+        ]);
+
+        return $product;
     }
 
     /**

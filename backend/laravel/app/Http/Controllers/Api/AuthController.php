@@ -73,7 +73,20 @@ class AuthController extends ApiController
     public function currentUsers()
     {
         $result = array("users"=>Redis::get("current_users"));
-        return json_encode($result);
+        return $result;
+    }
+
+    /**
+     * Return redis total users
+     */
+    public function totalUsers()
+    {
+        $result = array("users"=>Redis::get("total_users"));
+        return $result;
+    }
+
+    public function hello() {
+        return 'hello';
     }
 
     /**

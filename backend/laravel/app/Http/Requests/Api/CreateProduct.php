@@ -24,7 +24,9 @@ class CreateProduct extends ApiRequest
         return [
             'name' => 'required|string|max:255',
             'image' => 'sometimes|string',
-            'price' => 'required|float',
+            'price' => 'required|numeric',
+            'description' => 'sometimes|string|max:255',
+            'user' => 'sometimes|numeric'
         ];
     }
 }

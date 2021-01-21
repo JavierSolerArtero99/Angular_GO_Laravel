@@ -1,4 +1,6 @@
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { User, UserService } from '../../core';
 
@@ -11,7 +13,9 @@ export class HeaderComponent implements OnInit {
     private userService: UserService,
   ) {}
 
+  router: Router;
   currentUser: User;
+  isAuthed: boolean = false;
   isModeAdmin: boolean = false;
 
   ngOnInit() {
@@ -24,16 +28,18 @@ export class HeaderComponent implements OnInit {
 
   loginClient() {
     console.log('loginClient');
+    console.log(this.currentUser);
     
-    // this.userService
-    // .attemptAuth(this.currentUser)
-    // .subscribe(
-    //   data => {
-    //     console.log(data);
-    //     this.isModeAdmin = true;
-    //   },
-    //   err => console.log(err)
-    // );
+    
+    this.userService
+    .attemptAuth("login", this.currentUser)
+    .subscribe(
+      data => {
+        console.log(data);
+        this.isModeAdmin = true;
+      },
+      err => console.log(err)
+    );
 
     this.isModeAdmin=false;
   }
@@ -41,15 +47,17 @@ export class HeaderComponent implements OnInit {
   loginAdmin() {
     console.log('loginAdmin');
     
-    // this.userService
-    // .adminAttemptAuth(this.currentUser)
-    // .subscribe(
-    //   data => {
-    //     console.log(data);
-    //     this.isModeAdmin = true;
-    //   },
-    //   err => console.log(err)
-    // );
+    this.isAuthed = true;
+
+    this.userService
+    .adminAttemptAuth(this.currentUser)
+    .subscribe(
+      data => {
+        console.log(data);
+        this.isModeAdmin = true;
+      },
+      err => console.log(err)
+    );
 
     this.isModeAdmin=true;
   }

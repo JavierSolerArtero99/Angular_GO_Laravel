@@ -1,6 +1,7 @@
 <nav class="navbar navbar-light">
   <div class="container">
-    <a class="navbar-brand" style="color: royalblue !important;" routerLink="{{!isModeAdmin && '/'}}">{{ isModeAdmin ? 'Panel admin' : 'shop-it' }}</a>
+    <a [hidden]="!isModeAdmin" class="navbar-brand" style="color: royalblue !important;">Panel Admin</a>
+    <a [hidden]="isModeAdmin" class="navbar-brand" style="color: royalblue !important;" routerLink="/">shop-it</a>
 
     <!-- Show this for logged out users -->
     <ul *appShowAuthed="false"
@@ -32,7 +33,7 @@
     </ul>
 
     <!-- Show this for logged in users -->
-    <ul *appShowAuthed="true"
+    <ul *appShowAuthed="isAuthed"
       class="nav navbar-nav pull-xs-right">
 
       <li class="nav-item" *ngIf="!isModeAdmin">
