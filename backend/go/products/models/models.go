@@ -5,6 +5,7 @@ type (
 		ID        uint `gorm:"primary_key" json:"Id"`
 		Name      string
 		Likes     int
+		Price	  uint	 `json:"Price"`
 		User      uint      `json:"-"`
 		UserModel User      `gorm:"foreignKey:ID" json:"User"`
 		Comments  []Comment `gorm:"foreignKey:ProductID;references:ID"`

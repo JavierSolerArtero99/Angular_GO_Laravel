@@ -54,9 +54,15 @@ export class ProductService {
       .pipe(map((data) => data));
   }
 
-  likeProduct(comment: any): Observable<Comment> {
+  likeProduct(product: any): Observable<Comment> {
     return this.apiService
-      .postGoProducts(`/like/${comment.Name}`)
+      .postGoProducts(`/like/${product.Name}`)
+      .pipe(map((data) => data));
+  }
+
+  buyProduct(product): any {
+    return this.apiService
+      .postGoProducts(`/buy`, product)
       .pipe(map((data) => data));
   }
 }
