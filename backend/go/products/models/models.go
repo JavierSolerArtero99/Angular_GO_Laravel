@@ -4,6 +4,7 @@ type (
 	Products struct {
 		ID        uint `gorm:"primary_key" json:"Id"`
 		Name      string
+		Image      string
 		Likes     int
 		Price	  uint	 `json:"Price"`
 		User      uint      `json:"-"`

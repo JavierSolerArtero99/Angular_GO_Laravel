@@ -70,6 +70,27 @@ If the user has enought provileges, he will be admin and will see the "Panel Adm
 
 This is the product's page where all the info of it will be displayed. 
 
+![](./docs/page-product-buy.png)
+
+Client can buy the product. If client buys the product the stats on redis will be updated
+
 ![](./docs/page-comments.png)
 
 Also the users can publish comments to a single product
+
+![](./docs/page-panel-admin.png)
+
+![](./docs/new-product-form.png)
+
+![](./docs/page-panel-admin2.png)
+
+The admin user can visualice some stats and actions: 
+- Current users loggeds
+- Save a new product
+- See products that are most buyed
+- Know the total amount of buys
+
+![](./docs/back.png)
+
+There is an url to redirect the shop
+
