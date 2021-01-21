@@ -53,4 +53,10 @@ export class ProductService {
       .deleteGoComments(`/comment/${comment.ID}`)
       .pipe(map((data) => data));
   }
+
+  likeProduct(comment: any): Observable<Comment> {
+    return this.apiService
+      .postGoProducts(`/like/${comment.Name}`)
+      .pipe(map((data) => data));
+  }
 }

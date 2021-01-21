@@ -1,7 +1,7 @@
 <!-- HTML COMPONENT -->
 
 
-  <div [routerLink]="['#']" class="previewContainer">
+  <div class="previewContainer">
     <img
       src="{{ product.Image }}"
       width="20%"
@@ -12,7 +12,7 @@
       <span>From: {{ product.User.Username }}</span>
     </div>
 
-    <button class="likeButton" style="color: royalblue;">{{ product.Likes }}
+    <button (click)="likeProduct()" class="likeButton" style="color: royalblue;">{{ product.Likes }}
       <img
         width="100%"
         src="../../../assets/heart.png"
