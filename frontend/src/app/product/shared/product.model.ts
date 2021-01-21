@@ -2,9 +2,9 @@ import { Comment } from "../../core";
 
 export interface Product {
   Id: number;
-  name: string;
+  Name: string;
   image: string;
-  price: number;
+  Price: number;
   likes: number;
   Comments: Comment[];
   //   user: number

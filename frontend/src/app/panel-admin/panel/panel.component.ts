@@ -8,6 +8,9 @@ import { StatsService } from "../../core/services/stats.service";
   styles: [],
 })
 export class PanelComponent implements OnInit {
+  bestsBuys: any;
+  totalAmount: number = 0;
+  loadingProducts: boolean = true;
   currentUsers: number = 0;
   moneyEarned: number = 0;
   totalUsers: number = 0;
@@ -24,11 +27,26 @@ export class PanelComponent implements OnInit {
 
   ngOnInit() {
     this.statsService.getCurrentUsersCache().subscribe((data) => {
-      this.currentUsers = data.users;
+      this.currentUsers = data.current_users;
     });
 
-    this.statsService.getTotalUsersCache().subscribe((data) => {
-      this.totalUsers = data.users;
+    this.statsService.getValoredProducts().subscribe((data) => {
+      data.buys.sort(function (a, b) {
+        if (a.TimesBuyed < b.TimesBuyed) {
+          return 1;
+        }
+        if (a.TimesBuyed > b.TimesBuyed) {
+          return -1;
+        }
+        return 0;
+      });
+
+      data.buys.forEach(buy => {
+        this.totalAmount += buy.Price * buy.TimesBuyed
+      });
+
+      this.bestsBuys = [data.buys[0], data.buys[1], data.buys[2]];
+      this.loadingProducts = false;
     });
 
     this.productForm = this.fb.group({
@@ -40,8 +58,6 @@ export class PanelComponent implements OnInit {
   }
 
   toogleNewProductForm(): void {
-    console.log(this.currentUsers);
-
     this.isNewProduct = !this.isNewProduct;
   }
 

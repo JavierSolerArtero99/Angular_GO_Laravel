@@ -1,3 +1,5 @@
+<!-- HTML COMPONENT -->
+
 <section class="statsContainer">
   <section class="stats">
     <div class="stats__stat">
@@ -5,14 +7,6 @@
       <h5><strong>CURRENT USERS</strong></h5>
       <h5>
         <strong>{{ currentUsers }}</strong>
-      </h5>
-    </div>
-    
-    <div class="stats__stat">
-      <img src="./../../../assets/money.png" alt="Money" height="40px" />
-      <h5><strong>MONEY EARNED</strong></h5>
-      <h5>
-        <strong>{{ moneyEarned }}€</strong>
       </h5>
     </div>
 
@@ -23,12 +17,14 @@
         <strong>{{ totalUsers }}</strong>
       </h5>
     </div>
-    
-    <button (click)="toogleNewProductForm()" class="stats__stat stats__stat--outline">
+
+    <button
+      (click)="toogleNewProductForm()"
+      class="stats__stat stats__stat--outline"
+    >
       <img src="./../../../assets/add.png" alt="" height="40px" />
       <h5><strong> NEW PRODUCT</strong></h5>
     </button>
-
   </section>
 
   <section class="stats__newProduct" [hidden]="!isNewProduct">
@@ -73,7 +69,7 @@
         </fieldset>
 
         <button
-          style="background-color: royalblue;"
+          style="background-color: royalblue"
           class="btn btn-lg pull-xs-right btn-primary"
           type="button"
           (click)="submitProduct()"
@@ -84,10 +80,48 @@
     </form>
   </section>
 
-  <section class="stats__productStats">
-    <h3>Most valuated product in last 24h</h3>
+  <section *ngIf="!loading" class="totalPrice">
+    <h3>Total amount in last 24 hours</h3>
+    <img src="../../../assets/money.png" />
+    <p>{{ totalAmount }} $</p>
+  </section>
+
+  <section *ngIf="!loading" class="stats__productStats">
+    <h3>Better valored product in lasts 24 hours</h3>
+    <div class="stat">
+      <img src="../../../assets/gold.png" height="100px" alt="Better product" />
+      <div class="stat__data">
+        <h4>{{ bestsBuys[0].Product }}</h4>
+        <h5>{{ bestsBuys[0].Price }} $</h5>
+      </div>
+    </div>
+
+    <div class="stat">
+      <img
+        src="../../../assets/silver.png"
+        height="100px"
+        alt="Better product"
+      />
+      <div class="stat__data">
+        <h4>{{ bestsBuys[1].Product }}</h4>
+        <h5>{{ bestsBuys[1].Price }} $</h5>
+      </div>
+    </div>
+
+    <div class="stat">
+      <img
+        src="../../../assets/copper.png"
+        height="100px"
+        alt="Better product"
+      />
+      <div class="stat__data">
+        <h4>{{ bestsBuys[2].Product }}</h4>
+        <h5>{{ bestsBuys[2].Price }} $</h5>
+      </div>
+    </div>
   </section>
 </section>
+
 <!-- COMPONENT STYLE -->
 
 <style>
@@ -95,6 +129,7 @@
     padding-left: 3rem;
     padding-right: 3rem;
   }
+
   .stats {
     margin-top: 1rem;
     display: flex;
@@ -141,7 +176,43 @@
     margin-top: 2rem;
   }
 
+  .totalPrice {
+    margin-top: 1rem;
+    padding-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: royalblue;
+    color: white;
+    border-radius: 20px;
+  }
+
+  .totalPrice h3 {
+    margin-bottom: 2rem;
+  }
+
+  .totalPrice p {
+    font-weight: bold;
+    font-size: 100px;
+  }
+
   .stats__productStats {
     margin-top: 2rem;
+  }
+
+  .stat {
+    display: flex;
+    background-color: white;
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+    padding: 2rem;
+    border-radius: 20px;
+    box-shadow: 0 5px 10px rgba(154, 160, 185, 0.05),
+      0 15px 40px rgba(166, 173, 201, 0.2);
+  }
+
+  .stat__data {
+    display: flex;
+    flex-direction: column;
   }
 </style>

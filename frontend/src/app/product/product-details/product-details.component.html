@@ -1,20 +1,32 @@
 <!-- PRODUCT DETAIL - COMPONENT -->
 
 <!-- product content  -->
-<section *ngIf="!loading" class="details" >
+<section *ngIf="!loading" class="details">
   <!-- loading product -->
   <div class="loadingContent" [hidden]="!loading">
     <h2>Loading...</h2>
   </div>
 
-  <div class="productContent" >
-    <img class="productImage"
+  <div class="successComment" [hidden]="!showBuy">
+    <p>Has comprado el producto</p>
+  </div>
+  <div class="productContent">
+    <img
+      class="productImage"
       src="{{ product.Image }}"
-      alt="{{ product.Name }} product image" />
+      alt="{{ product.Name }} product image"
+    />
     <div class="productDescription">
       <h1>{{ product.Name }}</h1>
-      <h2 style="color: royalblue;">{{ product.Price }}€</h2>
+      <h2 style="color: royalblue">{{ product.Price }}€</h2>
       <p>{{ product.Description }}</p>
+      <button
+        class="sendButton btn btn-lg pull-xs-right btn-primary"
+        style="background-color: royalblue !important"
+        (click)="buyProduct()"
+      >
+        Buy product
+      </button>
     </div>
   </div>
 
@@ -27,16 +39,28 @@
         <p>{{ commentSuccessMessage }}</p>
       </div>
       <form [formGroup]="form">
-        <textarea placeholder="Comment" type="text" class="form-control form-control-lg ng-pristine ng-valid ng-touched"
-          formControlName="commentMessage"></textarea>
+        <textarea
+          placeholder="Comment"
+          type="text"
+          class="form-control form-control-lg ng-pristine ng-valid ng-touched"
+          formControlName="commentMessage"
+        ></textarea>
       </form>
-      <button class="sendButton btn btn-lg pull-xs-right btn-primary" style="background-color: royalblue !important;" (click)="publishComment()">
+      <button
+        class="sendButton btn btn-lg pull-xs-right btn-primary"
+        style="background-color: royalblue !important"
+        (click)="publishComment()"
+      >
         Add Comment
       </button>
     </div>
     <h3>Comments</h3>
-    <app-product-comment *ngFor="let comment of product.Comments" [comment]="comment" [authorId]="getAuthorId()"
-      [deleteComment]="deleteComment"></app-product-comment>
+    <app-product-comment
+      *ngFor="let comment of product.Comments"
+      [comment]="comment"
+      [authorId]="getAuthorId()"
+      [deleteComment]="deleteComment"
+    ></app-product-comment>
   </div>
 </section>
 
@@ -77,7 +101,7 @@
   .addComments {
     margin-top: 3rem;
     margin-bottom: 3rem;
-    
+
     width: 70%;
   }
 

@@ -24,6 +24,7 @@ export class ProductDetailsComponent implements OnInit {
   isSubmitting = false;
   isDeleting = false;
   loading: boolean = true;
+  showBuy: boolean = false;
 
   constructor(
     private productService: ProductService,
@@ -44,7 +45,7 @@ export class ProductDetailsComponent implements OnInit {
     this.productService.getSingleProduct(productName).subscribe((data) => {
       this.product = data.product;
       console.log(this.product);
-      
+
       this.loading = false;
       this.comments = data.product.Comments;
       console.log("===data===");
@@ -86,11 +87,27 @@ export class ProductDetailsComponent implements OnInit {
     return this.userService.getCurrentUser().id;
   }
 
-  deleteComment(comment: any) {
+  buyProduct() {
+    console.log(this.product);
+    
+    // comprando producto
+    this.productService
+      .buyProduct({
+        Product: this.product.Name,
+        Price: this.product.Price,
+      })
+      .subscribe((data) => {
+        console.log(data)
+        if (data.success) {
+          this.showBuy = true
+        }
+      });
+  }
 
+  deleteComment(comment: any) {
     console.log("Comment to delete");
     console.log(comment);
-    
+
     this.productService.deleteComment(comment).subscribe((data) => {
       console.log("se ha eliminado el comentario");
       console.log(data);

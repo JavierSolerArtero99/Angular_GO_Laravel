@@ -20,7 +20,11 @@ export class StatsService {
     return this.apiService.get("/users/totalUsers");
   }
 
+  getValoredProducts():any {
+    return this.apiService.getGoProducts("/buy");
+  }
+
   getProductCache(): any {
-    return this.apiService.get("/users/currentUsers");
+    return this.apiService.getGo("/products/redis");
   }
 }
