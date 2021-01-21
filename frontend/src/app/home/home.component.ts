@@ -17,7 +17,7 @@ export class HomeComponent implements OnInit {
     private userService: UserService,
     private statsService: StatsService,
     private productsService: ProductService,
-  ) {}
+  ) { }
 
   currentUsers: number = 0;
   product: Product;
@@ -45,11 +45,17 @@ export class HomeComponent implements OnInit {
       this.currentUsers = data.users;
     });
 
-    // this.statsService.getProductCache().subscribe((data) => {
-      this.productsService.getSingleProduct("Camiseta").subscribe((data) => {
-        this.product = data.product;
-      });
-    // });
+    this.statsService.getValoredProducts().subscribe((data) => {
+      this.product = data.buys.sort(function (a, b) {
+        if (a.TimesBuyed < b.TimesBuyed) {
+          return 1;
+        }
+        if (a.TimesBuyed > b.TimesBuyed) {
+          return -1;
+        }
+        return 0;
+      })[0];
+    });
   }
 
   setListTo(type: string = '', filters: Object = {}) {
@@ -60,6 +66,6 @@ export class HomeComponent implements OnInit {
     }
 
     // Otherwise, set the list object
-    this.listConfig = {type: type, filters: filters};
+    this.listConfig = { type: type, filters: filters };
   }
 }

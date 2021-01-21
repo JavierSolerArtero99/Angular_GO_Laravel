@@ -88,15 +88,15 @@
 
   <section *ngIf="!loading" class="stats__productStats">
     <h3>Better valored product in lasts 24 hours</h3>
-    <div class="stat">
+    <div *ngFor="let buy of bestsBuys; let i = index" class="stat">
       <img src="../../../assets/gold.png" height="100px" alt="Better product" />
       <div class="stat__data">
-        <h4>{{ bestsBuys[0].Product }}</h4>
-        <h5>{{ bestsBuys[0].Price }} $</h5>
+        <h4>{{ buy.Product }}</h4>
+        <h5>{{ buy.Price }} $</h5>
       </div>
     </div>
 
-    <div class="stat">
+    <!-- <div class="stat">
       <img
         src="../../../assets/silver.png"
         height="100px"
@@ -118,7 +118,7 @@
         <h4>{{ bestsBuys[2].Product }}</h4>
         <h5>{{ bestsBuys[2].Price }} $</h5>
       </div>
-    </div>
+    </div> -->
   </section>
 </section>
 

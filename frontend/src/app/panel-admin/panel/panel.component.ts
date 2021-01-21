@@ -8,7 +8,7 @@ import { StatsService } from "../../core/services/stats.service";
   styles: [],
 })
 export class PanelComponent implements OnInit {
-  bestsBuys: any;
+  bestsBuys: any = [];
   totalAmount: number = 0;
   loadingProducts: boolean = true;
   currentUsers: number = 0;
@@ -41,11 +41,12 @@ export class PanelComponent implements OnInit {
         return 0;
       });
 
+      let cont = 0;
       data.buys.forEach(buy => {
         this.totalAmount += buy.Price * buy.TimesBuyed
+        if (cont < 3) this.bestsBuys.push(buy);
       });
 
-      this.bestsBuys = [data.buys[0], data.buys[1], data.buys[2]];
       this.loadingProducts = false;
     });
 
