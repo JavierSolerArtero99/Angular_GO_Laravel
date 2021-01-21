@@ -1,6 +1,8 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
+import { UserService } from "../../core";
 import { StatsService } from "../../core/services/stats.service";
+import { ProductService } from "../../product/shared/product.service";
 
 @Component({
   selector: "app-panel",
@@ -21,7 +23,12 @@ export class PanelComponent implements OnInit {
   productImage = new FormControl();
   productDescription = new FormControl();
 
-  constructor(private fb: FormBuilder, private statsService: StatsService) {}
+  constructor(
+    private fb: FormBuilder,
+    private statsService: StatsService,
+    private productService: ProductService,
+    private userService: UserService
+  ) {}
 
   isNewProduct: boolean = false;
 
@@ -41,8 +48,8 @@ export class PanelComponent implements OnInit {
         return 0;
       });
 
-      data.buys.forEach(buy => {
-        this.totalAmount += buy.Price * buy.TimesBuyed
+      data.buys.forEach((buy) => {
+        this.totalAmount += buy.Price * buy.TimesBuyed;
       });
 
       this.bestsBuys = [data.buys[0], data.buys[1], data.buys[2]];
@@ -62,6 +69,18 @@ export class PanelComponent implements OnInit {
   }
 
   submitProduct() {
-    console.log(this.productForm.getRawValue());
+    this.productService
+    .postProduct({
+      product: {
+        name: this.productForm.getRawValue().productName,
+        image: this.productForm.getRawValue().productImage,
+        price: this.productForm.getRawValue().productPrice,
+        description: this.productForm.getRawValue().productDescription,
+        user: this.userService.getCurrentUser().id,
+      },
+    })
+    .subscribe((data) => {
+      console.log(data);
+    });
   }
 }

@@ -36,6 +36,13 @@ export class ProductService {
     return this.apiService.getGoProducts(`/product?name=${productName}`);
   }
 
+  postProduct(product: any): Observable<Product> {
+     return this.apiService.post(
+       "/products",
+       new HttpParams({ fromObject: product })
+     );
+  }
+
   postComment(comment: any): Observable<Comment> {
     console.log(comment);
     return this.apiService
