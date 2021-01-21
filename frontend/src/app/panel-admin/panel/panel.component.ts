@@ -10,7 +10,7 @@ import { ProductService } from "../../product/shared/product.service";
   styles: [],
 })
 export class PanelComponent implements OnInit {
-  bestsBuys: any;
+  bestsBuys: any = [];
   totalAmount: number = 0;
   loadingProducts: boolean = true;
   currentUsers: number = 0;
@@ -34,7 +34,9 @@ export class PanelComponent implements OnInit {
 
   ngOnInit() {
     this.statsService.getCurrentUsersCache().subscribe((data) => {
-      this.currentUsers = data.current_users;
+      console.log(data);
+      
+      this.currentUsers = data.users;
     });
 
     this.statsService.getValoredProducts().subscribe((data) => {
@@ -48,11 +50,12 @@ export class PanelComponent implements OnInit {
         return 0;
       });
 
-      data.buys.forEach((buy) => {
-        this.totalAmount += buy.Price * buy.TimesBuyed;
+      let cont = 0;
+      data.buys.forEach(buy => {
+        this.totalAmount += buy.Price * buy.TimesBuyed
+        if (cont < 3) this.bestsBuys.push(buy);
       });
 
-      this.bestsBuys = [data.buys[0], data.buys[1], data.buys[2]];
       this.loadingProducts = false;
     });
 

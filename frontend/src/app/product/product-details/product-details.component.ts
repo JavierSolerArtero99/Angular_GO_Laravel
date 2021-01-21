@@ -25,6 +25,7 @@ export class ProductDetailsComponent implements OnInit {
   isDeleting = false;
   loading: boolean = true;
   showBuy: boolean = false;
+  showError: boolean = false;
 
   constructor(
     private productService: ProductService,
@@ -40,6 +41,9 @@ export class ProductDetailsComponent implements OnInit {
   ngOnInit() {
     // slicepara cojer el nombre del producto
     let productName = this.router.url.substr(9);
+
+    this.currentUser = this.userService.getCurrentUser();
+    
 
     // obteniendo los datos del producto
     this.productService.getSingleProduct(productName).subscribe((data) => {
@@ -89,6 +93,8 @@ export class ProductDetailsComponent implements OnInit {
 
   buyProduct() {
     console.log(this.product);
+
+    if (!this.currentUser.token) {this.showError = true; return };
     
     // comprando producto
     this.productService

@@ -10,6 +10,9 @@
   <div class="successComment" [hidden]="!showBuy">
     <p>Has comprado el producto</p>
   </div>
+  <div class="failedComment" [hidden]="!showError">
+    <p>Debes iniciar sesión para comprar producto</p>
+  </div>
   <div class="productContent">
     <img
       class="productImage"
@@ -122,6 +125,16 @@
     font-size: 1rem;
     border-radius: 20px;
     background-color: rgb(37, 223, 53);
+    margin-bottom: 2rem;
+  }
+
+  .failedComment {
+    padding: 1rem;
+    color: white;
+    font-weight: bold;
+    font-size: 1rem;
+    border-radius: 20px;
+    background-color: red;
     margin-bottom: 2rem;
   }
 
