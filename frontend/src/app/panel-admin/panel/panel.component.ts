@@ -27,7 +27,9 @@ export class PanelComponent implements OnInit {
 
   ngOnInit() {
     this.statsService.getCurrentUsersCache().subscribe((data) => {
-      this.currentUsers = data.current_users;
+      console.log(data);
+      
+      this.currentUsers = data.users;
     });
 
     this.statsService.getValoredProducts().subscribe((data) => {
