@@ -300,10 +300,12 @@ func ProductsBuys(w http.ResponseWriter, r *http.Request) {
 
 func LikeProduct(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
-    name := vars["name"] // the book title slug
+    name := vars["name"] // the product title slug
+    userId := vars["userId"] // the book title slug
+
 
 	// Augmentando en uno el like del producto
-	err := data.LikeProduct(name)
+	err := data.LikeProduct(name, userId)
 	// Error cuando no se ha podido hacer un like
 	if err != nil {
 		msg := "Cannot like the product: '" + name + "'"

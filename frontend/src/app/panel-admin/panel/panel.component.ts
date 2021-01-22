@@ -76,9 +76,9 @@ export class PanelComponent implements OnInit {
     .postProduct({
       product: {
         name: this.productForm.getRawValue().productName,
-        image: this.productForm.getRawValue().productImage,
+        // image: this.productForm.getRawValue().productImage,
         price: this.productForm.getRawValue().productPrice,
-        description: this.productForm.getRawValue().productDescription,
+        // description: this.productForm.getRawValue().productDescription,
         user: this.userService.getCurrentUser().id,
       },
     })

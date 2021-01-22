@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from "@angular/core";
+import { UserService } from "../../core";
 import { ProductService } from "../shared/product.service";
 
 import { Product } from "./../shared/product.model";
@@ -10,18 +11,43 @@ import { Product } from "./../shared/product.model";
 export class ProductPreviewComponent implements OnInit {
   @Input() product: Product;
 
-  constructor(private productsService: ProductService) {
-
-  }
+  constructor(
+    private productsService: ProductService,
+    private userService: UserService
+  ) {}
 
   ngOnInit(): void {
     console.log(this.product);
   }
 
   likeProduct() {
-    // dandole like al producto
-    this.productsService.likeProduct(this.product).subscribe((data) => {
-      this.product.likes++
-    });
+    const isLiked = this.product.LikesList.some(
+      (like) => like.UserID === this.userService.getCurrentUser().id
+    );
+
+    if (!isLiked) {
+      // dandole like al producto
+      this.productsService
+        .likeProduct(this.product, this.userService.getCurrentUser().id)
+        .subscribe((data) => {
+          this.product.Likes++;
+          this.product.LikesList.push({
+            ProductID: this.product.Id,
+            UserID: this.userService.getCurrentUser().id,
+          });
+        });
+    } else {
+      // dandole like al producto
+      this.productsService
+        .unLike(this.product, this.userService.getCurrentUser().id)
+        .subscribe((data) => {
+          this.product.Likes--;
+          // this.product.LikesList.remove({
+          //   ProductID: this.product.Id,
+          //   UserID: this.userService.getCurrentUser().id,
+          // });
+        });
+      console.log("Quitando el Like");
+    }
   }
 }

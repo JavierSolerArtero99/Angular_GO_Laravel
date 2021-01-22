@@ -2,7 +2,7 @@ package data
 
 import (
 	"fmt"
-
+	"strconv"
 	// "time"
 
 	"products/common"
@@ -21,6 +21,7 @@ func FindProducts() ([]models.Products, error) {
 	for i, _ := range p {
 		var u models.User
 		var c []models.Comment
+		var l []models.LikeList
 
 		// Author
 		db.Find(&p[i]).Related(&u, "user")
@@ -28,6 +29,9 @@ func FindProducts() ([]models.Products, error) {
 		// Comments
 		db.Find(&p[i]).Related(&c, "comments")
 		p[i].Comments = c
+		// Likes
+		db.Where("product_id = ?", p[i].ID).Find(&l)
+		p[i].LikesUserList = l
 	}
 
 	return p, nil
@@ -39,6 +43,7 @@ func FindSingleProduct(name string) (models.Products, error) {
 	var p models.Products
 	var u models.User
 	var c []models.Comment
+	var l []models.LikeList
 
 	fmt.Println("---FindSingleProduct---")
 	fmt.Println(name)
@@ -60,6 +65,10 @@ func FindSingleProduct(name string) (models.Products, error) {
 			db.Find(&commentIteration).Related(&commentAuthor, "user")
 			p.Comments[i].User = commentAuthor
 		}
+
+		// Likes
+		db.Where("product_id = ?", p.ID).Find(&l)
+		p.LikesUserList = l
 	}
 
 	return p, nil
@@ -74,12 +83,27 @@ func SaveComment(commentToSave models.Comment) (models.Comment, error) {
 	return commentToSave, err
 }
 
-func LikeProduct(commentToLike string) error {
+func LikeProduct(productToLike string, userId string) error {
 	db := common.GetDB()
 	var p models.Products
 
-	db.Where("name = ?", commentToLike).First(&p)
+	// Query
+	db.Where("name = ?", productToLike).First(&p)
 	err := db.Model(&p).Update("likes", p.Likes + 1).Error
+
+	i2, err := strconv.ParseInt(userId, 10, 64)
+	if err == nil {
+		fmt.Println(i2)
+	}
+
+	if err == nil {
+		likeList := models.LikeList{
+			ProductID: p.ID,
+			UserID: i2,
+		}
+		err = db.Create(&likeList).Error
+	}
+
 
 	return err
 }

@@ -37,10 +37,10 @@ export class ProductService {
   }
 
   postProduct(product: any): Observable<Product> {
-     return this.apiService.post(
-       "/products",
-       new HttpParams({ fromObject: product })
-     );
+    return this.apiService.post(
+      "/products",
+      new HttpParams({ fromObject: product })
+    );
   }
 
   postComment(comment: any): Observable<Comment> {
@@ -61,10 +61,15 @@ export class ProductService {
       .pipe(map((data) => data));
   }
 
-  likeProduct(product: any): Observable<Comment> {
+  likeProduct(product: any, userId: any): Observable<Comment> {
     return this.apiService
-      .postGoProducts(`/like/${product.Name}`)
+      .postGoProducts(`/like/${product.Name}/${userId}`)
       .pipe(map((data) => data));
+  }
+
+  unLike(product: Product, id: any) {
+    console.log("Deleting MG")
+    return null
   }
 
   buyProduct(product): any {

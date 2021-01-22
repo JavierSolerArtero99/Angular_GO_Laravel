@@ -5,7 +5,8 @@ export interface Product {
   Name: string;
   image: string;
   Price: number;
-  likes: number;
+  Likes: number;
+  LikesList: any;
   Comments: Comment[];
   //   user: number
 }

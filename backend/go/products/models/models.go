@@ -11,11 +11,19 @@ type (
 		Image       string
 		Description string
 		Likes       int
+		LikesUserList	[]LikeList	 `gorm:"many2many:like_lists;" json:"LikesList"`
 		CreatedAt   time.Time `sql:",null"`
 		UpdatedAt   time.Time `sql:",null"`
 		UserID      uint      `json:"-"`
 		UserModel   User      `gorm:"foreignKey:ID" json:"User"`
 		Comments    []Comment `gorm:"foreignKey:ProductID;references:ID"`
+	}
+)
+
+type (
+	LikeList struct {
+		ProductID uint
+		UserID    int64
 	}
 )
 
