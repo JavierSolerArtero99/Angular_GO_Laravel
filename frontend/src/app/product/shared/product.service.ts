@@ -62,6 +62,10 @@ export class ProductService {
   }
 
   likeProduct(product: any, userId: any): Observable<Comment> {
+    console.log("==========");
+    console.log(product);
+    console.log(userId);
+    
     return this.apiService
       .postGoProducts(`/like/${product.Name}/${userId}`)
       .pipe(map((data) => data));

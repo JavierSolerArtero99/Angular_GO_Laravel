@@ -25,6 +25,8 @@ export class ProductPreviewComponent implements OnInit {
       (like) => like.UserID === this.userService.getCurrentUser().id
     );
 
+    console.log(this.productsService);
+
     if (!isLiked) {
       // dandole like al producto
       this.productsService
@@ -38,16 +40,11 @@ export class ProductPreviewComponent implements OnInit {
         });
     } else {
       // dandole like al producto
-      this.productsService
-        .unLike(this.product, this.userService.getCurrentUser().id)
-        .subscribe((data) => {
-          this.product.Likes--;
-          // this.product.LikesList.remove({
-          //   ProductID: this.product.Id,
-          //   UserID: this.userService.getCurrentUser().id,
-          // });
-        });
-      console.log("Quitando el Like");
+
+      this.product.Likes--;
+      this.product.LikesList = this.product.LikesList.filter(
+        (like) => like.ProductID !== this.product.Id
+      );
     }
   }
 }
