@@ -72,15 +72,16 @@ export class PanelComponent implements OnInit {
   }
 
   submitProduct() {
+    console.log(this.userService.getCurrentUser())
     this.productService
     .postProduct({
       product: {
         name: this.productForm.getRawValue().productName,
         // image: this.productForm.getRawValue().productImage,
         price: this.productForm.getRawValue().productPrice,
-        // description: this.productForm.getRawValue().productDescription,
+        description: this.productForm.getRawValue().productDescription,
         user: this.userService.getCurrentUser().id,
-      },
+      }
     })
     .subscribe((data) => {
       console.log(data);

@@ -94,7 +94,7 @@ export class ProductDetailsComponent implements OnInit {
   buyProduct() {
     console.log(this.product);
 
-    if (!this.currentUser.token) {this.showError = true; return };
+    if (!this.currentUser.token && !this.userService.getCurrentUser()) {this.showError = true; return };
     
     // comprando producto
     this.productService

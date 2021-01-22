@@ -37,10 +37,7 @@ export class ProductService {
   }
 
   postProduct(product: any): Observable<Product> {
-    return this.apiService.post(
-      "/products",
-      new HttpParams({ fromObject: product })
-    );
+    return this.apiService.post("/products", product);
   }
 
   postComment(comment: any): Observable<Comment> {

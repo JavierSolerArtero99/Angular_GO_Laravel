@@ -19,6 +19,7 @@ Route::group(['namespace' => 'Api'], function () {
 
     Route::get('products', 'ProductController@list');
     Route::post('products', 'ProductController@insert');
+    Route::delete('products', 'ProductController@delete');
 
     // Cache
     Route::get('users/currentUsers', 'AuthController@currentUsers');
