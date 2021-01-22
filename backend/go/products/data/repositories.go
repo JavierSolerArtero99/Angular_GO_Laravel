@@ -114,3 +114,30 @@ func DeleteComment(commentId int64) (error) {
 	err := db.Delete(&models.Comment{}, commentId).Error
 	return err
 }
+
+func UnLikeProduct(productToLike string, userId string) error {
+	db := common.GetDB()
+	var p models.Products
+
+	// Query
+	db.Where("name = ?", productToLike).First(&p)
+	err := db.Model(&p).Update("likes", p.Likes - 1).Error
+
+
+
+	i2, err := strconv.ParseInt(userId, 10, 64)
+	if err == nil {
+		fmt.Println(i2)
+	}
+
+	if err == nil {
+		likeList := models.LikeList{
+			ProductID: p.ID,
+			UserID: i2,
+		}
+		err = db.Delete(&likeList).Error
+	}
+
+
+	return err
+}

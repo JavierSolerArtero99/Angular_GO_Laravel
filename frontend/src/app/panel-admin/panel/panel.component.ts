@@ -39,6 +39,10 @@ export class PanelComponent implements OnInit {
       this.currentUsers = data.users;
     });
 
+    this.statsService.getTotalUsersCache().subscribe((data) => {
+      this.totalUsers = data.users;
+    });
+
     this.statsService.getValoredProducts().subscribe((data) => {
       data.buys.sort(function (a, b) {
         if (a.TimesBuyed < b.TimesBuyed) {
