@@ -101,6 +101,7 @@ class ProductController extends ApiController
             'name'  => $request->input('product.name'),
             'image' => $request->input('product.image'),
             'price' => $request->input('product.price'),
+            'description' => $request->input('product.description'),
             'likes' => 0
         ]);
 
