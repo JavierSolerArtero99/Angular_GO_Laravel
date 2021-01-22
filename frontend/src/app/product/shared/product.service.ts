@@ -61,19 +61,16 @@ export class ProductService {
       .pipe(map((data) => data));
   }
 
-  likeProduct(product: any, userId: any): Observable<Comment> {
-    console.log("==========");
-    console.log(product);
-    console.log(userId);
-    
+  likeProduct(product: any, userId: any): Observable<Product> {
     return this.apiService
       .postGoProducts(`/like/${product.Name}/${userId}`)
       .pipe(map((data) => data));
   }
 
-  unLike(product: Product, id: any) {
-    console.log("Deleting MG")
-    return null
+  unLikeProduct(product: Product, id: any): Observable<Product> {
+     return this.apiService
+       .postGoProducts(`/unlike/${product.Name}/${id}`)
+       .pipe(map((data) => data));
   }
 
   buyProduct(product): any {

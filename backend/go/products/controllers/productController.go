@@ -331,3 +331,37 @@ func LikeProduct(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	w.Write(successfullLiked)
 }
+
+func UnLikeProduct(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+    name := vars["name"] // the product title slug
+    userId := vars["userId"] // the book title slug
+
+
+	// Augmentando en uno el like del producto
+	err := data.UnLikeProduct(name, userId)
+	// Error cuando no se ha podido hacer un like
+	if err != nil {
+		msg := "Cannot like the product: '" + name + "'"
+		errorMessage, parsingError := json.Marshal(ProductError{Data: msg})
+		if parsingError != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			return
+		}
+
+		w.WriteHeader(http.StatusNotFound)
+		w.Write(errorMessage)
+		return
+	}
+
+	// Enviando respuesta
+	msg := "Product unliked"
+	successfullLiked, parsingError := json.Marshal(SuccessMessage{Data: msg})
+	if parsingError != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	w.Write(successfullLiked)
+}

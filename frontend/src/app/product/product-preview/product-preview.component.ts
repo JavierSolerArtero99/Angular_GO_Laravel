@@ -40,11 +40,14 @@ export class ProductPreviewComponent implements OnInit {
         });
     } else {
       // dandole like al producto
-
-      this.product.Likes--;
-      this.product.LikesList = this.product.LikesList.filter(
-        (like) => like.ProductID !== this.product.Id
-      );
+      this.productsService
+        .unLikeProduct(this.product, this.userService.getCurrentUser().id)
+        .subscribe((data) => {
+          this.product.Likes--;
+          this.product.LikesList = this.product.LikesList.filter(
+            (like) => like.ProductID !== this.product.Id
+          );
+        });
     }
   }
 }
